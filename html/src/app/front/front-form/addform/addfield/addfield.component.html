@@ -1,0 +1,308 @@
+      <!-- Form General Information Header -->
+      <div class="heading-text"> <span class="fa fa-file"></span> Field Information</div>
+
+      <form [formGroup]="fieldForm">
+        <!-- Start of fields for Form Info -->
+        <div class="field-div" id="div_label">
+          <div class="field-label">Label *</div>
+          <div class="field-input">
+            <input formControlName="label" type="text" id="label">
+            <div class="field-description">This is shown to the user on the form.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_description">
+          <div class="field-label">Description</div>
+          <div class="field-input">
+            <input formControlName="description" type="text" id="description">
+            <div class="field-description">This appears below the input describing what the field is for.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_form_field_name">
+          <div class="field-label">Table Column Name *</div>
+          <div class="field-input">
+            <!-- <input [hidden]="!is_new_field" formControlName="form_field_name" type="text" id="form_field_name"> -->
+            <input formControlName="form_field_name" type="text" id="form_field_name">
+            <!-- <label [hidden]="is_new_field" class='disabled-label' id='form_field_name'></label> -->
+            <div class="field-description">
+              <p>
+                The name of the database table column. This cannot be changed once it is saved. <br />
+                <strong>RULES: </strong> <br />
+                (1) Table column name can be alphanumeric with underscore provided is should start with a letter. <br />
+                (2) Must end with a letter or number. <br />
+                (3) No consecutive underscores. <br />
+                (4) No spaces anywhere in between letters/words.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="field-div" id="div_short_id"> -->
+          <!-- <div class="field-label">Short ID *</div> -->
+          <!-- <div class="field-input"> -->
+            <!-- <input [hidden]="!is_new_field" formControlName="short_id" type="text" id="short_id"> -->
+            <!-- <input formControlName="short_id" type="text" id="short_id"> -->
+            <!-- <label [hidden]="is_new_field" class='disabled-label' id='short_id'></label> -->
+            <!-- <div class="field-description">A short ID used to refer to this field in other areas of QA Gold. (ex. accNum for Account Number). This cannot be changed once it is saved.</div> -->
+          <!-- </div> -->
+        <!-- </div> -->
+
+        <div class="field-div" id="div_field_type">
+          <div class="field-label">Field type *</div>
+          <div class="field-input">
+            <select formControlName="field_type" (change)="onFieldTypeChange()" [(ngModel)]="selected_field_type"  class="form-control" name="field_type" id="field_type" style="font-size: 14px;">
+              <option *ngFor="let _ftype of field_types" [value]="_ftype.name">{{ _ftype.name }}</option>
+            </select>
+            <div class="field-description">The type of field and input. The field properties below will show depending on what you choose in this option. This cannot be changed once it is saved.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_size">
+          <div class="field-label">Size</div>
+          <div class="field-input">
+            <input formControlName="size" type="number" id="size">
+            <div class="field-description">For text fields, this is the longest the text can be before it is truncated. For unlimited length, leave this blank or 0 (zero).</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_validation_mask">
+          <div class="field-label">Validation Mask</div>
+          <div class="field-input">
+            <input formControlName="validation_mask" type="text" id="validation_mask">
+            <div class="field-description">This enforces a format on the text allowed into this field.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_dropdown_name">
+          <div class="field-label">Dropdown Name</div>
+          <div class="field-input">
+            <input formControlName="dropdown_name" type="text" id="dropdown_name">
+            <div class="field-description">A short name for this dropdown.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_selection_options">
+          <div class="field-label">Selection Options</div>
+          <div class="field-input">
+            <textarea formControlName="selection_options" id="selection_options" rows="5" style="height: 100%;"></textarea>
+            <div class="field-description">
+              <p>
+                Enlist all options here. <br />
+                <strong>For dropdowns with dependency, make sure to follow: </strong> <br />
+                STRICT FORMAT: <strong style="color: red">[dependency_column = dependency_value] display_value </strong><br />
+                (1) <strong>[</strong> - opening square bracket <br />
+                (2) <strong>dependency_column</strong> - the table column name in this form <br />
+                (3) <strong>&lt;space&gt;=&lt;space&gt;</strong> - space before and after the equal sign <br />
+                (4) <strong>dependency_value</strong> - what was selected in the parent column, if not existing, option will not show <br />
+                (5) <strong>]</strong> - closing square bracket <br />
+                (6) <strong>&lt;space&gt;</strong> - space after the closing square bracket <br />
+                (7) <strong>display_value</strong> - the display option when vcertain value was selected;
+                </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_timer_duration">
+          <div class="field-label">Timer Duration</div>
+          <div class="field-input">
+            <input type="number" formControlName="timer_duration" id="timer_duration">
+            <div class="field-description">The duration of the timer in seconds (e.g. <b>3600</b> for 1hour, <b>86400</b> for 1day)</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_timer_reset_action">
+          <div class="field-label">Timer Reset Action</div>
+          <div class="field-input">
+            <input type="text" formControlName="timer_reset_action" id="timer_reset_action">
+            <div class="field-description">You can trigger an action when the user clicks Reset on an expired timer. If this is a web page address (http://...), it will be opened in a separate window when the user clicks Reset. Leave this blank if no action needs to be taken oter than the timer being reset.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_timer_auto_start">
+          <div class="field-label">Timer Auto Start</div>
+          <div class="field-input">
+            <label class="switch">
+              <input formControlName="timer_auto_start" type="checkbox" id="timer_auto_start">
+              <span class="slider"></span>
+            </label>
+            <div class="field-description">When timers are reset, they start out 'stopped'. Checking this will cause the timer to start ticking again automatically once reset.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_tag_button_text">
+          <div class="field-label">Tag Button Text</div>
+          <div class="field-input">
+            <input type="text" formControlName="tag_button_text" id="tag_button_text">
+            <div class="field-description">The text for the tag button. For example, for an approval field, use 'Approve Now'</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_lookup_scope_id">
+          <div class="field-label">Lookup Scope *</div>
+          <div class="field-input">
+            <ng-select
+              [(ngModel)]="_selectedTeam"
+              id="lookup_scope_id"
+              [items]="lookup_scopes"
+              placeholder="Select Team"
+              bindLabel="team_name"
+              bindValue="id"
+              [closeOnSelect]="false"
+              formControlName="lookup_scope_id"
+              style="font-size: 14px;"
+              [multiple]="true"
+              >
+
+              <ng-template ng-header-tmp>
+                  <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
+                  <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+              </ng-template>
+
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div><span></span><span [ngOptionHighlight]="search">{{item.team_name}}</span></div>
+                  <small>ID: <b>{{item.id}}</b> | Team Code: <b>{{item.team_code}}</b> | Location: <b>{{item.location}}</b> </small>
+              </ng-template>
+
+            </ng-select>
+
+            <!-- <select formControlName="lookup_scope_id" class="form-control" name="lookup_scope_id" id="lookup_scope_id" style="font-size: 14px;">
+              <option *ngFor="let _l_scopes of lookup_scopes" [value]="_l_scopes.id">{{ _l_scopes.team_name }} [{{ _l_scopes.team_code }}]</option>
+            </select> -->
+            <div class="field-description">The type of field. Below here the field properties will depend on what you choose in this option.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_required">
+          <div class="field-label">Required</div>
+          <div class="field-input">
+            <label class="switch">
+              <input formControlName="required" type="checkbox" id="required">
+              <span class="slider"></span>
+            </label>
+
+            <div class="field-description">Whether the field must have a value. If the field is not visible according to the Visibility field below, this has no effect.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_readonly">
+          <div class="field-label">Readonly</div>
+          <div class="field-input">
+            <label class="switch">
+              <input formControlName="readonly" type="checkbox" id="readonly">
+              <span class="slider"></span>
+            </label>
+
+            <div class="field-description">Whether or not the field can be edited by the user.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_visibility">
+          <div class="field-label">Visibility</div>
+          <div class="field-input">
+            <input formControlName="visibility" type="text" id="visibility">
+            <div class="field-description">When this field should be visibile on the form.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_role_restrictions_id">
+          <div class="field-label">Role Restrictions</div>
+          <div class="field-input">
+            <input formControlName="role_restrictions_id" type="text" id="role_restrictions_id">
+            <div class="field-description">Restrict which roles can edit this field. Leave blank if everyone can edit this field. (All roles can view the field regardless.)</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_group_name">
+          <div class="field-label">Group Name</div>
+          <div class="field-input">
+            <input formControlName="group_name" type="text" id="group_name">
+            <div class="field-description">If this field is the first of a new field group, show this as the group header.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_first_day_active">
+          <div class="field-label">First Day Active</div>
+          <div class="field-input">
+            <input formControlName="first_day_active" type="date" id="first_day_active">
+            <div class="field-description">To have this field ready for a later date but not show up until that date. Leave blank if this field is availbale now.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_last_day_active">
+          <div class="field-label">Last Day Active</div>
+          <div class="field-input">
+            <input formControlName="last_day_active" type="date" id="last_day_active">
+            <div class="field-description">Leave blank if this field will always be available, or enter the last date it should be available.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_url_timer_reset">
+          <div class="field-label">URL Timer Reset</div>
+          <div class="field-input">
+              <input formControlName="url_timer_reset" type="text" id="url_timer_reset">
+              <div class="field-description">Should this field is a URL, clicking on the link in List View will reset the timer with this ShortID.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_show_this_field_on_default_table_view">
+          <div class="field-label">Show on table view</div>
+          <div class="field-input">
+              <label class="switch">
+                <input formControlName="show_this_field_on_default_table_view" type="checkbox" id="show_this_field_on_default_table_view">
+                <span class="slider"></span>
+              </label>
+
+              <div class="field-description">Should this field show on the default list of records for this form.</div>
+          </div>
+        </div>
+
+        <div class="field-div" id="div_maximum_display_characters">
+          <div class="field-label">Maximum display characters</div>
+          <div class="field-input">
+            <input type="number" formControlName="maximum_display_characters" id="maximum_display_characters">
+            <div class="field-description">Leave zero (0) to show all column content, otherwise specify the maximum.</div>
+          </div>
+        </div>
+        <hr>
+        <button class="btn btn-md btn-primary waves-effect" mdbRippleRadius (click)="onSaveField()" [disabled]="!fieldForm.valid"><span class="fa fa-fw fa-save"></span>Save</button>
+        <button *ngIf="field_id !== 'new'" class="btn btn-md btn-danger waves-effect" id="btn_delete" mdbRippleRadius (click)="onDelRecord()"><span class="fa fa-fw fa-trash"></span>Delete this field</button>
+      </form>
+      <hr>
+      <p class="footer">* Marked with asterisk are required fields. <br />
+      Deleting field will make it inaccessible. It will not show anywhere after deleting. Deleted field is still unique and cannot be reused for Table Column Name.</p>
+
+      <ngx-loading [show]="loading"></ngx-loading>
+      <span [hidden]="!loading" class="ngx-text">{{ loading_message }}</span>
+
+<!-- DELETE ADMIN -->
+<button [hidden]="true" id="btnDeleteRecord" (click)="deleteRecord.show()" data-target="#deleteRecord"></button>
+
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete this field?</h4>
+        <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        Field ID: {{ _del_rec._id }} <br />
+        Field label: {{ _del_rec._field_name }}
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id)">
+          <i class="fa fa-trash ml-1"></i>
+          Delete
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

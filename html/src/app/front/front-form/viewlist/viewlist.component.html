@@ -1,0 +1,550 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          View List
+          <div style="float: right;">
+            <button class="btn btn-warning btn-sm" (click)="filterRecord.show()" title="Filters and show records that aren't present in the current list">
+              <span class="fa fa-filter"></span> Filter List
+            </button>
+            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshList()" title="Refreshes list and resets filter if applied">
+              <span class="fa fa-refresh"></span> Refresh List
+            </button>
+          </div>
+        </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+
+          <div *ngIf="_form" class="table-responsive">
+              <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+                <thead>
+                  <tr>
+                    <th class="text-center">ID</th>
+                    <th class="text-center">Date Created</th>
+                    <th class="text-center">Created By</th>
+                    <th *ngFor="let _field of _fields">{{ _field.label }}</th>
+                    <th *ngIf="_form.attachments" class="text-center"><span class="fa fa-fw fa-paperclip" title="Attachment"></span></th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let _record of _records" id="{{ _record.id }}">
+                    <td class="text-center">{{ _record.id }} </td>
+                    <td class="text-center" title="{{ _record.date_created |  utcLocal | date: 'EEEE, MMMM d, y, h:mm:ss a zzzz' }}">
+                      {{ _record.date_created | utcLocal | date: 'y/MM/dd'  }}</td>
+                    <td class="text-center">{{ _record.created_by_username }}</td>
+                    <td *ngFor="let _field of _fields" id="{{ _record.id + '_' + _field.form_field_name }}">{{ _field.field_type === 'Checkbox' ? (_record[_field.form_field_name] === 1 ? 'Yes' : 'No') : ( (_field.field_type === 'String' || _field.field_type === 'Multiline') && _field.maximum_display_characters != 0 ? (_record[_field.form_field_name] | slice:0:_field.maximum_display_characters)  : _record[_field.form_field_name] ) }}</td>
+                    <td *ngIf="_form.attachments" class="text-center" style="vertical-align: middle;">
+                      <div *ngIf="_record.attachment !== null">
+                          <a *ngFor="let _attach of _record.attachment; let i = index;" href="{{ _api_endpoint + _attach.filename }}" style="color: rgb(6, 135, 175);" download target="_blank" title="Attachment {{ i + 1 }}">
+                            <span class="fa fa-fw fa-download"></span>
+                          </a>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <button  [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-primary btn-sm"  (click)="onEditRecord( _record.id )" >
+                        <span class="fa fa-edit"></span> Edit
+                      </button>
+
+                      <button [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-danger btn-sm" (click)="onDelRecord( _record.id )">
+                        <span class="fa fa-trash"></span> Delete
+                      </button>
+
+                      <button *ngIf="_user_tag_present" [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-warning btn-sm" (click)="onRecordTagListOpen( _record.id )">
+                        <span class="fa fa-paperclip"></span> Tags
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="_records == 0">
+                    <td colspan="1000" class="no-data-available">No records found so far.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ngx-loading [show]="loading"></ngx-loading>
+            <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+            <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+            <div *ngIf="_records == 0" class="text-center" >
+                <p class="no_record">
+                    <i class="fa fa-exclamation"></i>
+                    {{ no_record_message }}
+                </p>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<!-- EDIT RECORD HERE -->
+<button [hidden]="true" id="btnEditRecord" data-toggle="modal" (click)="editRecord.show()" data-target="#editRecord"></button>
+
+<div mdbModal #editRecord="mdb-modal" class="modal fade" id="editRecord" tabindex="-1" style="overflow: auto">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">{{ _form_title }} <small>Edit Record</small></h4>
+        <button type="button" id="btnCloseEdit" class="close" data-dismiss="modal" (click)="editRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+
+          <form *ngIf="_record">
+            <!-- generated fields from server -->
+            <div *ngFor="let field of _all_fields"> <!-- BEGIN *ngFor -->
+
+              <!-- BEGIN field-div -->
+              <!-- Check if field has visibility dependency before displaying -->
+              <div [hidden]="(field.visibility_column !== '' && visibility_dependency[field.visibility_column] !== field.visibility_value)" class="field-div">
+
+                <!-- FIELD GROUP DISPLAY With HR -->
+                <div *ngIf="field.group_name != ''">
+                  <p style="margin: 0; padding: 0; margin-bottom: 0; font-weight: bold; color: rgb(8, 108, 151); font-size: 18px">{{ field.group_name }} </p>
+                  <hr style="margin: 0; margin-bottom: 10px;">
+                </div>
+
+                <!-- FIELD LABEL -->
+                <div class="field-label">
+                  {{ field.label }}
+                  <!-- required badge -->
+                  <span *ngIf="field.required" title="Required" style="color: red;"> *</span>
+                </div>
+
+                <!-- INPUT FIELD -->
+                <div *ngIf="isInputField.indexOf(field.field_type) !== -1">
+                    <input type="text" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required" autocomplete="off" [attr.maxlength]="field.size" [disabled]="field.readonly">
+                </div>
+
+                <!-- TEXTAREA FIELD -->
+                <div *ngIf="isTextareaField.indexOf(field.field_type) !== -1">
+                    <textarea [name]="field.form_field_name" [(ngModel)]="visibility_dependency[field.form_field_name]" [id]="field.form_field_name" cols="50" [attr.maxlength]="(field.size > 0) ? field.size : ''" [required]="field.required" [disabled]="field.readonly"></textarea>
+                </div>
+
+                <!-- CHECK FIELD -->
+                <div *ngIf="isCheckboxField.indexOf(field.field_type) !== -1">
+                  <label class="switch">
+                    <input type="checkbox" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required" [disabled]="field.readonly">
+                    <span class="slider"></span>
+                  </label>
+
+                </div>
+
+                <!-- DATE FIELD -->
+                <div *ngIf="isDateField.indexOf(field.field_type) !== -1">
+                  <input [owlDateTime]="dPicker" 
+                    [(ngModel)]="visibility_dependency[field.form_field_name]" 
+                    [name]="field.form_field_name" 
+                    [id]="field.form_field_name"  
+                    [required]="field.required" 
+                    placeholder="Select Date"
+                    [owlDateTimeTrigger]="dPicker"
+                    readonly="readonly"
+                    class="owl-date-picker-custom"
+                    [disabled]="field.readonly">
+                  <span [owlDateTimeTrigger]="dPicker" [hidden]="field.readonly"><i class="fa fa-calendar"></i></span>
+                  <owl-date-time [pickerMode]="'dialog'" [pickerType]="'calendar'" #dPicker></owl-date-time>
+
+                  <!-- <input type="date" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly"> -->
+                </div>
+
+                <!-- DATE TIME FIELD -->
+                <div *ngIf="isDateTimeField.indexOf(field.field_type) !== -1">
+                  <input [owlDateTime]="dtPicker" 
+                    [(ngModel)]="visibility_dependency[field.form_field_name]"
+                    [name]="field.form_field_name"
+                    [id]="field.form_field_name"
+                    [required]="field.required"
+                    placeholder="Select Date and Time"
+                    [owlDateTimeTrigger]="dtPicker"
+                    readonly="readonly"
+                    [disabled]="field.readonly"
+                    class="owl-date-picker-custom">
+                  <span [owlDateTimeTrigger]="dtPicker" [hidden]="field.readonly"><i class="fa fa-calendar"></i></span>
+                  <owl-date-time [pickerMode]="'dialog'" #dtPicker></owl-date-time>
+                </div>
+
+                <!-- LOOKUP FIELD -->
+                <div *ngIf="isLookupField.indexOf(field.field_type) !== -1">
+                    <input type="hidden" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly" value="">
+                    <button class="btn">Click to choose...</button>
+                </div>
+
+                <!-- SELECT FIELD -->
+                <div *ngIf="isSelectField.indexOf(field.field_type) !== -1">
+
+                  <select *ngIf="field.dependency" [(ngModel)]="visibility_dependency[field.form_field_name]" (change)="onChangeDropdown(field.form_field_name, $event)"
+                  class="form-control" [name]="field.form_field_name" [id]="field.form_field_name"
+                  style="font-size: 16px;" [required]="field.required" [disabled]="field.readonly">
+                    <option></option>
+                    <option *ngFor="let opt of dropdown_display[field.dependency]" [value]="opt">{{ opt }}</option>
+                  </select>
+
+                  <select *ngIf="field.dependency === false" [(ngModel)]="visibility_dependency[field.form_field_name]" (change)="onChangeDropdown(field.form_field_name, $event)"
+                  class="form-control" [name]="field.form_field_name" [id]="field.form_field_name"
+                  style="font-size: 16px;" [required]="field.required" [disabled]="field.readonly">
+                    <option></option>
+                    <option *ngFor="let opt of field.selection_options" [value]="opt">{{ opt }}</option>
+                  </select>
+
+                </div>
+
+                <!-- EMPLOYEE LOOKUP MODAL FORM HIDDEN -->
+                <div *ngIf="isEmployeeLookupField.indexOf(field.field_type) !== -1">
+                  <input style="display: none;" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly">
+                  <button class="btn btn-xs btn-outline-default" (click)="onLoadEmployeeLookup(field.lookup_scope_id, field.form_field_name)" id="emp_lookup_btn_{{ field.form_field_name }}" style="margin: 0; margin-top: 5px; margin-bottom: 5px;">Click to choose...</button>
+                  <span class="lookup-selected" id="selected_{{field.form_field_name}}"></span>
+                </div>
+
+                <!-- USER TAG MODAL FORM -->
+                <div *ngIf="isUserTagField.indexOf(field.field_type) !== -1">
+                  <input style="display: none;" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly">
+                  <button class="btn btn-xs btn-outline-default" (click)="onLoadUserTag(field.lookup_scope_id, field.form_field_name)"  id="user_tag_btn_{{ field.form_field_name }}" style="margin: 0; margin-top: 5px; margin-bottom: 5px;">Click to choose...</button>
+                  <span class="lookup-selected" id="selected_{{field.form_field_name}}"></span>
+                </div>
+
+                <!-- DOCUMENT TIME STAMP BUTTON FIELD -->
+                <!-- <div *ngIf="isDescTimeStampField.indexOf(field.field_type) !== -1">
+                  <input style="display: none;" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly">
+                  <button class="btn btn-sm btn-success">{{ field.label }}</button>
+                  <div class="field-description">{{ field.description }}</div>
+                </div> -->
+
+                <!-- TIMER FIELD -->
+                <div *ngIf="isTimerField.indexOf(field.field_type) !== -1">
+                    <input type="number" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required" autocomplete="off" [attr.max]="field.size" [disabled]="field.readonly">
+                </div>
+
+              </div> <!-- END field-div -->
+
+            </div> <!-- END *ngFor -->
+
+            <div *ngIf="_form && _form.attachments" class="field-div">
+              <div class="field-label">
+                Include an Attachment
+              </div>
+
+              <div>
+                  <label for="attachments" class="btn btn-xs btn-outline-default">
+                      <span class="fa fa-fw fa-upload"></span> <span>Choose a file&hellip;</span>
+                  </label>
+                  <input type="file" id="attachments" (change)="onFileSelected($event)" />
+                  <div class="field-description">Allowed attachment file types: image (bmp, jpg, gif, png), audio (mp3, amr, wav), video (mp4, avi, mov), document (doc, xlsx, pdf), archive (zip, tar, gzip, rar)</div>
+              </div>
+
+              <div *ngIf="record_attachments !== null" style="margin-top: 10px;">
+
+                <p *ngFor="let _attach of record_attachments; let i=index;" style="padding: 0; margin-bottom: 0; margin-top: 0;" id="attachment_{{ _attach.id }}">
+
+                  <a href="{{ _api_endpoint + _attach.filename }}" style="color: rgb(6, 135, 175);" download target="_blank" title="Download Attachment {{ i + 1 }}" style="font-size: 12px;">
+                    <span class="fa fa-fw fa-download"></span> Attachment {{ i + 1 }}
+                  </a>
+
+                  &nbsp;
+                  &nbsp;
+
+                  <button class="btn-delete-attachment" (click)="onDeleteAttachment(_record.id, _attach.id)" title="Delete Attachment (cannot be undone)">
+                    <span class="fa fa-fw fa-times"></span>
+                  </button>
+
+                </p>
+
+              </div>
+
+            </div>
+
+            <hr>
+            <p class="footer">* Marked with asterisk are required fields. <br> * Connext Forms doesn't encourage entering sensitive information like PINs or passwords.</p>
+
+          </form>
+
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_record.id)">
+          <i class="fa fa-save ml-1"></i>
+          Update record
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+
+      <ngx-loading [show]="loading2"></ngx-loading>
+      <span [hidden]="!loading" class="ngx-text">Opening record for edit. Please wait...</span>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE RECORD HERE-->
+<button [hidden]="true" id="btnDeleteRecord" (click)="deleteRecord.show()" data-target="#deleteRecord"></button>
+
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete User Record</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <p>Sure to delete this record?</p>
+        <p>Record ID: {{ _del_rec._id }}</p>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
+          <i class="fa fa-trash ml-1"></i>
+          Delete
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- EMPLOYEE LOOKUP MODAL FORM -->
+<button [hidden]="true" id="btnEmployeeLookup" (click)="employeeLookUp.show()" data-target="#employeeLookUp"></button>
+
+<div mdbModal #employeeLookUp="mdb-modal"  class="modal fade" id="employeeLookUp" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Select Employee</h4>
+        <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="employeeLookUp.hide(); onLookUpClose()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <div [hidden]="!loading2" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div>
+
+        <ng-select
+          [hidden]="loading2"
+          [(ngModel)]="_selected_member"
+          id="member_select"
+          [items]="members"
+          placeholder="Select Employee"
+          bindLabel="full_name">
+
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <!-- <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div> -->
+              <div [ngOptionHighlight]="search"> {{item.full_name}} </div>
+              <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+          </ng-template>
+
+            <!-- <option></option>
+            <option *ngFor="let member of members" value="{{ member.user_info.first_name }} {{ member.user_info.last_name }}">
+              [ {{ member.user_info.employee_id }} ] {{ member.user_info.first_name }} {{ member.user_info.last_name }}
+          </option> -->
+        </ng-select>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-primary waves-light" (click)="onLookupSelect(); employeeLookUp.hide()"  [disabled]="!_selected_member" mdbWavesEffect>
+          <i class="fa fa-check ml-1"></i>
+          Choose
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="employeeLookUp.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- USER TAG MODAL FORM -->
+<button [hidden]="true" id="btnUserTag" (click)="userTag.show()" data-target="#userTag"></button>
+
+<div mdbModal #userTag="mdb-modal"  class="modal fade" id="userTag" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Select user to tag</h4>
+        <button type="button" id="btnCloseUserTag" class="close" data-dismiss="modal" (click)="userTag.hide(); onUserTagClose()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <div [hidden]="!loading2" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div>
+
+        <ng-select
+          [hidden]="loading2"
+          [(ngModel)]="_selected_member"
+          id="member_select"
+          [items]="members"
+          placeholder="Select Employee"
+          bindLabel="full_name">
+
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <!-- <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div> -->
+              <div [ngOptionHighlight]="search"> {{item.full_name}}</div>
+              <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+          </ng-template>
+
+        </ng-select>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-primary waves-light" (click)="onUserTagSelect(); userTag.hide()"  [disabled]="!_selected_member" mdbWavesEffect>
+          <i class="fa fa-check ml-1"></i>
+          Choose
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="userTag.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECORD TAGS LIST MODAL FORM -->
+<button [hidden]="true" id="btnRecordTag" (click)="recordTag.show()" data-target="#recordTag"></button>
+
+<div mdbModal #recordTag="mdb-modal"  class="modal fade" id="recordTag" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Users Tagged in this Record</h4>
+        <button type="button" id="btnCloseRecordTag" class="close" data-dismiss="modal" (click)="recordTag.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <!-- <div [hidden]="!loading_tags" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div> -->
+
+        <div>
+          <div style="margin-top: 20px;">
+            <table class="table table-striped table-hover text-center">
+              <thead>
+                <th>Name</th>
+                <th>Delete</th>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let tag of record_tags" id="tr_tag_{{ tag.id }}">
+                  <td>
+                    {{ tag.user.first_name + ' ' + tag.user.last_name }}
+                  </td>
+                  <td class="text-cneter">
+                    <a class="" style="color: red; right: none;; font-size: 12px;" (click)="onDeleteTag(record_id, tag.id)">
+                    <span class="fa fa-fw fa-trash"></span>
+                    </a>
+                  </td>
+                </tr>
+                <tr *ngIf="record_tags == 0">
+                  <td colspan="2">No tags found.</td>
+                </tr>
+                <tr>                    
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <ngx-loading [show]="loading_tags"></ngx-loading>
+        <span [hidden]="!loading_tags" class="ngx-text">Working . . .</span>
+
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="recordTag.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FILTER LIST MODAL FORM -->
+<button [hidden]="true" id="btnFilterRecord" (click)="filterRecord.show()" data-target="#filterRecord"></button>
+
+<div mdbModal #filterRecord="mdb-modal"  class="modal fade" id="filterRecord" tabindex="-1" role="dialog" style="overflow: auto">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">
+          <span class="fa fa-filter"></span>
+          Filter Records
+        </h4>
+        <button type="button" id="btnCloseFilterRecord" class="close" data-dismiss="modal" (click)="filterRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <!-- <div [hidden]="!loading_tags" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div> -->
+
+        <div>
+          <div style="margin-top: 20px;">
+            <div class="form-info">
+
+              <ul id="custom_filter">
+                <li *ngFor="let filter of _custom_filters" [id]="filter.id" style="margin-bottom: 10px;">
+                  <select class="filter_column" style="background-color: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px;">
+                    <option value="" disabled>-- Please select --</option>
+                    <option *ngFor="let field of _all_fields_default" [value]="field.form_field_name">{{ field.label }}</option>
+                    <option value="" disabled>-- Default fields --</option>
+                    <option *ngFor="let field of _default_fields" [value]="field.form_field_name">{{ field.label }}</option>
+                  </select>
+                  <select class="filter_operator" style="background-color: transparent;">
+                    <option *ngFor="let filter_op of _filter_operators" [value]="filter_op.value">{{ filter_op.label }}</option>
+                  </select>
+                  <input type="text" class="filter_text" style="width: 265px;">
+                  <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)">
+                    <span class="fa fa-fw fa-trash"></span>
+                  </button>
+                  <div class="clear" style="height: 1px;">&nbsp;</div>
+                </li>
+              </ul>
+
+              <button class="btn btn-warning btn-sm" (click)="onAddFilter()">
+                  <span class="fa fa-fw fa-plus"></span> Add Filter
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ngx-loading [show]="loading_tags"></ngx-loading>
+        <span [hidden]="!loading_tags" class="ngx-text">Working . . .</span>
+
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button [disabled]="_custom_filters.length == 0" type="button" class="btn btn-md btn-primary waves-light" (click)="onFilterRecords()" mdbWavesEffect>
+          <i class="fa fa-check ml-1"></i>
+          Apply
+        </button>
+
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="filterRecord.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

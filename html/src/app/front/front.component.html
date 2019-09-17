@@ -1,0 +1,232 @@
+<header>
+    <!-- Navbar -->
+    <mdb-navbar SideClass="navbar fixed-top navbar-expand-lg navbar-dark bg-orange" [containerInside]="false">
+        <logo style="color: #753606; font-weight: 100 !important;">
+            <a class="logo navbar-brand" (click)="toggleSidebar()" title="Toggle sidebar">
+                <span class="fa fa-fw fa-th" id="span-toggle"></span>
+            </a> 
+        </logo>
+        <logo>
+            <a class="logo navbar-brand" style="color: white; font-weight: 100;">
+                <img src="../../assets/logo_navbar.png" alt="Connext Forms">
+                <strong>
+                    Connext Forms
+                </strong>
+            </a>
+        </logo>
+
+        <links>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active waves-light" routerLink="/home" mdbRippleRadius>
+                    <a class="nav-link">
+                        <span class="fa fa-home"></span>
+                        Home 
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item waves-light" mdbRippleRadius>
+                    <a class="nav-link" data-toggle="modal" (click)="userNotifications.show(); refreshNotifications();" mdbWavesEffect>
+                        <span class="fa fa-bell fa-fw"></span> Notifications
+                        <span *ngIf="unread_count > 0" class="badge badge-pill red" style="float: right;">{{ unread_count }}</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <ul class="navbar-nav nav-flex-icons">
+                <li class="nav-item waves-light" mdbRippleRadius>
+                    <a class="nav-link" data-toggle="modal" (click)="userInfo.show()" mdbWavesEffect>
+                        <!-- <i class="fa fa-user"></i>  -->
+                        <img [src]="avatar" alt="" class="rounded-circle mr-1">
+                        {{ username }}
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav">
+                <li class="nav-item waves-light" mdbRippleRadius>
+                    <a class="nav-link" (click)="logout()"><span class="fa fa-sign-out fa-fw"></span> Logout</a>
+                </li>
+            </ul>
+        </links>
+   </mdb-navbar>
+
+</header>
+
+<main>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <app-sidebar [@enterAnimation]></app-sidebar>
+    </div>
+
+    <!-- main content -->
+    <div class="main-router">
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</main>
+
+<!-- USER INFO MODAL FROM RIGHT SIDE -->
+<div mdbModal #userInfo="mdb-modal" class="modal fade right" id="fullHeightModalRight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right" role="document" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">
+                     <span class="fa fa-fw fa-info-circle"></span> <small>{{ username }}</small>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userInfo.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="profile">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-picture-div">
+                        <img class="profile-userpic" [src]="avatar" [alt]="username">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                             {{ first_name }} {{ middle_name }} {{ last_name }}
+                        </div>
+
+                        <span class="badge badge-pill light-blue profile-usertitle-job">
+                            {{ is_admin ? 'Connext Forms Admin' : 'Rockstar Cloudstaffer' }}
+                        </span>
+                    </div>
+                    <span *ngIf="employee_id !== '0'" class="badge badge-pill pink" title="CS Employee ID">
+                        {{ employee_id }}
+                    </span>
+                    <span class="badge badge-pill green" title="Email Address">
+                        {{ email }}
+                    </span>
+                    <span class="badge badge-pill purple" title="Connext Forms Username">
+                        {{ username }}
+                    </span>
+                    <span class="badge badge-pill indigo" title="Connext Forms User ID">
+                        User ID: {{ user_id }}
+                    </span>
+                    <br>
+                    <!-- END SIDEBAR USER TITLE -->
+                </div>
+
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+                    <a routerLink="/admin" type="button" class="btn btn-sm btn-primary waves-light" [hidden]="!is_admin">
+                        <i class="fa fa-fw fa-cog"></i> Admin
+                    </a>
+                    <button type="button" class="btn btn-sm btn-danger waves-light" mdbWavesEffec (click)="logout()">
+                        <i class="fa fa-fw fa-sign-out"></i> Logout
+                    </button>
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+
+                <hr>
+                
+                <!-- SHOW ALL TEAMS ASSOCIATED WITH THE USER -->
+                <div style="text-align: left; margin: 10px; overflow: auto; max-height: 400px;">
+                    <span style="font-weight: bold; margin-bottom: 5px; color: #3583b4;">My Groups</span>
+                    <ul class="list-group" >
+                        <li *ngFor="let team of teams" class="list-group-item" >
+                            
+                            <span class="team-name" title="{{team.team.team_name}}">
+                                <span class="fa fa-fw fa-cubes"></span>
+                                {{ team.team.team_name }}
+                            </span>
+
+                        </li>
+                        <li *ngIf="teams.length === 0" class="list-group-item">
+                            <span class="fa fa-fw fa-smile-o"></span>
+                            No teams available yet.
+                        </li>
+                    </ul>
+                    
+                </div>
+                <!-- END SHOW TEAMS -->
+
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-sm btn-unique waves-light" data-dismiss="modal" (click)="userInfo.hide()" mdbWavesEffect>
+                    <span class="fa fa-fw fa-times"></span> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NOTIFICATION MODAL FROM RIGHT SIDE -->
+<div mdbModal #userNotifications="mdb-modal" class="modal fade right" id="fullHeightModalRight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right" role="document" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel" style="color: #3583b4;">
+                     <span class="fa fa-fw fa-bell"></span> <small style="color: #3583b4;">Notifications</small> 
+                </h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="userNotifications.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-header text-center">
+                <a *ngIf="notifications.length > 0" (click)="onClearAllNotifs()"><span class="fa fa-trash"></span> Clear All</a>
+                <a *ngIf="notifications.length > 0" (click)="onMarkAllAsRead()"><span class="fa fa-check-circle-o"></span> Mark All as Read</a>
+                <a (click)="refreshNotifications()"><span class="fa fa-refresh"></span> Refresh</a>
+            </div>
+            <div class="modal-body">
+                <div style="height: 98%;">
+
+                    <div *ngFor="let notif of notifications" class="notif {{ notif.is_opened ? '' : 'unread' }}"  id="notif_{{ notif.id }}" (click)="onMarkAsRead(notif.id)">
+
+                        <div class="notif_icon {{ notif.type }}" routerLink="{{ notif.link }}" (click)="userNotifications.hide()">
+                            <span class="fa fa-fw fa-{{ notif.icon }}" title="{{ notif.type }}"></span>
+                        </div>
+
+                        <div class="notif_contents">
+
+                            <p *ngIf="notif.form" title="{{ notif.form.form_name }}" routerLink="{{ notif.link }}" (click)="userNotifications.hide()"   class="form_name">
+                                {{ notif.form.form_name }}
+                            </p>
+
+                            <p *ngIf="!notif.form" title="{{ notif.label }}" (click)="userNotifications.hide()"   class="form_name">
+                                {{ notif.label }}
+                            </p>
+
+                            <div>
+                                <span  title="{{ notif.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}" style="font-size: 10px;">
+                                    {{ notif.created_at | timeAgo }}
+                                </span>
+
+                                <span title="Delete this notification" class="notif_btn" >
+                                    &nbsp;&nbsp;<span class="fa fa-times-circle-o" (click)="onDeleteNotif(notif.id)"></span>
+                                </span>
+                                
+                                <span *ngIf="!notif.is_opened" title="Mark as read" class="notif_btn" id="notif_btn_{{ notif.id }}">
+                                    <span class="fa fa-check-circle-o"  (click)="onMarkAsRead(notif.id)"></span>
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <ngx-loading [show]="loading2"></ngx-loading>
+                <span [hidden]="!loading2" class="ngx-text">Fetching notifications...</span>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ngx-loading [show]="loading"></ngx-loading>
+<span [hidden]="!loading" class="ngx-text">Logging you out. Please wait...</span>

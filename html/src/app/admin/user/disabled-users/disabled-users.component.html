@@ -1,0 +1,66 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+            <span class="fa fa-fw fa-ban"></span> Disabled Accounts <small> - User access unauthorized</small>
+              <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+                <span class="fa fa-refresh"></span> Refresh List
+              </button>
+        </h5>
+      </div>
+  
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div class="card-body" style="min-height: 200px;">
+          
+            <div class="table-responsive">
+                <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Username</th>
+                      <th>Employee ID</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>User Creation</th>
+                      <th>Created</th>
+                      <th>Modified</th>
+                      <th>Restore</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let _disabled_user of _disabled_users" id="{{ _disabled_user.id }}">
+                      <td>{{ _disabled_user.id }}</td>
+                      <td>{{ _disabled_user.username }}</td>
+                      <td>{{ _disabled_user.user_info.employee_id }}</td>
+                      <td>{{ _disabled_user.user_info.first_name }}</td>
+                      <td>{{ _disabled_user.user_info.last_name }}</td>
+                      <td>{{ _disabled_user.user_info.user_origin === 1 ? 'Auto' : 'Manual' }}</td>
+                      <td class="text-center" title="{{ _disabled_user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                      <td class="text-center" title="{{ _disabled_user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>    
+                      <td class="text-center"><button class="btn btn-warning btn-sm" (click)="onRestoreRecord( _disabled_user.id )"><span class="fa fa-undo"></span></button></td>
+                    </tr>
+                    <tr *ngIf="_disabled_users == 0">
+                      <td colspan="1000" class="no-data-available">No records found so far.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ngx-loading [show]="loading"></ngx-loading>
+              <span [hidden]="!loading" class="ngx-text">Working . . .</span>
+
+              <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+              <div *ngIf="_disabled_users == 0" class="text-center" >
+                  <p class="no_record">
+                      <i class="fa fa-exclamation"></i>
+                      {{ no_record_message }}
+                  </p>
+              </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  
+
+  

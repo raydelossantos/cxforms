@@ -1,0 +1,49 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          Form Settings
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <div class="row">
+          <div class="col-3" style="height: 500px; max-width: 300px;">
+            <ul>
+              <li routerLink="details" class="form-gen-info waves-effect" routerLinkActive="active" mdbRippleRadius >
+                <span class="fa fa-book"></span> Form General Info
+              </li>
+              <li *ngIf="!new_form"  routerLink="arrange" class="form-gen-info waves-effect" routerLinkActive="active" mdbRippleRadius>
+                <span class="fa fa-first-order"></span> 
+                Arrange Form Fields
+              </li>
+              <li *ngIf="!new_form"  routerLink="archive" class="form-gen-info waves-effect" routerLinkActive="active" mdbRippleRadius>
+                <span class="fa fa-archive"></span> 
+                Archived Fields
+              </li>
+              <li *ngFor="let field of fields" routerLinkActive="active" routerLink="field/{{ field.id }}" class="add-field waves-effect" mdbRippleRadius>
+                &nbsp;&nbsp;&nbsp;<span class="fa fa-circle"></span> 
+                {{ field.label }} 
+                <small>[{{ field.form_field_name }}]</small>
+              </li>
+              <li *ngIf="!new_form"  routerLink="field/new" class="add-field waves-effect" routerLinkActive="active" mdbRippleRadius>
+                &nbsp;&nbsp;&nbsp;<span class="fa fa-plus"></span> 
+                <i>Add new field...</i>
+              </li>
+            </ul>
+          </div>
+          <div class="col-9 " style="height: 100%;">
+            <router-outlet></router-outlet>  
+          </div>
+        </div>
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Opening Form Settings . . .</span>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+

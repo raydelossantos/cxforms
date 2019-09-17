@@ -1,0 +1,213 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <span class="fa fa-fw fa-male"></span> Team Members <small> - List of members each team</small>
+        <!-- <select [(ngModel)]="_selectedTeam" id="teams"  (change)="onSelectChange()" >
+          <option *ngFor="let _team of _teams" [ngValue]="_team">{{ _team.team_name }}</option>
+        </select> -->
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+
+          <ng-select
+            [(ngModel)]="_selectedTeam"
+            id="select_team"
+            [items]="_teams"
+            placeholder="Select Team"
+            bindLabel="team_name"
+            (change)="onSelectChange()"
+
+            *ngIf="_teams != 0"
+            >
+
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div><span></span><span [ngOptionHighlight]="search" style="font-size: 14px; color: rgb(6, 71, 121);">{{item.team_name}}</span></div>
+                <small>ID: <b>{{item.id}}</b> | Team Code: <b>{{item.team_code}}</b> | Location: <b>{{item.location}}</b> </small>
+            </ng-template>
+
+          </ng-select>
+
+          <div *ngIf="_selectedTeam" class="row" style="margin-top: 10px;">
+            <div class="col-12">
+              <div class="icon-img" style="font-size: 50px; float: left;">
+              </div>
+              <div class="team-details">
+                <p>
+                  <i class="fa fa-support"></i>
+                    {{ _selectedTeam.id }}
+                    | {{ _selectedTeam.team_name }}
+                    | {{ _selectedTeam.client ? _selectedTeam.client.client_name : '' }}
+                    | {{ _selectedTeam.location }}
+                    | {{ _selectedTeam.description }}
+                </p>
+              </div>
+
+              <div>
+                <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show(); onShowAddMember(_selectedTeam.id)" data-target="#addRecord">
+                  <span class="fa fa-plus"></span> Add Team Members
+                </button>
+
+                <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+                  <span class="fa fa-refresh"></span> Refresh List
+                </button>
+
+              </div>
+              <hr>
+
+              <div class="table-responsive">
+                <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+                  <thead>
+                    <tr>
+                      <th class="text-center">User ID</th>
+                      <th>Username</th>
+                      <th class="text-center">Employee ID</th>
+                      <th>Name</th>
+                      <th class="text-center">Added</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let _member of _members" id="{{ _member.id }}">
+                      <td class="text-center">{{ _member.user_id }}</td>
+                      <td>{{ _member.user_info['username'] }}</td>
+                      <td class="text-center">{{ _member.user_info['employee_id'] }}</td>
+                      <td>{{ _member.user_info['first_name'] }} {{ _member.user_info['last_name'] }}</td>
+                      <td class="text-center" title="{{ _member.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _member.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-danger" (click)="onDelRecord( _member.id, _member.username, _member.user_id, _member.user_info.first_name, _member.user_info.last_name )">
+                          <span class="fa fa-fw fa-trash"></span> Delete
+                        </button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="_members == 0">
+                      <td colspan="1000" class="no-data-available">No records found so far.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <ngx-loading [show]="loading"></ngx-loading>
+          <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+          <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+          <div *ngIf="_teams == 0" class="text-center" >
+              <p class="no_record">
+                  <i class="fa fa-exclamation"></i>
+                  {{ no_record_message }}
+              </p>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<!-- ADD MEMBERS MODAL FORM -->
+<div mdbModal #addRecord="mdb-modal" class="modal fade" id="addRecord" tabindex="-1" style="overflow: auto">
+    <div class="modal-dialog" role="document">
+
+      <div class="modal-content">
+
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Add Team Member(s)</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="addRecord.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body mx-1">
+
+          <div class="md-form">
+
+            Select User:
+            <div [hidden]="!loading2" style="text-align: center;">
+              <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+            </div>
+
+            <ng-select
+              [hidden]="loading2"
+              [(ngModel)]="_selectedUsers"
+              [closeOnSelect]="false"
+              id="user"
+              [items]="_users"
+              placeholder="Select User"
+              bindLabel="full_name"
+              [multiple]="true"
+            >
+
+              <ng-template ng-header-tmp>
+                  <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
+                  <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+              </ng-template>
+
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div>
+                  <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+              </ng-template>
+
+            </ng-select>
+
+            <!-- <span class=" grey-text">Select Users</span>
+            <select class="form-control" [(ngModel)]="_selectedUsers" id="user" multiple>
+              <option *ngFor="let _user of _users" [value]="_user">[{{ _user.username }}] {{ _user.user_info.first_name }} {{ _user.user_info.last_name }}</option>
+            </select> -->
+
+          </div>
+
+        </div>
+
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+            <i class="fa fa-save ml-1"></i>
+            Save
+          </button>
+          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+            <i class="fa fa-times ml-1"></i>
+            Close
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+</div>
+
+
+<!-- DELETE MEMBER -->
+<button [hidden]="true" id="btnDeleteRecord" (click)="deleteRecord.show()" data-target="#deleteRecord"></button>
+
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete Team Record</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <p>Sure to delete this record from {{ _del_rec._team_name}}?</p>
+        <p>ID: {{ _del_rec._userid }}</p>
+        <p>Username: {{ _del_rec._username }}</p>
+        <p>Name: {{ _del_rec._full_name }}</p>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
+          <i class="fa fa-trash ml-1"></i>
+          Delete
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

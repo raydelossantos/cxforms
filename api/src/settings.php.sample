@@ -1,0 +1,256 @@
+<?php
+$appName = "Connext Forms";
+return [
+    'settings' => [
+        /********************************************************************************************************************************************************
+         *    ******
+         *   *      *
+         *   *      *        SET DISPLAY ERROR TO FALSE in PRODUCTION 
+         *   *      *
+         *    ******
+         ********************************************************************************************************************************************************/
+
+        'displayErrorDetails' => true,                                                                          // set to false in production
+        'addContentLengthHeader' => false,                                                                      // Allow the web server to send the content-length header
+
+        // Renderer settings
+        'renderer' => [
+            'template_path' => __DIR__ . '/../templates/',
+        ],
+
+        // Monolog settings
+        'logger' => [
+            'name' => 'qa-gold',
+            'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
+            'level' => \Monolog\Logger::DEBUG,
+        ],
+
+        /********************************************************************************************************************************************************
+         *     ***
+         *    * **
+         *      **           SET MYSQL DATABASE SETTINGS
+         *      **
+         *      **
+         ********************************************************************************************************************************************************/
+        'db' => [
+            'driver'   => 'mysql',
+            'host'     => '127.0.0.1',
+            'database' => 'qa_gold',
+            'username' => 'root',
+            'password' => 'root',                                                                                       // SET DB PASSWORD HERE!
+            'port'     => '3306',
+            'prefix'   => ''
+        ],
+
+        // This is the local path where DB Backup file will be saved
+        // kindly include / at the end of the path
+        'db_backup_path'    => '~/',
+
+        /********************************************************************************************************************************************************
+         *     *****
+         *    *    **
+         *       ***         SET CS API CONNECTION
+         *     **
+         *    *******
+         ********************************************************************************************************************************************************/
+        'api' => [
+        'app_id'        => 'APP-C6BDE-45A-798E-DE1429F93',                                                          // SET CS API APP_ID
+        'app_key'       => '894ff761a2bd6d74863422266fd33208260e4f5f',                                              // SET CS API APP_KEY
+        'cib_api_url'   => 'https://coreapp-alb-ms-users-stage-1333131714.ap-southeast-1.elb.amazonaws.com/',   // STAGING ENPOINT
+        // 'cib_api_url' => 'http://cib.cloudstaff.com/apiv1/',                                                 // PRODUCTION ENDPOINT
+        ],
+
+        /********************************************************************************************************************************************************
+         *    ******
+         *         **
+         *     ****         SET REDIRECTIONS FOR GOOGLE LOGIN
+         *         **       After google login, redirect to this page for Login
+         *    ******
+         ********************************************************************************************************************************************************/
+        'client_id' => '862740997247-lgo014nfnq394h1iamf3jlhjjmvrfm1u.apps.googleusercontent.com',                  // PROD/STAG/DEV
+        'client_secret' => '4GWpqkQX6ZQEqST1THm51NAu',                                                              // PROD/STAG/DEV
+
+        // 'client_redirect_url' => 'https://api-qagold.cloudstaff.com/auth/google',                                // PROD
+        // 'redirect_url_google_login' => 'https://qagold.cloudstaff.com/google/',                                  // PROD with slash at the end
+        // 'redirect_url_invalid_login' => 'https://qagold.cloudstaff.com/login',                                   // PROD no slash at the end 
+
+        // 'client_redirect_url' => 'https://staging-api-qagold.cloudstaff.com/auth/google',                        // STAG
+        // 'redirect_url_google_login' => 'https://staging-qagold.cloudstaff.com/google/',                          // STAG with slash at the end
+        // 'redirect_url_invalid_login' => 'http://staging-qagold.cloudstaff.com/login',                            // STAG no slash at the end 
+
+        'client_redirect_url' => 'http://localhost:8999/auth/google',                                               // DEV
+        'redirect_url_google_login' => 'http://localhost:4200/google/',                                             // DEV
+        'redirect_url_invalid_login' => 'http://localhost:4200/login',                                              // DEV
+
+        /********************************************************************************************************************************************************
+         *    ******        ***
+         *         **       ***
+         *     ****          **     SET REDIRECTIONS FOR WORK PATTERN LOGIN
+         *         **   **   **     After wp login, redirect to this page for Login
+         *    ******    **   **
+         ********************************************************************************************************************************************************/
+
+        // 'wp_domain'                 => 'https://workpattern.cloudstaff.com',
+        'wp_domain'                 => 'http://localhost',
+        'wp_username'               => 'workpattern2',
+        'wp_login_link'             => 'http://qagold.com/auth/wp',
+        'redirect_url_wp_login'     => 'http://localhost:4200/public/',
+        'redirect_url_wp_invalid'   => 'http://localhost:4200/wp/login',
+
+        
+        /********************************************************************************************************************************************************
+         *     **  **
+         *    **   **       SET JWT TOKEN FOR PRODUCTION ENV!
+         *    *******       SET A UNIQUE RANDOM TEXT HERE BEFORE USING
+         *         **       Use any secret on the local development environment
+         *         **       
+         ********************************************************************************************************************************************************/
+        'jwt_secret' => 'ThisIsTheSecretKeyWeNeedToKeep',
+
+        // Specify routes to bypass JWT Authentication
+        'jwt_passthrough' => [
+            "/token", 
+            "/test_insecure",
+            "/auth"
+        ],
+
+        // JWT expirations
+        'jwt_expiration' => [
+            'ldap'      => '7 days',
+            'google'    => '7 days',
+            'wp'        => '30 minutes'
+        ],
+
+        /********************************************************************************************************************************************************
+         *    *******
+         *    *              SET ALLOWED ADDRESS, REMOVE ALL DEVELOPMENT ADDRESSES
+         *    ******         Addresses listed below are whitelisted for creating a new JWT Token
+         *          *        Also used for relaxed authentication for addresses to allow insecure connections (non-https)
+         *    ******        
+         ********************************************************************************************************************************************************/
+        'allowed_addresses' => [
+            '127.0.0.1',                        // local dev environemnt
+            'localhost',                        // localhost
+            'qagold.local',                     // api vhost
+            'listtrackerapi.local',
+            'qagold.com',                       // api virtualbox domain name
+        ],
+
+        /********************************************************************************************************************************************************
+         *     *****
+         *    *              SET SMTP CONFIGURATIONS
+         *    ******         Email settings from CS Credentials (SHARED SMTP)
+         *    *     *        
+         *     *****         
+         ********************************************************************************************************************************************************/
+        'smtp' => [
+            'host'              => '',
+            'username'          => '',
+            'password'          => '',
+            'port'              => '',
+            'debug'             => 0,
+            'secure'            => 'tls'
+        ],
+
+        'qagold_email_sender' => [
+            'name'              => $appName,
+            'email'             => "noreply@$appName.com"
+        ],
+
+        /**
+         * Cloudstaff FRONT END Link for Emails
+         * Should contain slash / at the end
+         */
+        'qagold_link'  => 'http://localhost:4200/',
+
+        // Login details configuration
+        'login' => ['max_attempt' => 5],
+
+        /**
+         *  LDAP SERVER SETUP
+         */
+        'ldap_server' => 'ldap.cloudstaff.com',                                                                     // outside cloudstaff network   // PROD/STAG
+        // 'ldap_server' => 'ldap03-int.cloudstaff.com',                                                            // cloudstaff in-network        // DEV
+
+        /**
+         * CLOUDSTAFF IMAGE ASSETS API URL
+         */
+        'ldap_image' => 'http://assets.cloudstaff.com/api/getimage/',
+
+        'ACL' => [
+            // Get User Type [ADMIN = is_admin = 1]
+            'user' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'client' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'admin' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'team' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'lob' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'member' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'form' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'field' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'permission' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'default' => [
+                0 => [],
+                1 => ['GET'],
+                2 => ['GET', 'POST', 'DELETE', 'PUT']
+            ],
+            'export' => [
+                0 => [],
+                1 => ['POST'],
+                2 => ['POST']
+            ]
+        ]
+        
+    ],
+
+    /********************************************************************************************************************************************************
+     *     *****
+     *    *     *        SET COMMAND TASKS FOR CRONJOBS
+     *     *****         Email notifications are handled in this area
+     *    *     *   
+     *     *****
+     ********************************************************************************************************************************************************/
+    'commands' => [
+        'SendEmail'             => \App\Console\EmailNotificationSender::class,
+        'DbBackup'              => \App\Console\DatabaseBackuper::class,
+        'LookupScopeIdDbFixer'  => \App\Console\LookupScopeIdDbFixer::class,
+        'SonarToCSEmailFixer'   => \App\Console\SonarlogicBizToCloudstaffComEmailFixer::class,
+        'UserLogUserAgentFixer' => \App\Console\UserLogUserAgentFixer::class,
+    ],
+
+];

@@ -1,0 +1,119 @@
+.menu {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: solid #5352524b 1px;
+    font-size: 14px;
+}
+
+.menu-item a:hover {
+    cursor: pointer;
+    color: rgb(18, 90, 138);
+}
+
+.menu-item a {
+    color: black;
+    padding-right: 10px;
+}
+
+h5 {
+    color: #DE7431;
+    // font-weight: bold;
+}
+
+.table td, th{
+  font-size: 0.8rem;
+}
+
+.table {
+  margin-bottom: auto;
+}
+
+.btn-save-permission {
+  float: none;
+  margin-bottom: 5px;
+  font-size: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.272);
+  padding: 5px;
+}
+
+.deleted {
+  color: gray;
+}
+
+.available-team {
+  color: rgb(11, 110, 172);
+}
+
+.available-user {
+  color: green;
+}
+
+
+
+/******************** SLIDER CHECKBOX STYLE ********************/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 27px;
+    height: 14px;
+    top: 2px;
+    margin-bottom: auto;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:disabled + .slider {
+    background-color: rgb(236, 128, 128);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+.form-details {
+    text-align: center;
+}

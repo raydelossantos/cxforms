@@ -1,0 +1,37 @@
+<div>
+
+	<!-- USER MENU HEADER -->
+	<div class="menu">
+		<span class="menu-item">
+			<a routerLinkActive="menu_active" routerLink="list" class="cool-link">
+				<span class="fa fa-list"></span> User List
+			</a>
+		</span>
+		<span class="menu-item">
+			<a routerLinkActive="menu_active" routerLink="sync" class="cool-link">
+				<span class="fa fa-refresh"></span> Sync User Accounts
+			</a>
+		</span>
+		<!-- <span class="menu-item">
+			<a routerLinkActive="menu_active" class="cool-link">
+				<span class="fa fa-search"></span> View User Privileges
+			</a>
+		</span> -->
+		<span class="menu-item">
+			<a routerLinkActive="menu_active" routerLink="blocked" class="cool-link">
+				<span class="fa fa-lock"></span> Blocked Accounts
+			</a>
+		</span>
+		<span class="menu-item">
+			<a routerLinkActive="menu_active" routerLink="disabled" class="cool-link">
+				<span class="fa fa-ban"></span> Disabled Accounts
+			</a>
+		</span>
+	</div>
+
+	<div class="contents">
+		<router-outlet></router-outlet>
+	</div>
+		
+</div>
+

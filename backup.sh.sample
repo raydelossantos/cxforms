@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Add the next line to crontab to execute backup every 12min
+# NOTE: remove the comment character
+# 0 0 * * * root /usr/bin/my_backup.sh
+
+# specify AWS S3 Bucket credentials to upload
+AWS_ACCESS_KEY_ID=my_key \
+AWS_SECRET_ACCESS_KEY=my_secret \
+AWS_DEFAULT_REGION=us-west-2 \
+S3_BUCKET=my_bucket \
+
+# specify mysql credentials to allow backups
+MYSQL_HOST=localhost \
+MYSQL_PORT=3306 \
+MYSQL_USER="root" \
+MYSQL_PASS="key_in_db_password" \
+MYSQL_DB="qa_gold" \
+
+# start backup script here:
+cd /tmp
+file=qa_gold_backup_$(date +%Y_%m_%d).sql
+mysqldump \
+  --host ${MYSQL_HOST} \
+  --port ${MYSQL_PORT} \
+  -u ${MYSQL_USER} \
+  --password="${MYSQL_PASS}" \
+  ${MYSQL_DB} > ${file}
+if [ "${?}" -eq 0 ]; then
+#  gzip ${file}
+#  aws s3 cp ${file}.gz s3://${S3_BUCKET}
+#  rm ${file}.gz
+  echo "Successfull backup!!"
+  exit
+else
+  echo "Error backing up mysql"
+  exit 255
+fi

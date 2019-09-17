@@ -1,0 +1,38 @@
+<div>
+
+    <!-- SYS ADMIN MENU HEADER -->
+    <div class="menu">
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="list" class="cool-link">
+          <span class="fa fa-list-alt"></span> Client List
+        </a>
+      </span>
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="business" class="cool-link">
+          <span class="fa fa-building"></span> Lines of Business
+        </a>
+      </span>
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="archived" class="cool-link">
+          <span class="fa fa-archive"></span> Archived Clients
+        </a>
+      </span>
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="archivedlob" class="cool-link">
+          <span class="fa fa-archive"></span> Archived Lines of Business
+        </a>
+      </span>
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="archivedform" class="cool-link">
+          <span class="fa fa-archive"></span> Archived Forms
+        </a>
+      </span>
+    </div>
+  
+    <div class="contents">
+      <router-outlet></router-outlet>
+    </div>
+      
+  </div>
+  
+  

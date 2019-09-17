@@ -1,0 +1,254 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          <span class="fa fa-fw fa-list"></span> User Accounts <small> - Login via LDAP </small>
+              
+          <div style="float: right;">
+              <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show(); initUserForm();" data-target="#addRecord">
+                <span class="fa fa-plus"></span> Add User
+              </button>
+    
+              <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+                <span class="fa fa-refresh"></span> Refresh List
+              </button>  
+          </div>
+          
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+          <div class="table-responsive">
+            <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+              <thead>
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th class="text-center">Username</th>
+                  <th class="text-center">Employee ID</th>
+                  <th class="text-center">Email</th>
+                  <th class="text-center">First Name</th>
+                  <th class="text-center">Last Name</th>
+                  <th class="text-center">User Origin</th>
+                  <th class="text-center">Created</th>
+                  <th class="text-center">Modified</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _user of _users" id="{{ _user.id }}">
+                  <td class="text-center">{{ _user.id }}</td>
+                  <td>{{ _user.username }}</td>
+                  <td class="text-center">{{ _user.user_info.employee_id }}</td>
+                  <td>{{ _user.user_info.email }}</td>
+                  <td>{{ _user.user_info.first_name }}</td>
+                  <td>{{ _user.user_info.last_name }}</td>
+                  <td class="text-center">{{ _user.user_info.user_origin === 1 ? 'Auto' : 'Manual' }}</td>
+                  <td class="text-center" title="{{ _user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                  <td class="text-center" title="{{ _user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>
+                  <td class="text-center"><button class="btn btn-primary btn-sm" (click)="onEditRecord( _user.id )"><span class="fa fa-fw fa-edit"></span> Edit</button>
+                    <button class="btn btn-danger btn-sm" (click)="onDelRecord( _user.username, _user.id, _user.user_info.first_name, _user.user_info.last_name, _user.id )">
+                      <span class="fa fa-fw fa-ban"></span> Disable
+                    </button>
+                </td>
+                </tr>
+                <tr *ngIf="_users == 0">
+                  <td colspan="1000" class="no-data-available">No records found so far.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ngx-loading [show]="loading"></ngx-loading>
+          <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+          <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+          <div *ngIf="_users == 0" class="text-center" >
+              <p class="no_record">
+                  <i class="fa fa-exclamation"></i>
+                  {{ no_record_message }}
+              </p>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+
+  
+
+
+<!-- ADD NEW USER (MANUALLY) -->
+<div mdbModal #addRecord="mdb-modal" class="modal fade" id="addRecord" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Add New User</h4>
+        <button type="button" id="btnCloseAdd" class="close" data-dismiss="modal" (click)="addRecord.hide();" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <form [formGroup]="userForm" class="login-form validate-form">
+          <div class="md-form">
+            <span class="prefix grey-text">Username</span>
+            <input formControlName="username" type="text" id="username" class="validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">First Name</span>
+            <input formControlName="first_name" type="text" id="first_name" class="validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Middle Name</span>
+            <input formControlName="middle_name" type="text" id="middle_name" class=" validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Last Name</span>
+            <input formControlName="last_name" type="text" id="last_name" class=" validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Email</span>
+            <input formControlName="email" type="text" id="email" class=" validate">
+          </div>
+        </form>
+
+        <br>
+        
+        <p class="footer">Note: Adding a new record manually will not enable login via LDAP. Please try syncing user accounts to update users.
+          <a routerLink="/admin/user/sync">Click here to sync.</a>
+        </p>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveUser()">
+          <i class="fa fa-save ml-1"></i>
+          Save Record
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide();" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT USER -->
+<button [hidden]="true" id="btnEditRecord" data-toggle="modal" (click)="editRecord.show()" data-target="#editRecord"></button>
+
+<div mdbModal #editRecord="mdb-modal" class="modal fade" id="editRecord" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Edit User Record</h4>
+        <button type="button" id="btnCloseEdit" class="close" data-dismiss="modal" (click)="editRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <form class="login-form validate-form">
+          <div class="md-form">
+            <span class="prefix grey-text">Connext Forms ID</span>
+            <input type="text" id="edit_id" class="validate" disabled>
+          </div>
+          
+          <div class="md-form">
+            <span class="prefix grey-text">Employee ID</span>
+            <input type="text" id="edit_employee_id" class="validate" disabled>
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Username</span>
+            <input type="text" id="edit_username" class="validate" disabled>
+          </div>
+
+          <hr>
+
+          <div class="md-form">
+            <span class="prefix grey-text">First Name</span>
+            <input type="text" id="edit_first_name" class="validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Middle Name</span>
+            <input type="text" id="edit_middle_name" class=" validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Last Name</span>
+            <input type="text" id="edit_last_name" class=" validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Email</span>
+            <input type="text" id="edit_email" class=" validate">
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Created By</span>
+            <input type="text" id="edit_created_by" class="validate" disabled>
+          </div>
+
+          <div class="md-form">
+            <span class="prefix grey-text">Origin</span>
+            <input type="text" id="edit_user_origin" class="validate" disabled>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord()">
+          <i class="fa fa-save ml-1"></i>
+          Update User
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DELETE CONFIRMATION -->
+<button [hidden]="true" id="btnDeleteRecord" (click)="deleteRecord.show()" data-target="#deleteRecord"></button>
+
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Disable User Record</h4>
+        <button type="button" class="close" id="btnCloseDelete" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <p>Sure to disable this record?</p>
+        <p>Username: {{ _del_rec._username }}</p>
+        <p>User ID: {{ _del_rec._user_id }}</p>
+        <p>Name: {{ _del_rec._name }}</p>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord()">
+          <i class="fa fa-ban ml-1"></i>
+          Disable
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

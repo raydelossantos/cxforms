@@ -1,0 +1,67 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <span class="fa fa-fw fa-archive"></span> Archived Teams <small> - Inactive teams</small>
+
+        <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+          <span class="fa fa-refresh"></span> Refresh List
+        </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+          <div class="table-responsive">
+            <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+              <thead>
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th>Team Name</th>
+                  <th>Team Code</th>
+                  <th>Location</th>
+                  <th>Description</th>
+                  <th>Client</th>
+                  <th class="text-center">Date Archived</th>
+                  <th class="text-center">Restore</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _team of _teams" id="{{ _team.id }}">
+                  <td class="text-center">{{ _team.id }}</td>
+                  <td>{{ _team.team_name }}</td>
+                  <td>{{ _team.team_code }}</td>
+                  <td>{{ _team.location }}</td>
+                  <td>{{ _team.description }}</td>
+                  <td>{{ _team['client'] ? _team['client']['client_name'] : '' }}</td>
+                  <td class="text-center" title="{{ _team.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _team.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-warning" (click)="onRestoreRecord(_team.id)">
+                      <span class="fa fa-fw fa-undo"></span> Restore
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="_teams == 0">
+                  <td colspan="1000" class="no-data-available">No records found so far.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ngx-loading [show]="loading"></ngx-loading>
+          <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+          <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+          <div *ngIf="_teams == 0" class="text-center" >
+              <p class="no_record">
+                  <i class="fa fa-exclamation"></i>
+                  {{ no_record_message }}
+              </p>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+

@@ -1,0 +1,33 @@
+<div>
+
+    <!-- TEAM MENU HEADER -->
+    <div class="menu">
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="list" class="cool-link">
+          <span class="fa fa-list"></span> Teams
+        </a>
+      </span>
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="member" class="cool-link">
+          <span class="fa fa-male"></span> Team Members
+        </a>
+      </span>
+      <!-- <span class="menu-item">
+        <a routerLinkActive="menu_active" class="cool-link">
+          <span class="fa fa-lock"></span> Team Access Privileges
+        </a>
+      </span> -->
+      <span class="menu-item">
+        <a routerLinkActive="menu_active" routerLink="archived" class="cool-link">
+          <span class="fa fa-archive"></span> Archived Teams
+        </a>
+      </span>
+    </div>
+  
+    <div class="contents">
+      <router-outlet></router-outlet>
+    </div>
+      
+  </div>
+  
+  

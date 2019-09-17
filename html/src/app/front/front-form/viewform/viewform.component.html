@@ -1,0 +1,316 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+
+  <div class="card" style="min-height: 250px; max-width: 650px; float: none; margin: 0 auto;">
+    <div class="card-header" id="headingOne" style="height: 5px; background-color: #DE7431; padding: 0; border-radius: 0;">
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        
+        <h2 class="col mb-3">
+            {{ form !== null ? form.form_name : '' }} <!--small> - Add New Record</small-->
+        </h2>
+
+        <div *ngIf="form && form.description !== ''" class="col mb-3">
+          <p [innerHtml]="form.description | santizeHtmlPipe: 'html' "></p>
+        </div>
+
+        <div *ngIf="form && form.show_submitters_info && formPermissions.DefaultAddRecord" class="col" role="alert" style="color: #721c24; border: 0;">
+          <span class="fa fa-user"></span>
+          You are submitting as <strong>{{ user.full_name }}</strong> [<strong>{{ user.email }}</strong>].          
+          <a (click)="logout()" class="alert-close" style="color: gray;">
+              <span class="fa fa-fw fa-sign-out"></span> Logout   
+          </a>
+        </div>
+
+        <div *ngIf="form && formPermissions.DefaultAddRecord" class="col">
+
+          <form #myForm>
+            <!-- generated fields from server -->
+            <div *ngFor="let field of fields"> <!-- BEGIN *ngFor -->
+
+              <!-- BEGIN field-div -->
+              <!-- Check if field has visibility dependency before displaying -->
+              <div [hidden]="(field.visibility_column !== '' && visibility_dependency[field.visibility_column] !== field.visibility_value)" class="field-div"> 
+
+                <!-- FIELD GROUP DISPLAY With HR -->
+                <div *ngIf="field.group_name != ''">
+                  <p style="margin: 0; padding: 0; margin-bottom: 0; font-weight: bold; color: rgb(8, 108, 151); font-size: 20px">{{ field.group_name }} </p>
+                  <hr style="margin: 0; margin-bottom: 10px;">
+                </div>
+  
+                <!-- FIELD LABEL -->
+                <div class="field-label">
+                  {{ field.label }}
+                  <!-- required badge -->
+                  <span *ngIf="field.required" title="Required" style="color: red;"> *</span> 
+                </div>
+        
+                <!-- TEXT FIELD -->
+                <div *ngIf="isInputField.indexOf(field.field_type) !== -1">
+                    <input type="text" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required" autocomplete="off" [attr.maxlength]="field.size">
+                </div>
+        
+                <!-- TEXTAREA FIELD -->
+                <div *ngIf="isTextareaField.indexOf(field.field_type) !== -1">
+                    <textarea [name]="field.form_field_name" [(ngModel)]="visibility_dependency[field.form_field_name]" [id]="field.form_field_name" cols="50" rows="5"  [attr.maxlength]="(field.size > 0) ? field.size : ''" [required]="field.required"></textarea>
+                </div>
+        
+                <!-- CHECK FIELD -->
+                <div *ngIf="isCheckboxField.indexOf(field.field_type) !== -1">
+                  <label class="switch">
+                    <input type="checkbox" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required">
+                    <span class="slider"></span>
+                  </label>
+
+                  <!-- <label class="switch-light switch-candy" onclick="" style="max-width: 100px;">
+                    <input type="checkbox" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required">                   
+                    <span>
+                      <span>YES</span>
+                      <span>NO</span>
+                      <a></a>
+                    </span>
+                  </label> -->
+                </div>
+        
+                <!-- DATE FIELD -->
+                <div *ngIf="isDateField.indexOf(field.field_type) !== -1">
+                  <input [owlDateTime]="dPicker" 
+                    [(ngModel)]="visibility_dependency[field.form_field_name]" 
+                    [name]="field.form_field_name" 
+                    [id]="field.form_field_name"  
+                    [required]="field.required" 
+                    placeholder="Select Date"
+                    [owlDateTimeTrigger]="dPicker"
+                    readonly="readonly"
+                    class="owl-date-picker-custom">
+                  <span [owlDateTimeTrigger]="dPicker"><i class="fa fa-calendar"></i></span>
+                  <owl-date-time [pickerMode]="'dialog'" [pickerType]="'calendar'" #dPicker></owl-date-time>
+
+                  <!-- <input type="date" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required" [disabled]="field.readonly"> -->
+                </div>
+        
+                <!-- DATE TIME FIELD -->
+                <div *ngIf="isDateTimeField.indexOf(field.field_type) !== -1">
+                  <input [owlDateTime]="dtPicker" 
+                    [(ngModel)]="visibility_dependency[field.form_field_name]" 
+                    [name]="field.form_field_name" 
+                    [id]="field.form_field_name"
+                    [required]="field.required" 
+                    placeholder="Select Date and Time"
+                    [owlDateTimeTrigger]="dtPicker"
+                    readonly="readonly"
+                    class="owl-date-picker-custom">
+                  <span [owlDateTimeTrigger]="dtPicker"><i class="fa fa-calendar"></i></span>
+                  <owl-date-time [pickerMode]="'dialog'" #dtPicker></owl-date-time>
+                </div>
+
+                <!-- SELECT FIELD -->
+                <div *ngIf="isSelectField.indexOf(field.field_type) !== -1">
+                  <select *ngIf="field.dependency" [(ngModel)]="visibility_dependency[field.form_field_name]" (change)="onChangeDropdown(field.form_field_name, $event)" class="form-control" [name]="field.form_field_name" [id]="field.form_field_name" style="font-size: 16px;" [required]="field.required">
+                    <option value=""></option>
+                    <option *ngFor="let opt of dropdown_display[field.dependency]" [value]="opt">{{ opt }}</option>
+                  </select>
+                  <select *ngIf="field.dependency === false" [(ngModel)]="visibility_dependency[field.form_field_name]" (change)="onChangeDropdown(field.form_field_name, $event)"  class="form-control" [name]="field.form_field_name" [id]="field.form_field_name" style="font-size: 16px;" [required]="field.required">
+                    <option value=""></option>
+                    <option *ngFor="let opt of field.selection_options" [value]="opt">{{ opt }}</option>
+                  </select>
+                </div>
+        
+                <!-- EMPLOYEE LOOKUP MODAL FORM -->
+                <div *ngIf="isEmployeeLookupField.indexOf(field.field_type) !== -1">
+                  <input type="hidden" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required">
+                  <button class="btn btn-xs btn-outline-default" (click)="onLoadEmployeeLookup(field.lookup_scope_id, field.form_field_name)" id="emp_lookup_btn_{{ field.form_field_name }}" style="margin: 0; margin-top: 5px; margin-bottom: 5px;">Click to choose...</button>
+                  <span class="lookup-selected" id="selected_{{field.form_field_name}}"></span>
+                </div>
+        
+                <!-- USER TAG MODAL FORM -->
+                <div *ngIf="isUserTagField.indexOf(field.field_type) !== -1">
+                  <input type="hidden" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required">
+                  <button class="btn btn-xs btn-outline-default" (click)="onLoadUserTag(field.lookup_scope_id, field.form_field_name)"  id="user_tag_btn_{{ field.form_field_name }}" style="margin: 0; margin-top: 5px; margin-bottom: 5px;">Click to choose...</button>
+                  <span class="lookup-selected" id="selected_{{field.form_field_name}}"></span>
+                </div>
+  
+                <!-- DOCUMENT TIME STAMP BUTTON FIELD -->
+                <!-- <div *ngIf="isDescTimeStampField.indexOf(field.field_type) !== -1">
+                  <input type="hidden" [name]="field.form_field_name" [id]="field.form_field_name"  [required]="field.required">
+                  <button class="btn btn-sm btn-success">{{ field.label }}</button>
+                </div> -->
+        
+                <!-- TIMER FIELD -->
+                <div *ngIf="isTimerField.indexOf(field.field_type) !== -1">
+                    <input type="number" [(ngModel)]="visibility_dependency[field.form_field_name]" [name]="field.form_field_name" [id]="field.form_field_name" [required]="field.required" autocomplete="off" [attr.max]="field.size">
+                </div>
+
+                <div class="field-description">{{ field.description }}</div>
+
+              </div> <!-- END field-div -->
+
+            </div> <!-- END *ngFor -->
+
+            <div *ngIf="form && form.attachments" class="field-div">
+                <div class="field-label">
+                  Include an Attachment
+                </div>
+
+                <div>
+                  <label for="attachments" class="btn btn-xs btn-outline-default">
+                      <span class="fa fa-fw fa-upload"></span> <span>Choose a file&hellip;</span>
+                  </label>
+                  <input type="file" id="attachments" (change)="onFileSelected($event)" />
+                  <div class="field-description">Allowed attachment file types: image (bmp, jpg, gif, png), audio (mp3, amr, wav), video (mp4, avi, mov), document (doc, xlsx, pdf), archive (zip, tar, gzip, rar)</div>
+                </div>
+            </div>
+
+            <!-- action buttons -->
+            <div *ngIf="noFields == false" class="field-div">
+              <div class="field-label">&nbsp;</div>
+              <div>
+                <!-- <hr> -->
+                <button class="btn btn-primary btn-md" type="submit" (click)="onSaveRecord()">
+                  <i class="fa fa-fw fa-save"></i>
+                  Submit
+                </button>
+                <button class="btn btn-unique btn-md" id="btnClearForm" type="reset" (click)="onResetForm()">
+                  <i class="fa fa-fw fa-eraser"></i>
+                  Clear Form
+                </button>
+              </div>
+            </div>
+            
+            <!-- <hr *ngIf="noFields == false"> -->
+      
+            <!-- Other details to include in the form. -->
+            <p *ngIf="noFields == false" class="footer">* Marked with asterisk are required fields. <br> * Connext Forms doesn't encourage entering sensitive information like PINs or passwords.</p>
+      
+            <!-- check if no fields created, display prompt -->
+            <div *ngIf="noFields" class="field-div">
+              <p>It seems that this form is still under maintenance. If you have the privilege, modify it <a routerLink="settings/details"> here <span class="fa fa-caret-right"></span></a></p>
+            </div>
+            
+          </form>
+        </div>
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Working . . .</span>
+
+        <!-- show this when user has no permission to add to the form -->
+        <div *ngIf="form && !formPermissions.DefaultAddRecord" class="col footer">
+          <br><br>
+          <span class="fa fa-exclamation-triangle"></span>
+          You can't create a record on this form.
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<!-- EMPLOYEE LOOKUP MODAL FORM -->
+<button [hidden]="true" id="btnEmployeeLookup" (click)="employeeLookUp.show()" data-target="#employeeLookUp"></button>
+
+<div mdbModal #employeeLookUp="mdb-modal"  class="modal fade" id="employeeLookUp" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Select Employee</h4>
+        <button type="button" id="btnCloseEmployeeLookup" class="close" data-dismiss="modal" (click)="employeeLookUp.hide(); onLookUpClose()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <div [hidden]="!loading2" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div>
+
+        <ng-select 
+          [hidden]="loading2" 
+          [(ngModel)]="_selected_member" 
+          id="member_select" 
+          [items]="members" 
+          placeholder="Select Employee"
+          bindLabel="full_name">
+
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <!-- <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div> -->
+              <div [ngOptionHighlight]="search"> {{item.full_name}}</div>
+              <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+          </ng-template>
+
+            <!-- <option></option>
+            <option *ngFor="let member of members" value="{{ member.user_info.first_name }} {{ member.user_info.last_name }}">
+              [ {{ member.user_info.employee_id }} ] {{ member.user_info.first_name }} {{ member.user_info.last_name }}
+          </option> -->
+        </ng-select>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-primary waves-light" (click)="onLookupSelect(); employeeLookUp.hide()"  [disabled]="!_selected_member" mdbWavesEffect>
+          <i class="fa fa-check ml-1"></i>
+          Choose
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="employeeLookUp.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- USER TAG MODAL FORM -->
+<button [hidden]="true" id="btnUserTag" (click)="userTag.show()" data-target="#userTag"></button>
+
+<div mdbModal #userTag="mdb-modal"  class="modal fade" id="userTag" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Select user to tag</h4>
+        <button type="button" id="btnCloseUserTag" class="close" data-dismiss="modal" (click)="userTag.hide(); onUserTagClose()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <div [hidden]="!loading2" style="text-align: center;">
+          <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+        </div>
+
+        <ng-select 
+          [hidden]="loading2" 
+          [(ngModel)]="_selected_member" 
+          id="member_select" 
+          [items]="members" 
+          placeholder="Select Employee"
+          bindLabel="full_name">
+
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <!-- <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div> -->
+              <div [ngOptionHighlight]="search"> {{item.full_name}} </div>
+              <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+          </ng-template>
+
+        </ng-select>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-primary waves-light" (click)="onUserTagSelect(); userTag.hide()"  [disabled]="!_selected_member" mdbWavesEffect>
+          <i class="fa fa-check ml-1"></i>
+          Choose
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="userTag.hide(); onLookUpClose()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ngx-loading [show]="loading3"></ngx-loading>
+<span [hidden]="!loading3" class="ngx-text">Logging you out. Please wait...</span>

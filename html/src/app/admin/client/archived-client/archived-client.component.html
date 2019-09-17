@@ -1,0 +1,72 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          <span class="fa fa-fw fa-archive"></span> Archived Clients <small> - Hidden Client Collections</small>
+
+          <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+            <span class="fa fa-refresh"></span> Refresh List
+          </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+          <div class="table-responsive">
+            <table id="viewlist-table" class="table table-striped table-no-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th class="text-center">Logo</th>
+                <th class="text-center">Author</th>
+                <th class="text-center">Created</th>
+                <th class="text-center">Modified</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let _archived_client of _archived_clients" id="{{ _archived_client.id }}">
+                <td class="text-center">{{ _archived_client.id }}</td>
+                <td>{{ _archived_client.client_name }}</td>
+                <td>{{ _archived_client.description }}</td>
+                <td class="text-center">
+                  <img *ngIf="_archived_client.logo !== ''" src="{{ _api_endpoint }}{{ _archived_client.logo }}" height="20px" width="20px">
+                  <span *ngIf="_archived_client.logo === ''" class="fa fa-file-image-o"></span>
+                </td>
+                <td class="text-center" >{{ _archived_client.creator ? _archived_client.creator.first_name : '' }} {{ _archived_client.creator ? _archived_client.creator.last_name : '-' }}</td>
+                <td class="text-center" title="{{ _archived_client.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _archived_client.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                <td class="text-center" title="{{ _archived_client.deleted_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _archived_client.deleted_at | utcLocal | date :  "y/MM/dd" }}</td>
+
+                <td class="text-center">
+                  <button class="btn btn-sm btn-warning" (click)="onRestoreRecord( _archived_client.id )">
+                    <span class="fa fa-fw fa-undo"></span> Restore
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="_archived_clients.length == 0">
+                <td colspan="1000" class="no-data-available">No records found so far.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+        <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+        <div *ngIf="_archived_clients == 0" class="text-center" >
+          <p class="no_record">
+            <i class="fa fa-exclamation"></i>
+            {{ no_record_message }}
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+

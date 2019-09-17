@@ -1,0 +1,20 @@
+# Guest OS timezone
+timezone: UTC
+
+# Are we need check box updates for every 'vagrant up'?
+box_check_update: false
+
+# Virtual machine name
+machine_name: qagold
+
+# assign accessible domain name in browser
+domain: qagold.com
+
+# Virtual machine IP
+ip: 192.168.77.7
+
+# Virtual machine CPU cores number
+cpus: 1
+
+# Virtual machine RAM
+memory: 256

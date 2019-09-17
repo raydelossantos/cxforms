@@ -1,0 +1,32 @@
+<!-- START USER MENU HEADER -->
+<div class="menu" [@enterAnimation]>
+    
+    <span class="menu-item">
+        <a routerLinkActive="menu_active" [routerLinkActiveOptions]="{ exact: true }" routerLink="/home" class="cool-link">
+            <span class="fa fa-home mr-1"></span> Home
+        </a>
+    </span>
+    
+    <span class="menu-item">
+        <!-- show client when selected -->
+        <span *ngIf="clientShow && client">
+            <span class="fa fa-fw fa-caret-right"></span>
+            <img *ngIf="client.logo" src="{{ _api_endpoint + client.logo }}" height="20px" width="20px">
+            <a routerLinkActive="menu_active" routerLink="{{ client.id }}" class="cool-link">
+                {{ client.client_name }}
+            </a>
+        </span>
+    </span>
+    
+</div>  <!-- END USER MENU HEADER -->
+
+<router-outlet></router-outlet>
+
+<br/>
+
+<!-- footer -->
+<!-- <div class="pgfooter" [@enterAnimation]>
+    &lt;/&gt; with <span class="fa fa-heart" style="color: rgba(255, 0, 0, 0.287);"></span> by Connext Global Solutions. |
+    <span class="fa fa-code-fork" style="color: rgba(10, 43, 92, 0.767);"></span> Build version: {{ app_version }} |
+    &copy; All rights reserved.
+</div> -->

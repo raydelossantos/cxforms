@@ -1,0 +1,87 @@
+.heading {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    // border-bottom: solid #5352524b 1px;
+    font-size: 20px;
+}
+
+.card-small {
+    padding: 10px;
+}
+
+.form_link:hover, .form_link:hover a {
+    background-color: #efb4887d;
+    color: white;
+    transition: 0.5s;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #DE7431;
+}
+
+// .menu {
+//     padding-top: 20px;
+//     padding-bottom: 5px;
+//     margin-bottom: 15px;
+//     border-bottom: solid #5352524b 1px;
+//     font-size: 14px;
+// }
+
+// .cool-link:hover {
+//     cursor: pointer;
+//     color: rgb(8, 108, 151);
+// }
+
+// .cool-link a {
+//     color: black;
+//     margin-right: 10px;
+//     padding: 5px;
+//     border: solid #ffffff 1px;
+// }
+
+// .cool-link {
+//     display: inline-block;
+//     color: #000;
+//     text-decoration: none;
+//     padding: 5px;
+//     margin-right: 5px;
+// }
+
+// .cool-link::after {
+//     content: '';
+//     display: block;
+//     width: 0;
+//     height: 2px;
+//     background: rgb(8, 108, 151);
+//     transition: width .3s;
+// }
+
+// .cool-link:hover::after {
+//     width: 100%;
+// }
+
+.dash-box {
+    min-height: 20px;
+    padding: 5px;
+    border-left: 2px solid #DDDDDD;
+    border-bottom: 2px solid #DDDDDD;
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+.stat-count {     /* Dashboard displays */
+    font-size: 40px;
+}
+.stat-details {
+    font-size: 12px;
+    padding-bottom: 10px;
+}
+
+section {
+    padding-top: 20px;
+}

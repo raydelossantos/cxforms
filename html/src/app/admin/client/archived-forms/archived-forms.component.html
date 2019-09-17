@@ -1,0 +1,76 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          <span class="fa fa-fw fa-archive"></span> Archived Forms <small> - Hidden Form Collections</small>
+
+          <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+            <span class="fa fa-refresh"></span> Refresh List
+          </button>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+        <div class="table-responsive">
+          <table id="viewlist-table" class="table table-striped table-no-bordered table-hover">
+            <thead>
+              <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Client</th>
+                <th class="text-center">LOB</th>
+                <th class="text-center">Table Name</th>
+                <th>Reports URL</th>
+                <th class="text-center">Clear After Save</th>
+                <th  class="text-center">Attachments</th>
+                <th>Author</th>
+                <th class="text-center">Created</th>
+                <th class="text-center">Deleted</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let _form of _archived_forms" id="{{ _form.id }}">
+                <td class="text-center">{{ _form.id }}</td>
+                <td>{{ _form.form_name }}</td>
+                <td>{{ _form.lob.client.client_name }}</td>
+                <td>{{ _form.lob.lob_name }}</td>
+                <td>{{ _form.table_name }}</td>
+                <td>{{ _form.reports_url }}</td>
+                <td>{{ _form.stay_after_submit == 1 ? 'Yes' : 'No' }}</td>
+                <td>{{ _form.attachments == 1 ? 'Yes' : 'No' }}</td>
+                <td>{{ _form.creator.first_name }} {{ _form.creator.last_name }}</td>
+                <td class="text-center" title="{{ _form.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _form.created_at | utcLocal | date :  "y/MM/dd" }}</td>
+                <td class="text-center" title="{{ _form.deleted_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _form.deleted_at | utcLocal | date :  "y/MM/dd" }}</td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-warning" (click)="onRestoreRecord( _form.id )">
+                    <span class="fa fa-fw fa-undo"></span> Restore
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="_archived_forms == 0">
+                <td colspan="1000" class="no-data-available">No records found so far.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+        <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+        <div *ngIf="_archived_forms == 0" class="text-center" >
+            <p class="no_record">
+                <i class="fa fa-exclamation"></i>
+                {{ no_record_message }}
+            </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+

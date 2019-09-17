@@ -1,0 +1,121 @@
+<!-- start admin-->
+<div style="position: relative;" [@enterAnimation]>
+
+    <div class="container-fluid">
+
+        <div class="row" *ngIf="clients">
+            <div class="col" style="display: inline-block;">
+                <input type="text" [(ngModel)]="searchText" class="searchText" placeholder="search client" style="max-width: 250px;">
+            </div>
+
+            <span class="menu-item" *ngIf="!newForm" style="float: right;" title="Refresh clients">
+                <div [hidden]="!loading3">
+                    <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+                </div>
+                <a [hidden]="loading3" (click)="onRefreshClients()" class="cool-link">
+                <span class="fa fa-fw fa-refresh"></span>
+                </a>
+            </span>
+
+        </div>
+        <br>
+
+        <div class="row" *ngIf="clients">
+            <div *ngFor="let _client of clients | filter: searchText;" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+                <a (click)="onClientChange(_client)" class="active_client" routerLink="{{ _client.id }}">
+                    <div class="card card-outline-info card-small client_link" id="{{ _client.id }}Panel" style="padding: 10px;">
+                        <div class="card-block">
+                            <div class="card-title">
+                                <button *ngIf="client && client.id === _client.id" type="button" class="close" style="font-size: 10px; border: 1px solid rgba(128, 128, 128, 0.272); padding: 5px; background-color: rgba(171, 247, 171, 0.462);">
+                                    <i class="fa fa-check" style="color: rgb(4, 88, 4);"></i>              
+                                </button>
+                            </div>
+
+                            <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" class="client-logo">
+                            <p class="client-name-title">{{ _client.client_name }} </p>
+                            <p class="client-description">{{ _client.description }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div> 
+            
+            <ngx-loading [show]="loading3"></ngx-loading>
+            <span [hidden]="!loading3" class="ngx-text">Working . . .</span>
+
+        </div>
+
+        <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+        <div *ngIf="clients == 0" class="text-center" >
+            <p class="no_record">
+                <i class="fa fa-exclamation"></i>
+                {{ no_record_message }}
+            </p>
+        </div>
+    </div>
+
+</div>
+<!-- end admin-->
+
+<!-- -------------------------------------------------------------------- -->
+
+<!-- start user display -->
+<!-- <div *ngIf="!is_admin" style="position: relative;" [@enterAnimation]>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col">
+                <input type="text" [(ngModel)]="searchTextForm" id="searchTextForm" placeholder="search forms" style="max-width: 250px;">
+            </div>
+
+            <span class="menu-item" *ngIf="!newForm" style="float: right;" title="Refresh forms">
+                <div [hidden]="!loading3">
+                    <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+                </div>
+                <a [hidden]="loading3" (click)="onRefreshForms()" class="cool-link">
+                <span class="fa fa-fw fa-refresh"></span>
+                </a>
+            </span>
+
+        </div>
+        <br>
+        
+        <div class="row">
+            <div *ngFor="let _form of forms | filter: searchTextForm : 'form'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+                <div class="card card-outline-info card-small form_link" id="{{ _form.form.id }}Panel" >
+                    <a routerLink="/form/{{ _form.form.id }}">
+                        <div class="card-block">
+
+                            <img src="../../../assets/form_icon.png" class="form-icon">
+
+                            <p class="file-name" title="{{ _form.form.form_name }}">
+                                {{ _form.form.form_name }}
+                            </p>
+
+                            <p class="lob-name">
+                                <span class="fa fa-fw fa-industry"></span>
+                                {{ _form.form.lob.lob_name }}
+                            </p>
+
+                            <p class="client-name">
+                                <span class="fa fa-fw fa-briefcase"></span>
+                                {{ _form.form.lob.client.client_name }}
+                            </p>
+
+                            <p class="author-name">
+                                <span class="fa fa-fw fa-pencil-square"></span>
+                                {{ _form.form.creator.first_name + ' ' + _form.form.creator.last_name }}
+                            </p>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <ngx-loading [show]="loading2"></ngx-loading>
+            <span [hidden]="!loading2" class="ngx-text">Working . . .</span>
+
+        </div>
+    </div>
+
+</div> -->
+<!-- end user display -->

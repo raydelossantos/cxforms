@@ -1,0 +1,94 @@
+<!-- <section id="main"> -->
+<div [@enterAnimation]>
+    <div class="heading">
+        <span class="fa fa-fw fa-tachometer mr-1"></span> Home    
+    </div>
+
+    <!-- QUICK LINKS & QUICK -->
+    <div class="row">
+        <div class="col">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <span class="fa fa-bar-chart fa-fw"></span> Statitics <small>Overview</small>
+                    </h5>
+                </div>
+                
+                <div class="card-body" style="min-height: 150px;;">
+                    <div class="row">
+                        <div *ngFor="let overview of _quick_overviews" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
+                            <a [routerLink]="overview.link" class="dashboard-links">
+                                <div class="dash-box">
+                                    <div>Active {{ overview.name }}</div>
+                                    <div><span class="stat-count"><span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.count }}</span><br></div>
+                                    <span class="stat-details">{{ overview.description }}</span>
+                                </div>
+                            </a>  
+                            <span *ngFor="let item of overview.others">
+                                <span class="">
+                                    <a routerLink="{{ item.link }}">
+                                        <span class="fa fa-fw {{ item.icon }}"></span> 
+                                        {{ item.title }}: {{ item.count }} <br />
+                                    </a>
+                                </span> 
+                            </span>
+                        </div>
+                    </div>  <!-- row -->
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <span [hidden]="!loading" class="ngx-text">Fetching statistics . . .</span>
+                </div> <!-- card-body -->
+            </div> <!-- card -->
+        </div>
+    </div>
+
+    <br>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <i class="fa fa-newspaper-o"></i> Clients
+                </h5>
+            </div>
+        
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body" style="min-height: 200px;">
+                    
+                    <div class="row" *ngIf="clients != 0">
+                        <div class="col" style="display: inline-block;">
+                            <input type="text" [(ngModel)]="searchText" id="searchText" placeholder="enter client name" style="max-width: 250px;">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row" *ngIf="clients != 0">
+                        <div *ngFor="let _client of clients | filter: searchText" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
+                            <a (click)="onClientChange(_client)">
+                                <div class="card card-outline-info card-small form_link" id="{{ _client.id }}Panel" style="padding: 0;">
+                                    <div class="card-block" style="padding: 10px;">
+                                        <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" style="height: 45px; width: 45px; float: left; margin-right: 5px;">
+                                        <p style="font-size: 14px; font-weight: 400; color: rgb(0, 0, 0); margin: 0; margin-top: 5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ _client.client_name }} </p>
+                                        <p style="font-size: 12px; color: gray; margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ _client.description }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+                    <div *ngIf="clients == 0" class="text-center" >
+                        <p class="no_record">
+                            <i class="fa fa-exclamation"></i>
+                            {{ no_record_message }}
+                        </p>
+                    </div>
+
+                </div>
+                <ngx-loading [show]="loading_clients"></ngx-loading>
+                <span [hidden]="!loading_clients" class="ngx-text">Fetching records . . .</span>
+            </div>
+        </div>
+    </div>
+    <br>
+
+</div>
+<!-- </section> -->

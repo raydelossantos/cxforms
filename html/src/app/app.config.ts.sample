@@ -1,0 +1,51 @@
+import { InjectionToken } from '@angular/core';
+
+export let APP_CONFIG = new InjectionToken('app.config');
+
+export interface IAppConfig {
+    API_ENDPOINT: string;
+    ASSET_ENDPOINT: string;
+    CLIENT_ID: string;
+    CLIENT_REDIRECT_URL: string;
+    APP_VERSION: string;
+}
+
+export const AppConfig: IAppConfig = {
+
+    /** BUILD VERSION */
+    APP_VERSION:            '1.5.0.7',
+
+    /************************************************************************************************************************
+     * QA GOLD - FIXED SETTINGS
+     ************************************************************************************************************************/
+    ASSET_ENDPOINT:       'https://assets.cloudstaff.com/api/getimage/',                              // CS ASSETS API
+    CLIENT_ID:            '862740997247-lgo014nfnq394h1iamf3jlhjjmvrfm1u.apps.googleusercontent.com', // GOOGLE API SETTING
+
+
+
+    /************************************************************************************************************************ 
+     * PROD BUILD
+     ************************************************************************************************************************/
+    // CLIENT_REDIRECT_URL:  'https://api-qagold.cloudstaff.com/auth/google',                         // PROD
+    // API_ENDPOINT:         'https://api-qagold.cloudstaff.com',                                     // PROD
+
+
+
+    /************************************************************************************************************************ 
+     * STAGING BUILD
+     ************************************************************************************************************************/
+    // API_ENDPOINT:         'https://staging-api-qagold.cloudstaff.com',                             // STAG
+    // CLIENT_REDIRECT_URL:  'https://staging-api-qagold.cloudstaff.com/auth/google',                 // STAG
+
+
+
+    /************************************************************************************************************************ 
+     * DEV LOCAL 
+     ************************************************************************************************************************/
+    CLIENT_REDIRECT_URL:  'http://qagold.com/auth/google',                                            // DEV (use if running vagrant API)
+    API_ENDPOINT:         'http://qagold.com',                                                        // DEV (use if running vagrant API)
+
+    // CLIENT_REDIRECT_URL:  'http://localhost:8999/auth/google',                                     // DEV (use if running php -S)
+    // API_ENDPOINT:         'http://localhost:8999',                                                 // DEV (use if running php -S)
+
+};

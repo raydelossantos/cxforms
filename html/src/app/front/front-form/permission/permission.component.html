@@ -1,0 +1,549 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card" style="min-width: 800px;">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        Permissions
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+            
+            <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
+
+              <div style="float: left;">
+                <span style="font-size: 20px;"><i class="fa fa-fw fa-cubes"></i>  Team Permissions </span> 
+              </div>
+
+              <div style="float: right;">
+                <button class="btn btn-success btn-sm" (click)="addTeamPermission.show(); onAddNewTeam()">
+                  <span class="fa fa-plus"></span> Add User Permission
+                </button>
+
+                <button class="btn btn-primary btn-sm" data-toggle="modal" (click)="onSaveTeamPermissionBatch()" data-target="#addClientAdmin" [disabled]="team_permissions.length === 0">
+                  <span class="fa fa-fw fa-save"></span> Save Changes
+                </button>
+
+                <button class="btn btn-blue-grey btn-sm" (click)="onRefreshTeamList()" [disabled]="team_permissions.length === 0">
+                  <span class="fa fa-fw fa-refresh"></span> Refresh List
+                </button>
+              </div>
+
+              <br><br>
+              
+              <div [hidden]="loading4" *ngIf="team_permissions.length === 0" >
+                  <hr style="margin: 0; padding: 0;">
+                  <p class="footer">No permissions found.</p>
+              </div>
+
+              <table *ngIf="team_permissions.length !== 0" id="table_team_permissions" class="table table-striped table-no-bordered table-hover" style="position: relative;">
+                <thead class="text-center">
+                  <th>Team</th>
+                  <th>Add Record</th>
+                  <th>View Own</th>
+                  <th>Edit Own</th>
+                  <th>View All</th>
+                  <th>Edit All</th>
+                  <th>Form Settings</th>
+                  <th>Access Control</th>
+                  <th>Export Data</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let _team of team_permissions" id="trTeam_{{_team.id}}" class="text-center">
+                        <td [hidden]="true" class="permissionId">{{ _team.id }}</td>
+                        <td class="text-left">                
+                          <p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-bottom: auto; min-width: 200px">
+                            <a (click)="onRemoveTeamPermission(_team.id)">
+                              <span class="fa fa-fw fa-times" style="color: red;"></span>
+                            </a> |
+                            <span [ngClass]="_team.team.deleted_at !== null ? 'deleted' : ''">
+                              <span class="fa fa-fw fa-cubes" [ngClass]="_team.team.deleted_at !== null ? 'deleted' : 'available-team'"></span>
+                              {{ _team.team.team_name }}
+                            </span>
+                          </p>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkAddRecord" type="checkbox" [checked]="_team.add_record">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkViewOwn" type="checkbox" [checked]="_team.view_own">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkEditOwn" type="checkbox"  [checked]="_team.edit_own">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkViewAll" type="checkbox"  [checked]="_team.view_all">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkEditAll" type="checkbox"  [checked]="_team.edit_all">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkConfigureList" type="checkbox"  [checked]="_team.configure_list">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkAccessControl" type="checkbox"  [checked]="_team.access_control">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkExportData" type="checkbox"  [checked]="_team.export_data">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                </tbody>
+                <ngx-loading [show]="loading_team" ></ngx-loading>
+                <span [hidden]="!loading_team" class="ngx-text">Updating team permissions . . .</span>
+              </table>
+            </div>
+
+            <br>
+
+            <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
+               
+                <div style="float: left;">
+                  <span style="font-size: 20px;"><i class="fa fa-fw fa-user"></i> User Permissions </span> 
+                </div>
+
+                <div style="float: right;">
+                  <button class="btn btn-success btn-sm" (click)="addUserPermission.show(); onAddNewUser()">
+                    <span class="fa fa-plus"></span> Add User Permission
+                  </button>
+
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" (click)="onSaveUserPermissionBatch()" data-target="#addClientAdmin" [disabled]="user_permissions.length === 0">
+                    <span class="fa fa-fw fa-save"></span> Save Changes
+                  </button>
+
+                  <button class="btn btn-blue-grey btn-sm" (click)="onRefreshUserList()" [disabled]="user_permissions.length === 0">
+                    <span class="fa fa-fw fa-refresh"></span> Refresh List
+                  </button>
+                </div>
+                
+                <br><br>
+    
+                <div [hidden]="loading5" *ngIf="user_permissions.length === 0" >
+                  <hr style="margin: 0; padding: 0;">
+                  <p class="footer">No permissions found.</p>
+                </div>
+    
+              <table *ngIf="user_permissions.length !== 0" id="table_user_permissions" class="table table-striped table-no-bordered table-hover" style="position: relative;">
+                <thead class="text-center">
+                  <th>Users</th>
+                  <th>Add Record</th>
+                  <th>View Own</th>
+                  <th>Edit Own</th>
+                  <th>View All</th>
+                  <th>Edit All</th>
+                  <th>Form Settings</th>
+                  <th>Access Control</th>
+                  <th>Export Data</th>
+                </thead>
+                <tbody>
+                      <tr *ngFor="let _user of user_permissions" class="text-center" id="trUser_{{_user.id}}" style="border: 1px;">
+                        <td [hidden]="true" class="permissionId">{{ _user.id }}</td>
+                        <td class="text-left">
+                          <p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin-bottom: auto; min-width: 200px; max-width: 400px;;">
+                            <a (click)="onRemoveUserPermission(_user.id)">
+                              <span class="fa fa-fw fa-times" style="color: red;"></span>
+                            </a> | 
+                            <span [ngClass]="_user.user.deleted_at !== null ? 'deleted' : ''">
+                              <span class="fa fa-fw fa-cube" [ngClass]="_user.user.deleted_at !== null ? 'deleted' : 'available-user'"></span>
+                              {{ _user.user_info.first_name }} {{ _user.user_info.last_name }}
+                            </span>
+                          </p>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkAddRecord" type="checkbox"  [checked]="_user.add_record">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkViewOwn" type="checkbox"  [checked]="_user.view_own">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkEditOwn" type="checkbox"  [checked]="_user.edit_own">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkViewAll" type="checkbox"  [checked]="_user.view_all">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkEditAll" type="checkbox"  [checked]="_user.edit_all">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkConfigureList" type="checkbox"  [checked]="_user.configure_list">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkAccessControl" type="checkbox"  [checked]="_user.access_control">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                        <td style="min-width: 50px; max-width: 50px;">
+                          <label class="switch">
+                              <input class="chkExportData" type="checkbox"  [checked]="_user.export_data">
+                              <span class="slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                </tbody>
+                <ngx-loading [show]="loading_user"></ngx-loading>
+                <span [hidden]="!loading_user" class="ngx-text">Updating user permissions . . .</span>
+              </table>
+            </div>
+        <hr>
+
+        <span class="footer">
+          * NOTE: User permission has higher priority than Team permission. Any settings set in this area will overwrite Team permissions. <br />
+          * NOTE: User included in multiple teams in this form will combine all permissions. <br />
+          * NOTE: Admin privileges automatically overwrites any permission on this page. Admin can access all forms with full control.
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+
+<!-- ADD USER PERMISSION -->
+<div mdbModal #addUserPermission="mdb-modal" class="modal fade" id="addUserPermission" tabindex="-1" style="overflow: auto">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Add User Permission</h4>
+          <button type="button" id="btnCloseAddUser" class="close" data-dismiss="modal" (click)="addUserPermission.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body mx-1">
+            Select User(s):
+            <div [hidden]="!loading2" style="text-align: center;">
+              <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+            </div>
+    
+            <ng-select 
+              [(ngModel)]="_selected_user"
+              [hidden]="loading2" 
+              [closeOnSelect]="false"
+              id="user_select" 
+              [items]="_users" 
+              placeholder="Select User"
+              bindLabel="full_name"
+              [multiple]="true"
+            >
+    
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div>
+                  <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+              </ng-template>
+            </ng-select>
+  
+            <div style="margin-top: 20px;">
+              <table id="table_user_permission" class="table table-striped table-hover text-center">
+                <thead>
+                  <th colspan="4" class="text-center"><b>Permissions</b></th>
+                </thead>
+                <thead>
+                  <th>Name</th>
+                  <th><span class="fa fa-fw fa-lock"></span> Allow/Deny</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Add Record</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_add_record" id="user_add_record" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>View Own</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_view_own" id="user_view_own" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>Edit Own</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_edit_own" id="user_edit_own" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>View All</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_view_all" id="user_view_all">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>Edit All</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_edit_all" id="user_edit_all">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Form Settings</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_configure_list" id="user_configure_list">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Access Control</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_access_control" id="user_access_control">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Export Data</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="user_export_data" id="user_export_data">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+        </div>
+  
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveUserPermission()">
+            <i class="fa fa-save ml-1"></i>
+            Save Record
+          </button>
+          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addUserPermission.hide(); resetPermissionForms()" mdbWavesEffect>
+            <i class="fa fa-times ml-1"></i>
+            Close
+          </button>
+        </div>
+
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Saving permission . . .</span>
+
+      </div>
+    </div>
+  </div>
+
+
+<!-- ADD TEAM PERMISSION -->
+<div mdbModal #addTeamPermission="mdb-modal" class="modal fade" id="addTeamPermission" tabindex="-1" style="overflow: auto">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Add Team Permission</h4>
+          <button type="button" id="btnCloseAddTeam" class="close" data-dismiss="modal" (click)="addTeamPermission.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body mx-1">
+            Select Team:
+            <div [hidden]="!loading3" style="text-align: center;">
+              <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+            </div>
+    
+            <ng-select 
+              [(ngModel)]="_selected_team"
+              [hidden]="loading3" 
+              id="team_select" 
+              [items]="_teams" 
+              placeholder="Select Team"
+              bindLabel="team_name"
+            >
+    
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div><span></span><span [ngOptionHighlight]="search">{{item.team_name}}</span></div>
+                  <small>ID: <b>{{item.id}}</b> | Team Code: <b>{{item.team_code}}</b> </small>
+              </ng-template>
+            </ng-select>
+  
+            <div style="margin-top: 20px;">
+              <table class="table table-striped table-hover text-center">
+                <thead>
+                  <th colspan="4" class="text-center"><b>Permissions</b></th>
+                </thead>
+                <thead>
+                  <th>Name</th>
+                  <th><span class="fa fa-fw fa-lock"></span> Allow/Deny</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Add Record</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_add_record" id="team_add_record" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>View Own</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_view_own" id="team_view_own" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>Edit Own</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_edit_own" id="team_edit_own" checked="checked">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>View All</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_view_all" id="team_view_all">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                  <td>Edit All</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_edit_all" id="team_edit_all">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Form Settings</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_configure_list" id="team_configure_list">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Access Control</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_access_control" id="team_access_control">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Export Data</td>
+                    <td>
+                      <div class="form-check form-check-inline">
+                        <label class="switch">
+                          <input class="form-check-input" type="checkbox" name="team_export_data" id="team_export_data">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+        </div>
+  
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveTeamPermission()">
+            <i class="fa fa-save ml-1"></i>
+            Save Record
+          </button>
+          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addTeamPermission.hide(); resetPermissionForms()" mdbWavesEffect>
+            <i class="fa fa-times ml-1"></i>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

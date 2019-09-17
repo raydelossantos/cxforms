@@ -1,0 +1,193 @@
+        <!-- Form General Information Header -->
+        <div class="heading-text">
+          <span class="fa fa-book"></span> Form Information
+        </div>
+
+        <form [formGroup]="formForm" >
+          <!-- Start of fields for Form Info -->
+          <div class="field-div">
+            <div class="field-label">Form Name *</div>
+            <div class="field-input">
+              <input formControlName="form_name" type="text" id="form_name">
+              <div class="field-description">The main form name. This is visible in menus and at the top of the form.</div>
+            </div>
+          </div>
+
+          <div class="field-div">
+            <div class="field-label">Description (Details)</div>
+            <div class="field-input">
+              <textarea name="description" id="description" formControlName="description"></textarea>
+              <!-- <ck-editor name="description" [config]="config" formControlName="description"></ck-editor> -->
+              <!-- <textarea formControlName="description" id="description" rows="5" style="height: 100%;"></textarea> -->
+              <div class="field-description">All information you want to include in the display form. You can leave this blank.
+                <!-- <span *ngIf="_form_id !== 'new'">
+                    | <i class="fa fa-fw fa-exclamation-triangle" style="color: orange;"></i>
+                    Text not showing? Click
+                  <a style="color: rgb(26, 140, 171)" (click)="onFetchRecord()">here</a>.
+                </span> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="field-div">
+            <div class="field-label">Short Name *</div>
+            <div class="field-input">
+              <input formControlName="short_name" type="text" id="short_name">
+              <div class="field-description">A short ID used to refer to this from other lists (ex. out-track for Outbound Tracker) This cannot be changed once it is saved.</div>
+            </div>
+          </div> -->
+
+          <div class="field-div">
+            <div class="field-label">Table Name *</div>
+            <div class="field-input">
+              <input formControlName="table_name" type="text" id="table_name">
+              <div class="field-description">
+                <p>
+                    The databse table name for storing records. This cannot be changed once it is saved. <br />
+                    <strong>RULES: </strong> <br />
+                    (1) Table name can be alphanumeric with underscore provided is should start with a letter. <br />
+                    (2) Must end with a letter or number. <br />
+                    (3) No consecutive underscores. <br />
+                    (4) No spaces anywhere in between letters/words.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-div">
+            <div class="field-label">Form type *</div>
+            <div class="field-input">
+              <select formControlName="form_type" class="form-control" name="form_type" id="form_type" style="font-size: 14px;">
+                <option value="0" selected>Connext Forms Default</option>
+                <option value="1" selected>Public Form</option>
+              </select>
+              <div class="field-description">Form type is set to default form.</div>
+            </div>
+          </div>
+
+          <!-- <div class="field-div">
+            <div class="field-label">Reports URL</div>
+            <div class="field-input">
+              <input formControlName="reports_url" type="text" id="reports_url">
+            <div class="field-description">Reports URL.</div>
+          </div>
+          </div> -->
+
+          <!-- <div class="field-div">
+            <div class="field-label">Record Closed Criteria</div>
+            <div class="field-input">
+              <input formControlName="record_closed_criteria"  type="text" id="record_closed_criteria">
+              <div class="field-description">When to consider a record "close". When a record is closed, it is not shown on the main list but is still accessible via the search page.</div>
+            </div>
+          </div> -->
+
+          <div class="field-div">
+            <div class="field-label">Clear Form After Submit</div>
+            <div class="field-input">
+              <label class="switch">
+                <input formControlName="stay_after_submit" type="checkbox" id="stay_after_submit">
+                <span class="slider"></span>
+              </label>
+              <div class="field-description">Check this to clear the form after saving a record. If unchecked, will retain it's contents and can be cleared manually by clicking 'Clear Form'.</div>
+            </div>
+          </div>
+
+          <div class="field-div">
+            <div class="field-label">Show Submitter's Info</div>
+            <div class="field-input">
+              <label class="switch">
+                <input formControlName="show_submitters_info" type="checkbox" id="show_submitters_info">
+                <span class="slider"></span>
+              </label>
+              <div class="field-description">Show the original submitter's team, supervisor, etc, at the top of the form.</div>
+              </div>
+          </div>
+
+          <!-- <div class="field-div">
+            <div class="field-label">Hide Values in Emails</div>
+            <div class="field-input">
+              <label class="switch">
+                <input formControlName="hide_values_in_emails" type="checkbox" id="hide_values_in_emails">
+                <span class="slider"></span>
+              </label>
+
+              <div class="field-description">Check this to prevent record data goin out in notification emails. Only a web link back to the record will be in the email.</div>
+            </div>
+          </div> -->
+
+          <div class="field-div">
+            <div class="field-label">Attachments</div>
+            <div class="field-input">
+              <label class="switch">
+                <input formControlName="attachments" type="checkbox" id="attachments">
+                <span class="slider"></span>
+              </label>
+
+              <div class="field-description">Allow attachments on this list</div>
+            </div>
+          </div>
+
+          <div class="field-div">
+            <div class="field-label">List View Max Records *</div>
+            <div class="field-input">
+              <input formControlName="max_records_in_list_view" type="text" id="max_records_in_list_view">
+              <div class="field-description">
+                The maximum number of records to return from the database to show in the list at any given time. The higher this number, the slower the performance of the list. This can be overwritten by a system-wide setting made by the administrator.
+                <br/>
+                <span>Note: If you will leave this field blank, then the limit will value will be 1000 items only.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="field-div" *ngIf="isExistingForm && form.form_type === 1">
+            <div class="field-label">Work Pattern Form Link</div>
+            <div class="field-input">
+              <input formControlName="wp_link" type="text" id="wp_link">
+              <div class="field-description">
+                This item is used for CS Work Pattern application. This is autogenerated and is not editable. <a class="wp_link" (click)="onCopyLink()"><i class="fa fa-fw fa-clone"></i> Copy link to clipboard</a>
+                <br/>
+                <span>Note: If you are not working on a Work Pattern process, kindly ignore this.</span>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+          <button class="btn btn-md btn-primary waves-effect" mdbRippleRadius (click)="onSaveForm()" [disabled]="!formForm.valid"><span class="fa fa-fw fa-save"></span> Save</button>
+          <button *ngIf="isExistingForm" class="btn btn-md btn-danger waves-effect" mdbRippleRadius (click)="deleteRecord.show()"><span class="fa fa-fw fa-archive"></span> Archive this form</button>
+        </form>
+        <hr>
+        <p>* Marked with asterisk are required fields. <br />
+        Archiving form will make it inaccessible. Archived forms can be viewed at the Admin Panel.</p>
+
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Fetching information . . .</span>
+
+<!-- DELETE ADMIN -->
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete this form?</h4>
+        <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        Form ID: {{ form.id }} <br />
+        Form Name: {{ form.form_name }}
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onArchiveForm(form.id)">
+          <i class="fa fa-trash ml-1"></i>
+          Delete
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

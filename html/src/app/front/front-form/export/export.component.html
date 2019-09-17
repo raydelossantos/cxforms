@@ -1,0 +1,239 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        Export
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+
+            <div class="row">
+                <div class="col">
+                    <h5 class="text-center"><strong>Select fields to export</strong></h5>
+                    <p>You can also re-arrange the following fields and will reflect on export data.</p>
+                    <table class="table dataTable table-striped table-no-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Code</th>
+                            <th class="text-center">Field Name</th>
+                            <th class="text-center">
+                                Export
+                                <!-- <label class="switch">
+                                    <input type="checkbox" name="chk_all" id="chk_all" title="Select all fields">
+                                    <span class="slider"></span>
+                                </label> -->
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody [sortablejs]="_default_fields" [sortablejsOptions]="options">
+                        <tr *ngFor="let _fld of _fields">
+                            <td class="text-center">{{ _fld.id }}</td>
+                            <td>{{ _fld.form_field_name }}</td>
+                            <td>{{ _fld.label }}</td>
+                            <td class="text-center">
+                            <label class="switch">
+                                <input class="chk_export" type="checkbox" [name]="_fld.form_field_name" [id]="_fld.form_field_name" [title]="_fld.label" [checked]="true">
+                                <span class="slider"></span>
+                            </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col">
+                    <div class="form-info">
+                        <h5 class="text-center"><strong>Select inclusive dates</strong></h5>
+                        <p>Specify the created date range of records.</p>
+                        <div class="div-export-date">
+                            <form>
+
+                                <div class="field-div" id="div_label">
+                                    <div class="field-label">From</div>
+                                    <div class="field-input">
+
+                                        <input [owlDateTime]="startDatePicker" 
+                                            [ngModel]="_start_date" 
+                                            name="start_date" 
+                                            id="start_date"
+                                            placeholder="Select Date"
+                                            (ngModelChange)="_start_date = $event"
+                                            [owlDateTimeTrigger]="startDatePicker"
+                                            readonly="readonly"
+                                            class="owl-date-picker-custom">
+                                        <span [owlDateTimeTrigger]="startDatePicker"><i class="fa fa-calendar"></i></span>
+                                        <owl-date-time [pickerMode]="'modal'" [pickerType]="'calendar'" #startDatePicker></owl-date-time>
+
+                                        <!-- <input type="date" [ngModel]="_start_date | date:'yyyy-MM-dd'" (ngModelChange)="_start_date = $event" name="start_date" id="start_date" min="{{ min_date }}" max="{{ max_date }}" required> -->
+                                        <div class="field-description">Start date for this export coverage period.</div>
+                                    </div>
+                                </div>
+                                <div class="field-div" id="div_label">
+                                    <div class="field-label">To</div>
+                                    <div class="field-input">
+                                            <input [owlDateTime]="endDatePicker" 
+                                            [ngModel]="_end_date" 
+                                            name="end_date" 
+                                            id="end_date"
+                                            placeholder="Select Date"
+                                            (ngModelChange)="_end_date = $event"
+                                            [owlDateTimeTrigger]="endDatePicker"
+                                            readonly="readonly"
+                                            class="owl-date-picker-custom">
+                                        <span [owlDateTimeTrigger]="endDatePicker"><i class="fa fa-calendar"></i></span>
+                                        <owl-date-time [pickerMode]="'modal'" [pickerType]="'calendar'" #endDatePicker></owl-date-time>
+
+                                        <!-- <input type="date" [ngModel]="_end_date | date:'yyyy-MM-dd'" (ngModelChange)="_end_date = $event" name="end_date" id="end_date"
+                                            required min="{{ min_date }}" max="{{ max_date }}"> -->
+                                        <div class="field-description">End date for this export coverage period.</div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <br />
+
+                            <div class="form-info">
+                                <form>
+                                    <div class="field-label">Date Ranges: </div>
+                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Today')">
+                                        <span class="fa fa-fw fa-clock-o"></span> Today
+                                    </button>
+                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Yesterday')">
+                                        <span class="fa fa-fw fa-clock-o"></span> Yesterday
+                                    </button>
+                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('This Week')">
+                                        <span class="fa fa-fw fa-clock-o"></span> This Week
+                                    </button>
+                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Last Week')">
+                                        <span class="fa fa-fw fa-clock-o"></span> Last Week
+                                    </button>
+                                </form>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-info">
+                                <form>
+                                    <p>
+                                        <strong>Filter export records:</strong>
+                                    </p>
+                                </form>
+                                <ul id="custom_filter">
+                                    <li *ngFor="let filter of _custom_filters" id="{{ filter.id }}">
+                                        <select class="form-control filter_column">
+                                            <option value="">Please select</option>
+                                            <option *ngFor="let field of _fields" [value]="field.form_field_name">{{ field.label }}</option>
+                                        </select>
+                                        <select class="form-control filter_option">
+                                            <option *ngFor="let filter of _filter_operators" [value]="filter.value">{{ filter.label }}</option>
+                                        </select>
+                                        <input type="text" class="filter_text">
+                                        <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)"><span class="fa fa-fw fa-trash"></span></button>
+                                        <div class="clear">&nbsp;</div>
+                                    </li>
+                                </ul>
+                                <br />
+                                <form>
+                                    <button class="btn btn-warning btn-sm" (click)="onAddFilter()">
+                                        <span class="fa fa-fw fa-plus"></span> Add Filter
+                                    </button>
+                                </form>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-info" style="font-size: 12px;">
+                                <form style="display: -webkit-inline-box;">
+                                    <label class="switch" style="margin-bottom: 0;">
+                                        <input type="checkbox" name="creator" id="creator" title="Include creator info" [(ngModel)]="_include_creator">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label style="margin-left: 10px; padding-right: 20px; display: inline;" for="creator"> Include Creator/Submitter's information (CS Employee ID, full name & email) </label>
+                                </form>
+                            </div>
+
+                            <div class="form-info"  style="font-size: 12px;">
+                                <form style="display: -webkit-inline-box;">
+                                    <label class="switch" style="margin-bottom: 0;">
+                                        <input type="checkbox" name="modifier" id="modifier" title="Include modifier info" [(ngModel)]="_include_modifier">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <label style="margin-left: 10px; padding-right: 20px;  display: inline;" for="modifier"> Include Last Modifier's information (CS Employee ID, full name & email) </label>
+                                </form>
+                            </div>
+
+                            <div class="form-info">
+                                <form style="display: -webkit-inline-box;">
+                                    <p style="font-size: 10px; color: gray; ">*NOTE: These settings wont apply if 'Created By User ID' or 'Last Modified By User ID' is not selected.</p>
+                                </form>
+                            </div>
+
+                            <hr>
+
+                            <div class="text-center">
+                                <button class="btn btn-md btn-success" (click)="onExport()">
+                                    <span class="fa fa-fw fa-spinner"></span>
+                                    Request Export Data
+                                </button>
+                                <button type="button" id="btnExportResults" class="btn btn-md btn-primary waves-light" data-toggle="modal" data-target="#basicExample" (click)="fluid.show()"
+                                    mdbWavesEffect>
+                                    <span class="fa fa-fw fa-download"></span>
+                                    Download Results
+                                </button>
+                            </div>
+
+                            <br>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <ngx-loading [show]="loading"></ngx-loading>
+            <span [hidden]="!loading" class="ngx-text">Processing export . . .</span>
+        </div>
+    </div>
+  </div>
+</div>
+<br />
+
+
+<div mdbModal #fluid="mdb-modal" class="modal fade top" id="fullHeightModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: auto;">
+    <div class="modal modal-dialog modal-full-height modal-top" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100 font-weight-bold" id="myModalLabel">{{ _export_title }} <small> Export Data</small></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="fluid.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th *ngFor="let _field of _export_fields_title">{{ _field }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let _record of _export_records">
+                            <td *ngFor="let _field of _export_fields">{{ _record[_field] }}</td>
+                        </tr>
+                        <tr *ngIf="_export_records == 0">
+                            <td colspan="1000" class="no-data-available">No records found so far.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-md btn-blue-grey waves-light" data-dismiss="modal" (click)="fluid.hide()" mdbWavesEffect>
+                    <span class="fa fa-fw fa-times"></span> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

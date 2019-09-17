@@ -1,0 +1,42 @@
+<div class="heading-text"> 
+  <span class="fa fa-fw fa-archive"></span> Archived Form Fields <small> - Hidden Form Field Collections</small>
+  <!--
+  <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+    <span class="fa fa-refresh"></span> Refresh List
+  </button>
+  -->
+</div>
+
+<div class="table-responsive">
+    <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+        <span class="fa fa-refresh"></span> Refresh List
+    </button>
+  <table id="viewlist-table" class="table table-striped table-no-bordered table-hover">
+    <thead>
+        <tr>
+          <th class="text-center">ID</th>
+          <th class="text-center">Label</th>
+          <th class="text-center">Description</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let _deleted_form_field of _deletedFormFields" id="{{_deleted_form_field.id}}">
+          <td class="text-center">{{_deleted_form_field.id}}</td>
+          <td>{{_deleted_form_field.label}}</td>
+          <td>{{_deleted_form_field.description}}</td>
+          <td class="text-center">
+              <button class="btn btn-sm btn-warning" (click)="onRestoreRecord( _deleted_form_field.id )">
+                  <span class="fa fa-fw fa-undo"></span> Restore
+              </button>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+</div> <!-- END OF CLASS TABLE-RESPONSIVE -->
+
+<ngx-loading [show]="loading"></ngx-loading>
+<span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+<br>
+<br>

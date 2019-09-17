@@ -1,0 +1,282 @@
+.form-location {
+    padding: 2px;
+    margin: 0;
+    border: solid #2ea4e43c 1px;
+    background-color: #20acf83c;
+    width: 100%;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.div-export-date {
+    border: solid 1px rgba(128, 128, 128, 0.175);
+}
+
+.form-info {
+    margin: 0;
+    font-size: 14px;
+    padding: 5px;
+    // border: solid #DE7431 1px;
+}
+
+h5 {
+    color: #DE7431;
+    // font-weight: bold;
+}
+
+form {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+.active {
+    padding: 3px 0 3px 5px;
+    margin: 0;
+    font-size: 12px;
+    display: block;
+    background-color: rgb(8, 108, 151);
+    border-radius: 5px 0 0 5px;
+    color: white;
+}
+
+.form-gen-info {
+    border-bottom: solid rgba(103, 103, 103, 0.133) 1px;
+    font-weight: bold;
+}
+
+.col-3 li {
+    padding: 3px 0 3px 8px;
+    margin: 0;
+    font-size: 12px;
+    display: block;
+}
+
+.add-field {
+    padding: 3px 0 3px 8px;
+    margin: 0;
+    font-size: 12px;
+    display: block;
+    // background-color: rgb(44, 189, 44);
+    border-radius: 5px 0 0 5px;
+    // color: white;
+}
+
+.col-3 {
+    padding-right: 0;
+}
+
+.col-3 li:hover {
+    background-color:#efb4887d;
+    border-radius: 5px 0 0 5px;
+    color: rgb(3, 58, 100);
+}
+
+.col-9 {
+    border-left: solid rgb(8, 108, 151) 1px;
+    padding-left: 3px;
+}
+
+
+.field-div {
+    width: 100%;
+    padding: 5px;
+    display: inline-block;
+}
+
+.field-div .field-label {
+    font-weight: bold;
+    text-align: right;
+    width: 20%;
+    float: left;
+    padding-right: 10px;
+    padding-left: 20px;
+}
+
+.field-div .field-input {
+    width: 80%;
+    float: right;
+    padding-right: 10px;
+}
+
+.field-input input {
+    font-size: 14px;
+    height: 1.5rem;
+}
+
+.field-div .field-description {
+    text-align: justify;
+}
+
+.heading-text {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 3px 8px 3px 8px;
+    border-bottom: solid rgba(35, 36, 36, 0.414) 1px;
+}
+
+.menu {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: solid #5352524b 1px;
+    font-size: 14px;
+}
+
+.menu-item a:hover {.form-location {
+    padding: 2px;
+    margin: 0;
+    border: solid #2ea4e43c 1px;
+    background-color: #20acf83c;
+    width: 100%;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+    cursor: pointer;.form-location {
+    padding: 2px;
+    margin: 0;
+    border: solid #2ea4e43c 1px;
+    background-color: #20acf83c;
+    width: 100%;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+    color: rgb(18, 90, 138);
+}
+
+.menu-item a {
+    color: black;
+    padding-right: 10px;
+}
+
+/******************** SLIDER CHECKBOX STYLE ********************/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 27px;
+    height: 14px;
+    top: 2px;
+  }
+
+  .switch input {display:none;}
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+.form-details {
+    text-align: center;
+}
+
+.form-details .form-name {
+    font-size: 16px;
+    padding: 5px;
+    border: solid #DE7431 1px;
+    background-color: #DE7431;
+    color: white;
+    font-weight: bold;
+}
+
+.field-input a {
+    color: #DE7431;
+    font-size: 14px;
+}
+
+.field-div p {
+    font-size: 14px;
+}
+
+.field-div a {
+    color: #DE7431;
+    font-size: 14px;
+}
+
+.badge {
+    font-size: 8px;
+    -webkit-box-shadow:  0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+    background: none;
+    color: red;
+}
+
+#custom_filter {
+    width: 90%;
+    margin: 0 auto;
+
+    select {
+        float: left;
+        width: 30%;
+        margin-right: 10px;
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 1.9em;
+        font-size: 1em;
+    }
+
+    select.filter_option {
+        width: 25%;
+    }
+
+    input {
+        float: left;
+        width: 30%;
+        margin-right: 10px;
+    }
+
+    button {
+        float: left;
+        width: 5%;
+        padding-top: 7px;
+    }
+
+    .clear {
+        clear: both;
+        height: 0;
+        font-size: 0;
+    }
+}

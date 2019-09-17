@@ -1,0 +1,68 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+          <span class="fa fa-fw fa-lock"></span> Blocked Users <small> - Invalid login attempts</small>
+
+          <div style="float: right;">
+            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+              <span class="fa fa-fw fa-lock"></span> Blocked Logins
+            </button>
+
+            <button class="btn btn-sm btn-elegant" (click)="onShowAllInvalidLogins()">
+              <span class="fa fa-fw fa-list"></span>
+              Show all invalid logins
+            </button>
+          </div>
+
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+          <div class="table-responsive">
+            <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
+              <thead>
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th>Username</th>
+                  <th class="text-center">Employee ID</th>
+                  <th>Name</th>
+                  <th class="text-center">Invalid Login</th>
+                  <th class="text-center">Unblock/Reset</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _blocked_user of _blocked_users" id="{{ _blocked_user.id }}">
+                  <td class="text-center">{{ _blocked_user.id }}</td>
+                  <td>{{ _blocked_user.username }}</td>
+                  <td class="text-center">{{ _blocked_user.user_info['employee_id'] }}</td>
+                  <td>{{ _blocked_user.user_info['first_name'] }} {{ _blocked_user.user_info['last_name'] }}</td>
+                  <td class="text-center">{{ _blocked_user.login_attempt }}</td>
+                  <td class="text-center"><button class="btn btn-warning btn-sm" (click)="onRestoreRecord( _blocked_user.id )"><span class="fa fa-unlock-alt"></span></button></td>
+                </tr>
+                <tr *ngIf="_blocked_users == 0">
+                  <td colspan="1000" class="no-data-available">No records found so far.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ngx-loading [show]="loading"></ngx-loading>
+          <span [hidden]="!loading" class="ngx-text">Working . . .</span>
+
+          <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+          <div *ngIf="_blocked_users == 0" class="text-center" >
+              <p class="no_record">
+                  <i class="fa fa-exclamation"></i>
+                  {{ no_record_message }}
+              </p>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+

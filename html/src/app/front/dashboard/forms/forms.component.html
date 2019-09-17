@@ -1,0 +1,138 @@
+<!-- <div [@enterAnimation]>
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col">
+                <input type="text" [(ngModel)]="searchTextForm" id="searchTextForm" placeholder="search forms" style="max-width: 250px;">
+            </div>
+
+            <span class="menu-item" *ngIf="!newForm" style="float: right;" title="Refresh forms">
+                <div [hidden]="!loading">
+                    <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+                </div>
+                <a [hidden]="loading" (click)="onRefreshForms()" class="cool-link">
+                <span class="fa fa-fw fa-refresh"></span>
+                </a>
+            </span>
+
+        </div>
+        <br>
+        
+        <div class="row">
+            <div *ngFor="let _form of forms | filter: searchTextForm : 'form'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+                <div class="card card-outline-info card-small form_link" id="{{ _form.id }}Panel" >
+                    <a routerLink="/form/{{ _form.id }}">
+                        <div class="card-block">
+
+                        <img src="../../../assets/form_icon.png" class="form-icon">
+
+                        <p class="file-name" title="{{ _form.form_name }}">
+                            {{ _form.form_name }}
+                        </p>
+
+                        <p class="lob-name">
+                            <span class="fa fa-fw fa-industry"></span>
+                            {{ _form.lob_name }}
+                        </p>
+
+                        <p class="client-name">
+                            <span class="fa fa-fw fa-briefcase"></span>
+                            {{ _form.client_name }}
+                        </p>
+
+                        <p class="author-name">
+                            <span class="fa fa-fw fa-pencil-square"></span>
+                            {{ _form.creator.first_name + ' ' + _form.creator.last_name }}
+                        </p>
+
+                    </div>
+                </a>
+            </div>
+          </div>
+
+          <ngx-loading [show]="loading2"></ngx-loading>
+          <span [hidden]="!loading2" class="ngx-text">Working . . .</span>
+
+        </div>
+    </div>
+
+</div> -->
+
+<div [@enterAnimation] style="position: relative;" >
+        <div class="container-fluid">
+    
+            <div class="row">
+                <div class="col">
+                    <input type="text" [(ngModel)]="searchTextForm" id="searchTextForm" placeholder="search forms" style="max-width: 250px;">
+                </div>
+
+
+                <span class="menu-item" style="float: right;" title="Refresh forms">
+                    <div [hidden]="!loading">
+                        <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+                    </div>
+                    <a [hidden]="loading" (click)="onRefreshForms()" class="cool-link">
+                    <span class="fa fa-fw fa-refresh"></span>
+                    </a>
+                </span>
+
+            </div>
+            <br>
+            
+            <div class="row" *ngFor="let lob of lobs">
+                
+                <div class="container-fluid lob-name-title-div">
+                    <h6 class="lob-name-title">{{ lob.lob_name }}</h6>
+                </div>
+
+                <div *ngFor="let _form of lob.forms | filter: searchTextForm : 'form'" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+
+                    <div class="card card-outline-info card-small form_link" id="{{ _form.id }}Panel" >
+                        <a routerLink="/form/{{ _form.id }}">
+                            <div class="card-block">
+    
+                                <img src="../../../assets/form_icon.png" class="form-icon">
+        
+                                <p class="file-name" title="{{ _form.form_name }}">
+                                    {{ _form.form_name }}
+                                </p>
+        
+                                <p class="lob-name">
+                                    <span class="fa fa-fw fa-industry"></span>
+                                    {{ lob.lob_name }}
+                                </p>
+        
+                                <p class="client-name">
+                                    <span class="fa fa-fw fa-briefcase"></span>
+                                    {{ lob.client.client_name }}
+                                </p>
+        
+                                <p class="author-name">
+                                    <span class="fa fa-fw fa-pencil-square"></span>
+                                    {{ _form.creator.first_name + ' ' + _form.creator.last_name }}
+                                </p>
+    
+                            </div>
+                        </a>
+                    </div>
+              </div>
+
+              <div *ngIf="lob.forms.length === 0" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+
+                <div class="card card-outline-info card-small form_link">
+
+                    <p class="no-form">
+                        Nothing found.
+                    </p>
+        
+                </div>
+
+              </div>
+    
+              <ngx-loading [show]="loading2"></ngx-loading>
+              <span [hidden]="!loading2" class="ngx-text">Working . . .</span>
+    
+            </div>
+        </div>
+    
+    </div>

@@ -1,0 +1,579 @@
+<div class="accordion" id="accordionExample" [@enterAnimation]>
+  <div class="card" style="min-height: 200px;">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <span class="fa fa-fw fa-user-md"></span> System Administrators <small> - Users with access privileges</small>
+        
+        <div style="float: right;">
+          <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show(); onAddRecord()" data-target="#addRecord">
+            <span class="fa fa-plus"></span> Add Admin
+          </button>
+
+          <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+            <span class="fa fa-refresh"></span> Refresh List
+          </button>
+        </div>
+      </h5>
+    </div>
+
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body" style="min-height: 200px;">
+        
+          <div class="table-responsive">
+            <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th rowspan="2" class="text-center">ID</th>
+                  <th rowspan="2">Username</th>
+                  <th rowspan="2">Name</th>
+                  <th rowspan="2">Access Privilege</th>
+                  <th colspan="6" style="text-align: center;">Admin Privileges</th>
+                  <th rowspan="2" class="text-center">Action</th>
+                </tr>
+                <tr>
+                  <th>Admins</th>
+                  <th>Users</th>
+                  <th>Clients</th>
+                  <th>Teams</th>
+                  <th>LOB</th>
+                  <th>Forms</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _admin_user of _admin_users" id="{{ _admin_user.id }}">
+                  <td class="text-center">{{ _admin_user.id }}</td>
+                  <td>{{ _admin_user.username }}</td>
+                  <td>{{ _admin_user.user_info.first_name }} {{ _admin_user.user_info.last_name }}</td>
+                  <td>{{ _admin_user.privilege.display_name }}</td>
+                  <td style="text-align: center;"><span class="fa fa-{{_admin_user.privilege.manage_admins | adminAccessType }}"></span></td>
+                  <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_users | adminAccessType }}"></span></td>
+                  <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_clients | adminAccessType }}"></span></td>
+                  <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_teams | adminAccessType }}"></span></td>
+                  <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_lob | adminAccessType }}"></span></td>
+                  <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_forms | adminAccessType }}"></span></td>
+
+                  <td style="text-align: center;">
+                    <button class="btn btn-sm btn-primary" (click)="onEditRecord( _admin_user.id )">
+                      <span class="fa fa-fw fa-edit"></span> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="onDelRecord( _admin_user.username, _admin_user.id, _admin_user.user_info.first_name + ' ' + _admin_user.user_info.last_name )">
+                    <span class="fa fa-fw fa-trash"></span> Delete
+                  </button>
+                  </td>
+
+                </tr>
+                <tr *ngIf="_admin_users == 0">
+                  <td colspan="1000" class="no-data-available">No records found so far.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ngx-loading [show]="loading"></ngx-loading>
+          <span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+          <!-- SHOW THIS DIV WHEN NO RECORD FOUND INSTEAD OF AN EMPTY TABLE -->
+          <div *ngIf="_admin_users == 0" class="text-center" >
+              <p class="no_record">
+                  <i class="fa fa-exclamation"></i>
+                  {{ no_record_message }}
+              </p>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<!-- ADD ADMIN MODAL FORM -->
+<div mdbModal #addRecord="mdb-modal" class="modal fade" id="addRecord" tabindex="-1" style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Add New Administrator</h4>
+        <button type="button" id="btnCloseAdd" class="close" data-dismiss="modal" (click)="addRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+          Select User:
+          <div [hidden]="!loading2" style="text-align: center;">
+            <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
+          </div>
+  
+          <ng-select 
+            [hidden]="loading2" 
+            [(ngModel)]="_selected_user" 
+            id="member_select" 
+            [items]="_all_users" 
+            placeholder="Select User"
+            bindLabel="full_name"
+          >
+  
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div><span></span><span [ngOptionHighlight]="search">{{item.full_name}}</span></div>
+                <small>ID: <b>{{item.id}}</b> | Employee ID: <b>{{item.user_info.employee_id}}</b> </small>
+            </ng-template>
+  
+          </ng-select>
+
+          <div *ngIf="_selected_user" style="margin-top: 20px;">
+            Name this Access Privileges (* Maximum of 50 characters.) 
+            <input type="text" id="display_name" class="form-control" placeholder="(e.g. Staff, Super Admin)" maxlength="50">
+
+            <br>
+
+            <table class="table table-striped table-hover text-center">
+              <thead>
+                <th colspan="4" class="text-center"><b>Privileges</b></th>
+              </thead>
+              <thead>
+                <th>Permission</th>
+                <th><span class="fa fa-fw fa-lock"></span> No Access</th>
+                <th><span class="fa fa-fw fa-eye"></span> View Only</th>
+                <th><span class="fa fa-fw fa-pencil"></span> Edit Access</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Admins</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_admins" id="admins1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_admins" id="admins2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_admins" id="admins3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Clients</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_clients" id="clients1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_clients" id="clients2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_clients" id="clients" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Teams</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_teams" id="teams1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_teams" id="teams2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_teams" id="teams3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Users</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_users" id="users1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_users" id="users2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                          <input class="form-check-input" type="radio" name="opt_users" id="users3" value="2">
+                          <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Lines of Buss.</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_lob" id="lob1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_lob" id="lob2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_lob" id="lob3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Forms</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_forms" id="forms1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_forms" id="forms2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="opt_forms" id="forms2" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+          <i class="fa fa-save ml-1"></i>
+          Save Record
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<!-- DELETE ADMIN -->
+<button [hidden]="true" id="btnDeleteRecord" (click)="deleteRecord.show()" data-target="#deleteRecord"></button>
+
+<div mdbModal #deleteRecord="mdb-modal"  class="modal fade" id="deleteRecord" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Delete User Record</h4>
+        <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+        <p>Sure to delete this record?</p>
+        <p>Username: {{ _del_rec._username }}</p>
+        <p>Name: {{ _del_rec._full_name }}</p>
+        <p>User ID: {{ _del_rec._user_id }}</p>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._user_id)">
+          <i class="fa fa-save ml-1"></i>
+          Delete
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- EDIT ADMIN MODAL FORM -->
+<button [hidden]="true" id="btnEditRecord" data-toggle="modal" (click)="editRecord.show()" data-target="#editRecord"></button>
+
+<div mdbModal #editRecord="mdb-modal" class="modal fade" id="editRecord" tabindex="-1" style="overflow: auto">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Edit Administrator</h4>
+        <button type="button" id="btnCloseEdit" class="close" data-dismiss="modal" (click)="editRecord.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body mx-1">
+          <p style="text-align: center; font-weight: bold;">User Information</p>
+
+          <!-- <span class="fa "></span> -->
+          <div style="display: block;">
+            <img  id="img_admin" src="" style="float: left; height: 100px; width: 100px; margin-right: 10px;">
+            User ID: <label id="lbl_userid"  style="margin-top: 0px; margin-left: 10px; font-weight: bold;"></label>
+            <br>
+            Username: <label id="lbl_username"  style="margin-top: 0px; margin-left: 10px; font-weight: bold;"></label>
+            <br>
+            Full Name: <label id="lbl_full_name" style="margin-top: 10px; margin-left: 10px; font-weight: bold;"></label>
+          </div>
+                  
+          <hr>
+          <hr>
+
+          <p style="text-align: center; font-weight: bold;">Name this Access Privileges (* Maximum of 50 characters.) </p>
+          <input type="text" id="edit_display_name" class="form-control" placeholder="(e.g. Staff, Super Admin)" maxlength="50">
+
+          <div class="text-center">
+            <table class="table table-striped table-hover">
+              <thead>
+                <th colspan="4" class="text-center"><b>Privileges</b></th>
+              </thead>
+              <thead>
+                <th>Permission</th>
+                <th><span class="fa fa-fw fa-lock"></span>No Access</th>
+                <th><span class="fa fa-fw fa-eye"></span>View Only</th>
+                <th><span class="fa fa-fw fa-pencil"></span>Edit Access</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Admins</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_admins" id="edit_admins1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_admins" id="edit_admins2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_admins" id="edit_admins3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Clients</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_clients" id="edit_clients1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_clients" id="edit_clients2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_clients" id="edit_clients" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Teams</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_teams" id="edit_teams1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_teams" id="edit_teams2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_teams" id="edit_teams3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                <th>Users</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_users" id="edit_users1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_users" id="edit_users2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                          <input class="form-check-input" type="radio" name="edit_opt_users" id="edit_users3" value="2">
+                          <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Lines of Buss.</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_lob" id="edit_lob1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_lob" id="edit_lob2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_lob" id="edit_lob3" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Forms</th>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_forms" id="edit_forms1" value="0" checked="checked" >
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_forms" id="edit_forms2" value="1">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-check form-check-inline">
+                      <label class="switch">
+                        <input class="form-check-input" type="radio" name="edit_opt_forms" id="edit_forms2" value="2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_admin_user.id)">
+          <i class="fa fa-save ml-1"></i>
+          Save Record
+        </button>
+        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+          <i class="fa fa-times ml-1"></i>
+          Close
+        </button>
+      </div>
+      <ngx-loading [show]="loading3"></ngx-loading>
+      <span [hidden]="!loading3" class="ngx-text">Fetching record . . .</span>
+    </div>
+  </div>
+</div>

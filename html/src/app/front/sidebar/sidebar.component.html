@@ -1,0 +1,38 @@
+<div>
+        <div *ngIf="selectedClient" class="text-center">
+            <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="60px" width="60px" class="mr-1">
+            <i *ngIf="selectedClient.logo === ''" class="fa fa-file-image-o mr-1" style="font-size: 65px;"></i>         
+            <h6 style="margin-top: 5px; margin-bottom: 15px;"><b>{{ selectedClient.client_name }}</b></h6>
+        </div>
+
+        <div class="menu" style="font-size: 12px;">
+            <details *ngFor="let lob of lobs" class="default square drop-down" open>
+                <summary title="{{ lob.lob_name }}">
+                    <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="15px" width="15px" class="mr-1">
+                    <i *ngIf="selectedClient.logo === ''" class="fa fa-folder mr-1"></i> 
+                    {{ (lob.lob_name.length > 35) ? (lob.lob_name | slice:0:30) + '...' : (lob.lob_name) }}
+
+                </summary>
+
+                <a *ngFor="let form of lob.forms" routerLinkActive="active" routerLink="/form/{{ form.id }}" class="waves-effect" mdbRippleRadius [attr.data-lobid]="lob.id" title="{{ form.form_name }}">
+                    <i class="fa fa-bars mr-1" [attr.data-lobid]="lob.id"></i>
+                    {{ (form.form_name.length > 35) ? (form.form_name | slice:0:30) + '...' : (form.form_name) }}
+                </a>
+
+                <a routerLink="/form/new/settings/{{ lob.id }}" routerLinkActive="active" (click)="onFormSelected($event.target)" mdbWavesEffect mdbRippleRadius [attr.data-lobid]="lob.id" style="/*color: rgb(83, 3, 3);*/">
+                    <i class="fa fa-plus mr-1" [attr.data-lobid]="lob.id"></i>
+                    <i [attr.data-lobid]="lob.id">Add new form...</i>
+                </a>
+
+                <!-- <a routerLink="/lob/settings/{{ lob.id }}" routerLinkActive="active" (click)="onFormSelected($event.target)" mdbWavesEffect mdbRippleRadius [attr.data-lobid]="lob.id" style="color: rgb(83, 3, 3);">
+                    <i class="fa fa-wrench mr-1" [attr.data-lobid]="lob.id"></i>
+                    <i [attr.data-lobid]="lob.id">Manage {{ (lob.lob_name.length > 28) ? (lob.lob_name | slice:0:23) + '...' : (lob.lob_name) }}</i>
+                </a> -->
+
+            </details>
+        </div>
+            
+        <ngx-loading [show]="loading"></ngx-loading>
+        <span [hidden]="!loading" class="ngx-text">Working . . .</span>
+
+</div>

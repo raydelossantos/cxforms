@@ -1,0 +1,11 @@
+.DS_Store
+api/.DS_Store
+api/public/.DS_Store
+api/src/settings.php
+api/composer.phar
+api/public/uploaded_images
+api/public/uploaded_files
+api/logs
+html/nodesource_setup.sh
+package-lock.json
+.vagrant

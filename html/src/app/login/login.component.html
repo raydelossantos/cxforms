@@ -1,0 +1,75 @@
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<div class="limiter">
+  <div class="container-login">
+    <div class="wrap-login">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form validate-form" >
+      <!-- <form class="login-form validate-form"> -->
+        <span class="login-form-title p-b-26">  
+          <!-- Connext Forms -->
+          <img src="../../assets/logo.png" alt="Connext Forms Logo" style="margin-bottom: 20px; height: 130px; width: 150px;">
+        </span>
+
+        <div *ngIf="invalid_login === 'invalid'" class="alert alert-danger fade show mb-3 mt-2" role="alert">
+          <strong>Unable to login!</strong> Invalid account or unauthorized login method. Kindly contact Connext Forms administrators if you think this is wrong.
+        </div>
+
+        <div class="form-group wrap-input " data-validate = "Valid username is: a@b.c">
+          <input formControlName="username" type="text" id="username" name="username" class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+           <label class="form-control-placeholder" for="name" style="left: 0;">Username</label>
+           <!-- <span class="focus-input" data-placeholder="Username"></span> -->
+        </div>
+
+        <div class="form-group wrap-input " data-validate="Enter password">
+          <span class="btn-show-pass">
+            <i class="fa fa-eye fa-fw" id="showPassword" (click)="onShowPassword()"></i>
+          </span>
+          <input formControlName="password" type="password" id="password" name="password" class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+           <label class="form-control-placeholder" for="name" style="left: 0;">Password</label>
+           <!-- <span class="focus-input" data-placeholder="Password"></span> -->
+        </div>
+
+        <div class="container-login-form-btn">
+          <div class="wrap-login-form-btn">
+            <div class="login-form-bgbtn"></div>
+            <button type="submit" class="login-form-btn btn-social" [disabled]="!loginForm.valid">
+              <i class="fa fa-fw fa-openid"></i>
+              Login via LDAP
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="text-center">
+        <span class="txt1">
+          Forgot password?
+        </span>
+        <a class="txt2" href="https://cspass.cloudstaff.com/" target="_new">
+          <i class="fa fa-key"></i> Reset here.
+        </a>
+      </div>
+
+      <div class="container-login-form-btn">
+        <div class="wrap-login-form-btn">
+          <div class="login-form-bgbtn-google"></div>
+          <button class="login-form-btn btn-social" (click)="onGoogleLogin()">
+            <i class="fa fa-fw fa-google"></i>
+            Login via Google
+          </button>
+        </div>
+      </div>
+
+      <!-- <div class="container-login-form-btn">
+        <div class="wrap-login-form-btn">
+          <div class="login-form-bgbtn-fb"></div>
+          <button class="login-form-btn">
+            <i class="fa fa-facebook"></i> &nbsp;Login via Facebook
+          </button>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading"></ngx-loading>
+<span [hidden]="!loading" class="ngx-text">Logging you in. Please wait...</span>

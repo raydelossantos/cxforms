@@ -1,0 +1,185 @@
+.menu a {
+  display: block;
+}
+
+.drop-down a {
+  min-width: 90px;
+  font-size: 13px;
+  color: #000;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  padding-left: 15px;
+  margin: 0;
+  border: solid rgba(8, 108, 151, 0) 1px;
+}
+
+.drop-down-menu {
+  display: block;
+}
+
+.drop-down .active {
+  // padding: 3px 0 3px 5px;
+  margin: 0;
+  // font-size: 12px;
+  display: block;
+  background-color: #DE7431;
+  border: solid #DE7431 1px;
+  // border-radius: 5px 0 0 5px;
+  color: white;
+}
+  
+.drop-down .active:hover {
+  // padding: 3px 0 3px 5px;
+  margin: 0;
+  // font-size: 12px;
+  display: block;
+  background-color: #DE7431;
+  // border-radius: 5px 0 0 5px;
+  color: black;
+}
+
+.menu-title {
+  cursor: pointer;
+}
+
+.menu-title {
+  display:block;
+  padding: 10px 15px;
+}
+
+.activate {
+  display: none;
+  position: absolute;
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  margin: 0 0 0 -15px;
+  opacity: 0;
+}
+
+.drop-down a:hover {
+  background:#efb4887d;
+}
+
+
+.menu  {
+  font-size: 16px;
+}
+
+.drop-down {
+  // max-height: 0;
+  overflow: hidden;
+}
+
+.drop-down a {
+  background: #fff;
+}
+
+// Colors
+$default: #ffffff;
+$primary: #409eff;
+$sucess: #67c23a;
+
+  // Change component color
+@mixin states($color: $default) {
+	border-color: $color;
+	// color: rgba(255, 255, 255, 0.9);
+	background: $color;
+
+	&:hover {
+		border-color: $color;
+		// color: rgba(255, 255, 255, 0.6);
+	}
+	&:active {
+		// color: rgba(255, 255, 255, 0.9);
+		border-color: darken($color, 10%);
+	}
+}
+
+// Collapse / Expand Component
+details {
+	@include states($default);
+	// border: 1px solid;
+	cursor: pointer;
+	transition: background 0.3s;
+	border-radius: 0px;
+	min-height: 35px;
+	max-height: 60px;
+	transform-origin: top center;
+	transform: rotate(0.1deg);
+	transition: all 0.3s;
+
+	::-webkit-details-marker {
+		display: none;
+	}
+
+	+ details {
+		margin-top: 5px;
+	}
+
+	p {
+		line-height: 1.7;
+		margin: 5px 0 0;
+		padding: 0 20px 15px;
+  }
+  
+	// Square Style
+	&.square {
+		border-radius: 0;
+	}
+
+	&[open] {
+		transition: all 0.6s;
+		// min-height: 100px;
+		max-height: 100%;  
+	}
+}
+
+summary {
+	outline: none;
+	font-size: 13px;
+  padding: 4px;
+  margin-bottom: 3px;
+  color: black;
+  border-bottom: solid rgba(128, 128, 128, 0.242) 1px;
+  
+	&:selection {
+		background: transparent;
+	}
+
+	&:after {
+		margin-top: 2px;
+    content: "➕";
+    // content: "🗖";
+		float: right;
+		margin-right: 0;
+		text-align: center;
+		font-size: 11px;  
+
+		[open] & {
+			// padding: 0 0 12px 0;
+      content: "➖";
+      // content: "🗕";
+		}
+	}
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(92, 91, 91, 0.66); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(16, 106, 145); 
+}

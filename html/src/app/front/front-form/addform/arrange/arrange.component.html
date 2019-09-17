@@ -1,0 +1,23 @@
+<div class="heading-text"> 
+  <span class="fa fa-first-order"></span> Arrange Form Fields
+</div>
+
+<p>Arrange fields based on your sorting by dragging items to desired position. The first one will be displayed first and so on.</p>
+
+<ul [sortablejs]="fields" class="list-group" [sortablejsOptions]="options">
+  <li *ngFor="let item of fields" class="list-group-item sort-item" value="{{ item.id }}">
+    <b>{{ item.label }}</b> <small>({{ item.form_field_name }})</small> 
+  </li>
+</ul>
+
+<br>
+
+<button class="btn btn-md btn-success waves-effect" mdbRippleRadius (click)="onSaveChanges()" [disabled]="fields == 0">
+  <span class="fa fa-fw fa-save"></span> Save
+</button>
+
+<ngx-loading [show]="loading"></ngx-loading>
+<span [hidden]="!loading" class="ngx-text">Fetching records . . .</span>
+
+<br>
+<br>

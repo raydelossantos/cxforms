@@ -1,0 +1,17 @@
+.menu {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: solid #5352524b 1px;
+    font-size: 14px;
+}
+
+.menu-item a:hover {
+    cursor: pointer;
+    color: rgb(18, 90, 138);
+}
+
+.menu-item a {
+    color: black;
+    padding-right: 10px;
+}
