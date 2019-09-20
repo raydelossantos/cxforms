@@ -496,7 +496,7 @@ export class ManageComponent implements OnInit {
     const that = this;
 
     swal({
-      title: 'Are you sure?',
+      title: 'Delete Client Admin?',
       text: "It will permanently deleted!",
       type: 'warning',
       showCancelButton: true,

@@ -121,7 +121,14 @@ export class SysadminListComponent implements OnInit {
     this.adminPostSubscription = this.userService.adminPost.subscribe(
       (admin: any) => {
         if (typeof(admin) !== 'undefined' && admin.success) {
-          swal('Admin created', 'Successfully created an admin account.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Successfully created an admin account.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.loading = false;
           this.userService.httpGetAllAdmin();
           $('#btnCloseAdd').click();
@@ -142,7 +149,14 @@ export class SysadminListComponent implements OnInit {
            table.row($('#' + this._del_rec._row_id)).remove().draw();
           
           $('#btnCloseDelete').click();
-          swal('Deleted admin', 'Succesfully deleted admin account. Admin privileges were also revoked.', 'success');
+          
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Succesfully deleted admin account. Admin privileges were also revoked.',
+            showConfirmButton: false,
+            timer: 1500
+          });
         } else if (typeof(admin) !== 'undefined' && admin.success === false) {
           swal('Delete failed', 'Unable to delete admin. <br><br>' + admin.message, 'error');
         }
@@ -180,10 +194,18 @@ export class SysadminListComponent implements OnInit {
     this.adminPutSubscription = this.userService.adminPut.subscribe(
       (admin: any) => {
         if (typeof(admin) !== 'undefined' && admin.success) {
-          swal('Admin updated', 'Admin account was updated successfully!', 'success');
+
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Admin account was updated!',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.loading3 = false;
           this.onRefreshRecords();
-          // $('#btnCloseEdit').click();
+          $('#btnCloseEdit').click();
         } else if (typeof(admin) !== 'undefined' && admin.success === false) {
           swal('Admin not found', 'Unable to update admin account. <br><br>' + admin.message, 'error');
           this.loading3 = false;

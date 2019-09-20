@@ -68,8 +68,9 @@ a:hover {
 .dash-box {
     min-height: 20px;
     padding: 5px;
-    border-left: 2px solid #DDDDDD;
-    border-bottom: 2px solid #DDDDDD;
+    // border: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
     padding-left: 10px;
     margin-bottom: 5px;
 }

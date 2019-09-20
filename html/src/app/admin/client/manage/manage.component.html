@@ -5,7 +5,7 @@
           <span class="fa fa-fw fa-wrench"></span> {{ _manage_client.client_name }} <small> - Manage Client</small>
 
           <div style="float: right;">
-            <button class="btn btn-outline-default btn-sm" data-toggle="modal" routerLink="/admin/client/list" data-target="#addRecord">
+            <button class="btn btn-outline-grey btn-sm" data-toggle="modal" routerLink="/admin/client/list" data-target="#addRecord">
               <span class="fa fa-fw fa-arrow-left"></span> Back to Client List
             </button>
           </div>
@@ -20,14 +20,14 @@
             <img  id="img_client" src="{{ _api_endpoint + _manage_client.logo }}" style="height: 100px; width: 100px; margin-right: 10px; float: left;">
 
             <p class="client-name">{{ _manage_client.client_name }}
-              <button class="btn btn-xs btn-outline-default" (click)="editRecord.show(); onEditClientInfo();">
+              <button class="btn btn-xs btn-outline-grey" (click)="editRecord.show(); onEditClientInfo();">
                 <span class="fa fa-fw fa-edit"></span> Update
               </button>
             </p>
-            <p class="">{{ _manage_client.description }}</p>
-            <p class="">Client ID: {{ _manage_client.id }}</p>
-            <p>Date created: {{ _manage_client.created_at | utcLocal }}</p>
-            <p>Author: {{ _manage_client.creator ? _manage_client.creator.first_name + ' ' + _manage_client.creator.last_name : '' }}</p>
+            <p class="footer">{{ _manage_client.description }}</p>
+            <p class="footer">Client ID: {{ _manage_client.id }}</p>
+            <p class="footer">Date created: {{ _manage_client.created_at | utcLocal }}</p>
+            <p class="footer">Author: {{ _manage_client.creator ? _manage_client.creator.first_name + ' ' + _manage_client.creator.last_name : '' }}</p>
           </div>
 
           <br>
@@ -68,17 +68,17 @@
                 <div class="table-responsive">
                   <div style="float: left;">
 
-                    <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addClientAdmin.show(); onAddClientAdmin();" data-target="#addClientAdmin">
+                    <button class="btn btn-outline-green btn-xs" data-toggle="modal" (click)="addClientAdmin.show(); onAddClientAdmin();" data-target="#addClientAdmin">
                       <span class="fa fa-fw fa-plus"></span> Add Client Admin
                     </button>
 
-                    <button class="btn btn-primary btn-sm" data-toggle="modal" (click)="onSaveClientAdminBatch()" data-target="#addClientAdmin" [disabled]="_client_admins.length === 0">
+                    <button class="btn btn-outline-grey btn-xs" data-toggle="modal" (click)="onSaveClientAdminBatch()" data-target="#addClientAdmin" [disabled]="_client_admins.length === 0">
                       <span class="fa fa-fw fa-save"></span> Save Changes
                     </button>
                   </div>
 
                   <div style="float: right;">      
-                    <button class="btn btn-blue-grey btn-sm" (click)="onRefreshClientAdmin()">
+                    <button class="btn btn-outline-grey btn-xs" (click)="onRefreshClientAdmin()">
                       <span class="fa fa-fw fa-refresh"></span> Refresh List
                     </button>
                   </div>
@@ -129,7 +129,7 @@
                         <td>{{ _client_admin.creator ? _client_admin.creator.first_name + ' ' + _client_admin.creator.last_name : '-' }}</td>
                         <td class="text-center" title="{{ _client_admin.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _client_admin.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                         <td class="text-center">
-                          <button class="btn btn-sm btn-danger" (click)="onDeleteClientAdmin(_client_admin.id)">
+                          <button class="btn btn-xs btn-outline-red" (click)="onDeleteClientAdmin(_client_admin.id)">
                             <span class="fa fa-fw fa-trash"></span> Delete
                           </button>
                         </td>
@@ -162,24 +162,24 @@
                       <span style="color: #DE7431">
                           {{ lob.lob_name }} 
 
-                          <button class="close" style="float: none; font-size: 14px; color: green;" (click)="onEditLobRecord(lob.id)" title="Update this Line of Business">
-                              &nbsp; <span class="fa fa-edit"></span>
-                           </button>
+                          <button class="close" style="float: none; font-size: 10px; color: grey;" (click)="onEditLobRecord(lob.id)" title="Update this Line of Business">
+                              &nbsp; <span class="fa fa-edit"></span> Edit
+                          </button>
 
-                          <button class="close" style="float: none; font-size: 14px; color: red;" (click)="onArchiveLob(lob)" title="Archive this Line of Business">
-                             &nbsp; <span class="fa fa-archive"></span>
+                          <button class="close" style="float: none; font-size: 10px; color: red;" (click)="onArchiveLob(lob)" title="Archive this Line of Business">
+                             &nbsp; <span class="fa fa-archive"></span> Archive
                           </button>
                       </span>
 
                       <span style="float: right;">
-                          <button type="btn" class="btn btn-sm btn-success" (click)="onAddLobUserPermission(lob); addLobUser.show();">
+                          <button type="btn" class="btn btn-xs btn-outline-grey" (click)="onAddLobUserPermission(lob); addLobUser.show();">
                               <i class="fa fa-fw fa-plus"></i> Add User Permission
                           </button>
-                          <button type="btn" class="btn btn-sm btn-primary" (click)="onSaveLobUserBatchPermission(lob)" [disabled]="lob_users[lob.id].user.length === 0">
+                          <button type="btn" class="btn btn-xs btn-outline-grey" (click)="onSaveLobUserBatchPermission(lob)" [disabled]="lob_users[lob.id].user.length === 0">
                               <i class="fa fa-fw fa-save"></i> Save Changes
                           </button>
                       
-                          <button type="btn" class="btn btn-sm btn-blue-grey" (click)="onRefreshLobPermission(lob)">
+                          <button type="btn" class="btn btn-xs btn-outline-grey" (click)="onRefreshLobPermission(lob)">
                               <i class="fa fa-fw fa-refresh"></i> Refresh List                        
                           </button>
                       </span>
@@ -221,7 +221,7 @@
                           <td>{{ user.creator ? user.creator.first_name : '' }} {{ user.creator ? user.creator.last_name : '-' }}</td>
                           <td class="text-center" title="{{ user.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ user.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                           <td class="text-center">
-                            <button class="btn btn-sm btn-danger" (click)="onDeleteLobUser(user.id, lob)">
+                            <button class="btn btn-xs btn-outline-red" (click)="onDeleteLobUser(user.id, lob)">
                               <span class="fa fa-fw fa-trash"></span> Delete
                             </button>
                           </td>
@@ -247,11 +247,11 @@
               <br>
               <br>
 
-              <button class="btn btn-secondary btn-sm" data-toggle="modal" (click)="addLobRecord.show()" data-target="#addLobRecord">
-                <span class="fa fa-fw fa-building"></span> Add New Line of Business
+              <button class="btn btn-outline-green btn-xs" data-toggle="modal" (click)="addLobRecord.show()" data-target="#addLobRecord">
+                <span class="fa fa-fw fa-plus"></span> Add New Line of Business
               </button>
 
-              <button class="btn btn-blue-grey btn-sm" data-toggle="modal" (click)="onRefreshLobRecords()">
+              <button class="btn btn-outline-grey btn-xs" data-toggle="modal" (click)="onRefreshLobRecords()">
                 <span class="fa fa-fw fa-refresh"></span> Refresh Lines of Business
               </button>
 
@@ -268,11 +268,11 @@
 
                 <div class="table-responsive">
                   <div style="float: right;">          
-                    <!-- <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addClientTeam.show();" data-target="#addClientTeam">
+                    <!-- <button class="btn btn-outline-success btn-sm" data-toggle="modal" (click)="addClientTeam.show();" data-target="#addClientTeam">
                       <span class="fa fa-fw fa-plus"></span> Add Team
                     </button> -->
       
-                    <!-- <button class="btn btn-blue-grey btn-sm" (click)="onRefreshTeamList()">
+                    <!-- <button class="btn btn-outline-grey btn-sm" (click)="onRefreshTeamList()">
                       <span class="fa fa-fw fa-refresh"></span> Refresh List
                     </button> -->
                   </div>
@@ -301,7 +301,7 @@
                           <td class="text-center" title="{{ _team.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _team.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                           <td class="text-center" title="{{ _team.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _team.updated_at | utcLocal | date :  "y/MM/dd" }}</td>
                           <td class="text-center">
-                            <!-- <button class="btn btn-sm btn-primary" (click)="onEditRecord( _team.id )">
+                            <!-- <button class="btn btn-sm btn-outline-primary" (click)="onEditRecord( _team.id )">
                               <span class="fa fa-fw fa-edit"></span> Edit
                             </button>
                             <button class="btn btn-sm btn-danger" (click)="onDelRecord(_team.id, _team.team_name, _team.team_code, _team.location)">
@@ -419,7 +419,7 @@
           <i class="fa fa-save ml-1"></i>
           Save record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addClientAdmin.hide()" id="btnCloseClientAdminAdd" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addClientAdmin.hide()" id="btnCloseClientAdminAdd" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -517,7 +517,7 @@
           <i class="fa fa-save ml-1"></i>
           Save record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addClientTeam.hide()" id="btnCloseClientAdminAdd" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addClientTeam.hide()" id="btnCloseClientAdminAdd" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -610,7 +610,7 @@
           <i class="fa fa-save ml-1"></i>
           Save record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addLobUser.hide()" id="btnCloseLobUserAdd" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addLobUser.hide()" id="btnCloseLobUserAdd" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -656,7 +656,7 @@
           <i class="fa fa-fw fa-save ml-1"></i>
           Save Record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addLobRecord.hide();" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addLobRecord.hide();" mdbWavesEffect>
           <i class="fa fa-fw fa-times ml-1"></i>
           Close
         </button>
@@ -729,7 +729,7 @@
           <i class="fa fa-save ml-1"></i>
           Update
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -770,7 +770,7 @@
           <i class="fa fa-fw fa-save ml-1"></i>
           Save Record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editLobRecord.hide();" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editLobRecord.hide();" mdbWavesEffect>
           <i class="fa fa-fw fa-times ml-1"></i>
           Close
         </button>

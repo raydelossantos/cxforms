@@ -3,7 +3,7 @@
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
             <span class="fa fa-fw fa-ban"></span> Disabled Accounts <small> - User access unauthorized</small>
-              <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+              <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
                 <span class="fa fa-refresh"></span> Refresh List
               </button>
         </h5>
@@ -37,7 +37,11 @@
                       <td>{{ _disabled_user.user_info.user_origin === 1 ? 'Auto' : 'Manual' }}</td>
                       <td class="text-center" title="{{ _disabled_user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                       <td class="text-center" title="{{ _disabled_user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>    
-                      <td class="text-center"><button class="btn btn-warning btn-sm" (click)="onRestoreRecord( _disabled_user.id )"><span class="fa fa-undo"></span></button></td>
+                      <td class="text-center">
+                        <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _disabled_user.id )">
+                          <span class="fa fa-undo"></span> Restore
+                        </button>
+                      </td>
                     </tr>
                     <tr *ngIf="_disabled_users == 0">
                       <td colspan="1000" class="no-data-available">No records found so far.</td>

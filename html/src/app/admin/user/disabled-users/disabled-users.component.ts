@@ -78,7 +78,14 @@ export class DisabledUsersComponent implements OnInit, OnDestroy {
     this.userPutRestoreSubscription = this.userService.userPutRestore.subscribe(
       (user: any) => {
         if (typeof(user) !== 'undefined' && user.success) {
-          swal('User restored', 'Successfully restored user.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'User restored.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.loading = false;
 
           // delete row from datatable
@@ -101,14 +108,27 @@ export class DisabledUsersComponent implements OnInit, OnDestroy {
   }
 
   onRestoreRecord(id: any) {
-    this.loading = true;
-    this.userService.httpPostUserRestore(id);
-
-    this._restore = id;
+    const that = this;
+    swal({
+      title: 'Restore archived line of business?',
+      text: "It will be listed back to active LOB's.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.userService.httpPostUserRestore(id);
+        that._restore = id;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.userGetAllDeletedSubscription.unsubscribe();
+    this.userPutRestoreSubscription.unsubscribe();
   }
 
 }

@@ -152,8 +152,8 @@
           </div>
 
           <hr>
-          <button class="btn btn-md btn-primary waves-effect" mdbRippleRadius (click)="onSaveForm()" [disabled]="!formForm.valid"><span class="fa fa-fw fa-save"></span> Save</button>
-          <button *ngIf="isExistingForm" class="btn btn-md btn-danger waves-effect" mdbRippleRadius (click)="deleteRecord.show()"><span class="fa fa-fw fa-archive"></span> Archive this form</button>
+          <button class="btn btn-md btn-outline-primary waves-effect" mdbRippleRadius (click)="onSaveForm()" [disabled]="!formForm.valid"><span class="fa fa-fw fa-save"></span> Save Changes</button>
+          <button *ngIf="isExistingForm" class="btn btn-md btn-outline-red waves-effect" mdbRippleRadius (click)="deleteRecord.show()"><span class="fa fa-fw fa-archive"></span> Archive this form</button>
         </form>
         <hr>
         <p>* Marked with asterisk are required fields. <br />
@@ -167,7 +167,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Delete this form?</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Archive this form?</h4>
         <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -179,13 +179,13 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onArchiveForm(form.id)">
-          <i class="fa fa-trash ml-1"></i>
-          Delete
+        <button type="button" class="btn btn-md btn-outline-red relative waves-light" mdbWavesEffect (click)="onArchiveForm(form.id)">
+          <i class="fa fa-archive ml-1"></i>
+          Sure!
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
-          Close
+          Cancel
         </button>
       </div>
     </div>

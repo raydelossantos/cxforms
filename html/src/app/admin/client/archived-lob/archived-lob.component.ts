@@ -82,8 +82,16 @@ export class ArchivedLobComponent implements OnInit {
     this.lobPostRestoreSubscription = this.lobService.lobPostRestore.subscribe(
       (lob: any) => {
         if (typeof (lob) !== 'undefined' && lob.success) {
-          swal('Restored', 'Line of business was restored successfully.', 'success');
+          // swal('Restored', 'Line of business was restored successfully.', 'success');
 
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Line of business was restored successfully.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          
           // delete row from datatable
           const table = $('#viewlist-table').DataTable();
           table.row($('#' + this.restore_id)).remove().draw();
@@ -102,9 +110,23 @@ export class ArchivedLobComponent implements OnInit {
   }
 
   onRestoreRecord(id: any) {
-    this.loading = true;
-    this.lobService.httpPostRestoreLOB(id);
-    this.restore_id = id;
+    const that = this;
+
+    swal({
+      title: 'Restore archived line of business?',
+      text: "It will be listed back to active LOB's.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.restore_id = id;
+        that.lobService.httpPostRestoreLOB(id);
+      }
+    });
   }
 
   onRefreshRecords() {

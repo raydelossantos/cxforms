@@ -105,8 +105,13 @@ export class BlockedUsersComponent implements OnInit, OnDestroy {
     this.userPutUnblockSubscription = this.userService.userPutUnblock.subscribe(
       (user: any) => {
         if (typeof(user) !== 'undefined' && user.success) {
-          swal('User unblocked', 'Successfully unblocked user.', 'success');
-
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'User unblocked.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           // delete row from datatable
           const table = $('#viewlist-table').DataTable();
           table.row($('#' + this._restore)).remove().draw();
@@ -134,14 +139,29 @@ export class BlockedUsersComponent implements OnInit, OnDestroy {
   }
 
   onRestoreRecord(id: any) {
-    this.loading = true;
-    this.userService.httpPostUserUnblock(id);
+    const that = this;
 
-    this._restore = id;
+    swal({
+      title: 'Restore archived line of business?',
+      text: "It will be listed back to active LOB's.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that._restore = id;
+        that.userService.httpPostUserUnblock(id);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.userGetAllSubscription.unsubscribe();
+    this.userPutUnblockSubscription.unsubscribe();
+    this.userGetAllInvalidLoginSubscription.unsubscribe();
   }
 
 }

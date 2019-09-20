@@ -79,7 +79,14 @@ export class ArchivedFormsComponent implements OnInit {
     this.formPostRestoreSubscription = this.formService.formPostRestore.subscribe(
       (form: any) => {
         if (typeof(form) !== 'undefined' && form.success) {
-          swal('Form restored', 'Successfully restore form. This form may be accessible to those with access.', 'success');
+          // swal('Form restored', 'Successfully restored form. This form may be accessible to those with permission.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Successfully restored form. This form may be accessible to those with permission.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           
           // delete row from datatable
           const table = $('#viewlist-table').DataTable();
@@ -102,9 +109,23 @@ export class ArchivedFormsComponent implements OnInit {
   }
 
   onRestoreRecord(id: any) {
-    this.loading = true;
-    this.formService.httpPostRestoreForm(id);
-    this.restore_id = id;
+    const that = this;
+
+    swal({
+      title: 'Restore archived form?',
+      text: "It will be listed back to active forms and it will be accessible to users with permissions.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.restore_id = id;
+        that.formService.httpPostRestoreForm(id);
+      }
+    });
   }
 
 }

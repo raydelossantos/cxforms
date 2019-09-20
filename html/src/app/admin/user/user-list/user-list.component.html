@@ -5,11 +5,11 @@
           <span class="fa fa-fw fa-list"></span> User Accounts <small> - Login via LDAP </small>
               
           <div style="float: right;">
-              <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show(); initUserForm();" data-target="#addRecord">
+              <button class="btn btn-outline-green btn-sm" data-toggle="modal" (click)="addRecord.show(); initUserForm();" data-target="#addRecord">
                 <span class="fa fa-plus"></span> Add User
               </button>
     
-              <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+              <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()">
                 <span class="fa fa-refresh"></span> Refresh List
               </button>  
           </div>
@@ -47,8 +47,8 @@
                   <td class="text-center">{{ _user.user_info.user_origin === 1 ? 'Auto' : 'Manual' }}</td>
                   <td class="text-center" title="{{ _user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                   <td class="text-center" title="{{ _user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>
-                  <td class="text-center"><button class="btn btn-primary btn-sm" (click)="onEditRecord( _user.id )"><span class="fa fa-fw fa-edit"></span> Edit</button>
-                    <button class="btn btn-danger btn-sm" (click)="onDelRecord( _user.username, _user.id, _user.user_info.first_name, _user.user_info.last_name, _user.id )">
+                  <td class="text-center"><button class="btn btn-outline-grey btn-xs" (click)="onEditRecord( _user.id )"><span class="fa fa-fw fa-edit"></span> Edit</button>
+                    <button class="btn btn-outline-red btn-xs" (click)="onDelRecord( _user.username, _user.id, _user.user_info.first_name, _user.user_info.last_name, _user.id )">
                       <span class="fa fa-fw fa-ban"></span> Disable
                     </button>
                 </td>
@@ -127,11 +127,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveUser()">
+        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onSaveUser()">
           <i class="fa fa-save ml-1"></i>
           Save Record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide();" mdbWavesEffect>
+        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide();" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -206,11 +206,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord()">
+        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord()">
           <i class="fa fa-save ml-1"></i>
           Update User
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -240,11 +240,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord()">
+        <button type="button" class="btn btn-sm btn-danger relative waves-light" smbWavesEffect (click)="onDeleteRecord()">
           <i class="fa fa-ban ml-1"></i>
           Disable
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>

@@ -45,7 +45,7 @@ body {
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #bdbdbd;
-  border-radius: 0;
+  // border-radius: 0;
   outline: none;
   height: 2.1rem;
   width: 100%;
@@ -111,6 +111,10 @@ small {
   text-align: center;
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.card img {
+  border-radius: 2px 2px 2px 2px;
 }
 
 .card-title {
@@ -245,9 +249,9 @@ small {
 
 
 /**  MODAL BORDER RADIUS TO NONE*/
-.modal-dialog, .modal-content {
-  border-radius: 0 !important;
-}
+// .modal-dialog, .modal-content {
+//   border-radius: 0 !important;
+// }
 
 .modal {
   z-index: 2300;
@@ -268,19 +272,52 @@ small {
 }
 
 /** CARDS */
-.card {
-  border-radius: 0;
-}
+// .card {
+//   border-radius: 0;
+// }
 
 /** ALERTS */
-.alert {
-  border-radius: 0;
-}
+// .alert {
+//   border-radius: 0;
+// }
 
 /** TABLE RESPONSIVE CSS */
 .table-responsive {
   padding-bottom: 10px;
 
+}
+
+/** FONT COLORS */
+.fred {
+  color: #dc3545;
+}
+
+.fblue {
+  color: #007bff;
+}
+
+.fgreen {
+  color: #28a745;
+}
+
+.fteal {
+  color: #20c997;
+}
+
+.fyellow {
+  color: #ffc107;
+}
+
+.fgrey {
+  color: #6c757d;
+}
+
+.fpurple {
+  color: #6f42c1;
+}
+
+.fpink {
+  color: #e83e8c;
 }
 
 textarea {
@@ -318,7 +355,7 @@ textarea {
   line-height: 1.5;
   background-color: transparent;
   background-image: none;
-  border-radius: 0;
+  // border-radius: 0;
 }
 
 .table, table.dataTable.no-footer {
@@ -334,11 +371,18 @@ table.table td,  table.table  th, table.dataTable td, th {
   padding: 4px;
 }
 
-table td .btn-danger, table td .btn-primary, table td .btn-warning, table td .btn-success {
+table td .btn-danger, table td .btn-primary, table td .btn-warning, table td .btn-success, table td .btn-outline-red,
+table td .btn-outline-green, table td .btn-outline-grey, table td .btn-outline-success {
   height: 20px;
   padding: 2px;
-  width: 70px;
+  // width: 70px;
   margin: 0;
+  border: 0;
+}
+
+.btn .btn-outline-red {
+  padding: 0.2rem 0.4rem;
+  height: 20px;
 }
 
 table.dataTable tbody th, table.dataTable tbody td {
@@ -394,7 +438,7 @@ input[type="file"] {
 
 /** ALL BUTTONS */
 .btn {
-  border-radius: 0;
+  // border-radius: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
   margin: 0 0 6px 0;
@@ -461,7 +505,7 @@ input[type="file"] {
 }
 
 .swal2-popup .swal2-styled {
-  border-radius: 0 !important;
+  // border-radius: 0 !important;
   padding: 8px 30px !important;
   font-size: 15px !important;
 }

@@ -102,9 +102,23 @@ export class ArchivedClientComponent implements OnInit {
   }
 
   onRestoreRecord(id: any) {
-    this.loading = true;
-    this.clientService.httpPostRestoreClient(id);
-    this.restore_id = id;
+    const that = this;
+
+    swal({
+      title: 'Restore archived client?',
+      text: "It will be listed back to active clients.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.restore_id = id;
+        that.clientService.httpPostRestoreClient(id);
+      }
+    });
   }
 
   onRefreshRecords() {

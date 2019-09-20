@@ -5,11 +5,11 @@
           <span class="fa fa-fw fa-list"></span> Clients <small> - Business accounts</small>
 
           <div style="float: right;">          
-            <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show()" data-target="#addRecord">
+            <button class="btn btn-outline-green btn-sm" data-toggle="modal" (click)="addRecord.show()" data-target="#addRecord">
               <span class="fa fa-fw fa-plus"></span> Add Client
             </button>
 
-            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+            <button class="btn btn-outline-grey btn-sm waves-light" (click)="onRefreshRecords()">
               <span class="fa fa-fw fa-refresh"></span> Refresh List
             </button>
           </div>
@@ -57,10 +57,10 @@
                   <td class="text-center" title="{{ _client.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _client.updated_at | utcLocal | date :  "y/MM/dd" }}</td>
 
                   <td class="text-center">
-                    <button class="btn btn-sm btn-primary"  (click)="onEditRecord( _client.id )">
+                    <button class="btn btn-xs btn-outline-grey"  (click)="onEditRecord( _client.id )">
                       <span class="fa fa-fw fa-edit"></span> Edit
                     </button>
-                    <button class="btn btn-sm btn-danger" (click)="onDelRecord(_client.id, _client.client_name, _client.logo)">
+                    <button class="btn btn-xs btn-outline-red" (click)="onDelRecord(_client.id, _client.client_name, _client.logo)">
                       <span class="fa fa-fw fa-archive"></span> Archive
                     </button>
                   </td>
@@ -130,7 +130,7 @@
           <i class="fa fa-save ml-1"></i>
           Save record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -157,7 +157,7 @@
       </div>
 
       <div class="modal-body mx-1">
-        <p>Sure to delete this client?</p>
+        <!-- <p>Sure to archive this client?</p> -->
         <img  id="img_admin" src="{{ _api_endpoint }}{{ _del_rec._logo }}" style="float: left; height: 100px; width: 100px; margin-right: 10px;">
         <p>Client ID: {{ _del_rec._id }}</p>
         <p>Client Name: {{ _del_rec._client_name }}</p>
@@ -165,10 +165,10 @@
 
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id)">
-          <i class="fa fa-trash ml-1"></i>
-          Archive
+          <i class="fa fa-archive ml-1"></i>
+          Archive it!
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -241,7 +241,7 @@
           <i class="fa fa-save ml-1"></i>
           Save record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -296,11 +296,11 @@
                   <br>
 
                   <div style="float: right;">          
-                    <button class="btn btn-success btn-xs" data-toggle="modal" (click)="addClientAdmin.show()" data-target="#addClientAdmin">
+                    <button class="btn btn-outline-grey btn-xs" data-toggle="modal" (click)="addClientAdmin.show()" data-target="#addClientAdmin">
                       <span class="fa fa-fw fa-plus"></span> Add User
                     </button>
 
-                    <button class="btn btn-blue-grey btn-xs" (click)="onRefreshClientAdmin()">
+                    <button class="btn btn-outline-grey btn-xs" (click)="onRefreshClientAdmin()">
                       <span class="fa fa-fw fa-refresh"></span> Refresh
                     </button>
                   </div>

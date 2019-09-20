@@ -129,7 +129,14 @@ export class TeamListComponent implements OnInit, OnDestroy {
     this.teamDeleteSubscription = this.teamService.teamDelete.subscribe(
       (team: any) => {
         if (typeof(team) !== 'undefined' && team.success) {
-          swal('Deleted team', 'Successfully deleted the team record.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Archived team successfully.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           $('#btnCloseDelete').click();
 
           // delete row from datatable
@@ -271,6 +278,9 @@ export class TeamListComponent implements OnInit, OnDestroy {
     this.clientGetAllSubscription.unsubscribe();
     this.teamGetAllSubscription.unsubscribe();
     this.teamPostSubscription.unsubscribe();
+    this.teamDeleteSubscription.unsubscribe()
+    this.teamGetSubscription.unsubscribe()
+    this.teamPutSubscription.unsubscribe()
   }
 
 }

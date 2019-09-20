@@ -8,10 +8,10 @@
             <!-- <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show()" data-target="#addRecord">
               <span class="fa fa-fw fa-plus"></span> Add Client
             </button> -->
-            <button class="btn btn-warning btn-sm" (click)="filterRecord.show()" title="Filters and show records that aren't present in the current list">
+            <button class="btn btn-outline-orange btn-sm" (click)="filterRecord.show()" title="Filters and show records that aren't present in the current list">
                 <span class="fa fa-filter"></span> Filter List
             </button>
-            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
+            <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()">
               <span class="fa fa-fw fa-refresh"></span> Refresh List
             </button>
           </div>
@@ -111,13 +111,13 @@
                     </select>
                     <input type="text" class="filter_text" style="width: 265px;">
                     <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)">
-                        <span class="fa fa-fw fa-trash"></span>
+                        <span class="fa fa-fw fa-times"></span>
                     </button>
                     <div class="clear" style="height: 1px;">&nbsp;</div>
                   </li>
                 </ul>
   
-                <button class="btn btn-warning btn-sm" (click)="onAddFilter()">
+                <button class="btn btn-outline-orange btn-sm" (click)="onAddFilter()">
                     <span class="fa fa-fw fa-plus"></span> Add Filter
                 </button>
               </div>
@@ -130,12 +130,12 @@
         </div>
   
         <div class="modal-footer d-flex justify-content-center">
-          <button [disabled]="_custom_filters.length == 0" type="button" class="btn btn-md btn-primary waves-light" (click)="onFilterRecords()" mdbWavesEffect>
+          <button [disabled]="_custom_filters.length == 0" type="button" class="btn btn-sm btn-primary waves-light" (click)="onFilterRecords()" mdbWavesEffect>
             <i class="fa fa-check ml-1"></i>
             Apply
           </button>
   
-          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="filterRecord.hide();" mdbWavesEffect>
+          <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="filterRecord.hide();" mdbWavesEffect>
             <i class="fa fa-times ml-1"></i>
             Close
           </button>

@@ -5,11 +5,11 @@
           <span class="fa fa-fw fa-lock"></span> Blocked Users <small> - Invalid login attempts</small>
 
           <div style="float: right;">
-            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()">
-              <span class="fa fa-fw fa-lock"></span> Blocked Logins
+            <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()">
+              <span class="fa fa-fw fa-lock"></span> Show all blocked logins
             </button>
 
-            <button class="btn btn-sm btn-elegant" (click)="onShowAllInvalidLogins()">
+            <button class="btn btn-sm btn-outline-grey" (click)="onShowAllInvalidLogins()">
               <span class="fa fa-fw fa-list"></span>
               Show all invalid logins
             </button>
@@ -40,7 +40,11 @@
                   <td class="text-center">{{ _blocked_user.user_info['employee_id'] }}</td>
                   <td>{{ _blocked_user.user_info['first_name'] }} {{ _blocked_user.user_info['last_name'] }}</td>
                   <td class="text-center">{{ _blocked_user.login_attempt }}</td>
-                  <td class="text-center"><button class="btn btn-warning btn-sm" (click)="onRestoreRecord( _blocked_user.id )"><span class="fa fa-unlock-alt"></span></button></td>
+                  <td class="text-center">
+                    <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _blocked_user.id )">
+                      <span class="fa fa-unlock-alt"></span> Unblock
+                    </button>
+                  </td>
                 </tr>
                 <tr *ngIf="_blocked_users == 0">
                   <td colspan="1000" class="no-data-available">No records found so far.</td>

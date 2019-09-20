@@ -41,7 +41,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   _del_rec:                     any = { 
                                   _client_name: '',
                                   _id: 0,
-                                  _logo: '/no_img.png'
+                                  _logo: '/public/no_img.png'
                                 };
 
   clientForm:                   FormGroup;
@@ -159,7 +159,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
           $('#edit_created_at').val(client.data.created_at);
           $('#edit_modified_at').val(client.data.updated_at);
 
-          const logo = (client.data.logo == '') ? '/no_img.png' : client.data.logo;
+          const logo = (client.data.logo == '') ? '/public/no_img.png' : client.data.logo;
           $('#img_client').prop('src', this._api_endpoint + logo);
           $("#btnEditRecord").click();
 
@@ -237,7 +237,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
 
   onDelRecord(id, client_name, logo) {
 
-    const _logo = (logo == '') ? '/no_img.png' : logo;
+    const _logo = (logo == '') ? '/public/no_img.png' : logo;
 
     this._del_rec = {
       _client_name: client_name,

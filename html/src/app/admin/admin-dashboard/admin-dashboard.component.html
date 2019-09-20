@@ -17,13 +17,20 @@
                 <div class="card-body" style="min-height: 150px;;">
                     <div class="row">
                         <div *ngFor="let overview of _quick_overviews" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
-                            <a [routerLink]="overview.link" class="dashboard-links">
+                            <div class="dashboard-links f{{ overview.color }}">
                                 <div class="dash-box">
-                                    <div>Active {{ overview.name }}</div>
+                                    <div style="font-size: 18px;">{{ overview.name }}</div>
                                     <div><span class="stat-count"><span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.count }}</span><br></div>
-                                    <span class="stat-details">{{ overview.description }}</span>
+                                    <span class="stat-details">
+                                            <!-- <a [routerLink]="overview.link" class="dashboard-links">
+                                                {{ overview.description }}
+                                            </a> -->
+                                            <a [routerLink]="overview.link" class="btn btn-xs btn-outline-{{ overview.color }}">
+                                                   <span class="fa fa-arrow-circle-right fa-fw"></span> {{ overview.description }}
+                                            </a>
+                                    </span>
                                 </div>
-                            </a>  
+                            </div>  
                             <span *ngFor="let item of overview.others">
                                 <span class="">
                                     <a routerLink="{{ item.link }}">

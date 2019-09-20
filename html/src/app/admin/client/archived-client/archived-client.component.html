@@ -4,7 +4,7 @@
       <h5 class="mb-0">
           <span class="fa fa-fw fa-archive"></span> Archived Clients <small> - Hidden Client Collections</small>
 
-          <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+          <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
             <span class="fa fa-refresh"></span> Refresh List
           </button>
       </h5>
@@ -41,7 +41,7 @@
                 <td class="text-center" title="{{ _archived_client.deleted_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _archived_client.deleted_at | utcLocal | date :  "y/MM/dd" }}</td>
 
                 <td class="text-center">
-                  <button class="btn btn-sm btn-warning" (click)="onRestoreRecord( _archived_client.id )">
+                  <button class="btn btn-xs btn-outline-red" (click)="onRestoreRecord( _archived_client.id )">
                     <span class="fa fa-fw fa-undo"></span> Restore
                   </button>
                 </td>

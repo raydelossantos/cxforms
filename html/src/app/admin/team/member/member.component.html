@@ -35,27 +35,40 @@
               <div class="icon-img" style="font-size: 50px; float: left;">
               </div>
               <div class="team-details">
-                <p>
-                  <i class="fa fa-support"></i>
-                    {{ _selectedTeam.id }}
-                    | {{ _selectedTeam.team_name }}
-                    | {{ _selectedTeam.client ? _selectedTeam.client.client_name : '' }}
-                    | {{ _selectedTeam.location }}
-                    | {{ _selectedTeam.description }}
-                </p>
+
+                <div class="dash-box">
+                  <div> 
+                    <div style="color: gray;">Selected Team details: </div>
+                    <span class="stat-count">
+                      <span class="fa fa-support fa-fw"></span> {{ _selectedTeam.team_name }}
+                    </span>
+                  </div>
+                  <span class="stat-details">
+                      <button class="btn btn-xs btn-outline-grey" disabled>
+                          <span class="fa fa-forward fa-fw"></span> ID: {{ _selectedTeam.id }}
+                      </button>
+                      <button class="btn btn-xs btn-outline-blue" disabled>
+                          <span class="fa fa-forward fa-fw"></span> Client: {{ _selectedTeam.client ? _selectedTeam.client.client_name : 'N/A' }}
+                      </button>
+                      <button class="btn btn-xs btn-outline-pink" disabled>
+                          <span class="fa fa-forward fa-fw"></span> Location: {{ _selectedTeam.location }}
+                      </button>
+                      <button class="btn btn-xs btn-outline-orange" disabled>
+                          <span class="fa fa-forward fa-fw"></span> Description: {{ _selectedTeam.description }}
+                      </button>
+                  </span>
+                </div>
               </div>
 
-              <div>
-                <button class="btn btn-success btn-sm" data-toggle="modal" (click)="addRecord.show(); onShowAddMember(_selectedTeam.id)" data-target="#addRecord">
+              <div style="float: right;">
+                <button class="btn btn-outline-green btn-sm" data-toggle="modal" (click)="addRecord.show(); onShowAddMember(_selectedTeam.id)" data-target="#addRecord">
                   <span class="fa fa-plus"></span> Add Team Members
                 </button>
 
-                <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+                <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()" >
                   <span class="fa fa-refresh"></span> Refresh List
                 </button>
-
               </div>
-              <hr>
 
               <div class="table-responsive">
                 <table id="viewlist-table" class="dataTable table table-striped table-no-bordered table-hover row-border hover">
@@ -77,7 +90,7 @@
                       <td>{{ _member.user_info['first_name'] }} {{ _member.user_info['last_name'] }}</td>
                       <td class="text-center" title="{{ _member.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _member.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                       <td class="text-center">
-                        <button class="btn btn-sm btn-danger" (click)="onDelRecord( _member.id, _member.username, _member.user_id, _member.user_info.first_name, _member.user_info.last_name )">
+                        <button class="btn btn-xs btn-outline-red" (click)="onDelRecord( _member.id, _member.username, _member.user_id, _member.user_info.first_name, _member.user_info.last_name )">
                           <span class="fa fa-fw fa-trash"></span> Delete
                         </button>
                       </td>
@@ -141,8 +154,8 @@
             >
 
               <ng-template ng-header-tmp>
-                  <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
-                  <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+                  <button (click)="selectAll()" class="btn btn-sm btn-outline-grey">Select all</button>
+                  <button (click)="unselectAll()" class="btn btn-sm btn-outline-grey">Unselect all</button>
               </ng-template>
 
               <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
@@ -162,11 +175,11 @@
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
-          <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+          <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
             <i class="fa fa-save ml-1"></i>
             Save
           </button>
-          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+          <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
             <i class="fa fa-times ml-1"></i>
             Close
           </button>
@@ -199,11 +212,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
+        <button type="button" class="btn btn-sm btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
           <i class="fa fa-trash ml-1"></i>
           Delete
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>

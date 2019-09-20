@@ -84,36 +84,66 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
               count: stats.data.user_active, 
               description: 'User accounts', 
               icon: 'fa-users',
-              others: [
-                { title: 'Disabled Accounts', count: stats.data.user_inactive, icon: 'fa-ban', link: 'user/disabled'},
-                { title: 'Blocked Accounts', count: stats.data.user_blocked, icon: 'fa-lock', link: 'user/blocked'},
-              ]
+              color: 'green',
+              others: []
             },{ 
               name: 'System Admins', 
               link: 'sysadmin/list', 
               count: stats.data.user_admin, 
               description: 'Privileged Users', 
               icon: 'fa-user-secret',
+              color: 'red',
               others: []
+            },{ 
+              name: 'Blocked Accounts', 
+              link: 'user/blocked', 
+              count: stats.data.user_blocked, 
+              description: 'Invalid Logins', 
+              icon: 'fa-lock',
+              color: 'yellow',
+              others: [
+              ]
+            },{ 
+              name: 'Disabled Accounts', 
+              link: 'user/disabled', 
+              count: stats.data.user_inactive, 
+              description: 'Restricted Access', 
+              icon: 'fa-ban',
+              color: 'grey',
+              others: [
+              ]
             },{ 
               name: 'Clients', 
               link: 'client/list', 
               count: stats.data.client_active, 
               description: 'Monitored Clients', 
               icon: 'fa-newspaper-o',
-              others: [
-                { title: 'Archived Clients', count: stats.data.client_inactive, icon: 'fa-archive', link: 'client/archived'},
-                { title: 'Lines of Businesses', count: stats.data.lob_active, icon: 'fa-building', link: 'client/business'},
-              ]
+              color: 'teal',
+              others: []
+            },{ 
+              name: 'Archived Clients', 
+              link: 'client/archived', 
+              count: stats.data.client_inactive, 
+              description: 'Cancelled Clients', 
+              icon: 'fa-archive',
+              color: 'grey',
+              others: []
             },{ 
               name: 'Teams', 
               link: 'team/list', 
               count: stats.data.team_active, 
               description: 'Roles & Members', 
               icon: 'fa-sitemap',
-              others: [
-                { title: 'Archived Teams', count: stats.data.team_inactive, icon: 'fa-archive', link: 'team/archived'},
-              ]
+              color: 'purple',
+              others: []
+            },{ 
+              name: 'Archived Teams', 
+              link: 'team/list', 
+              count: stats.data.team_inactive, 
+              description: 'Disregarded teams', 
+              icon: 'fa-archive',
+              color: 'grey',
+              others: []
             },
           ];
 

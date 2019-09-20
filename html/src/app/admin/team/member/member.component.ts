@@ -108,8 +108,14 @@ export class MemberComponent implements OnInit, OnDestroy {
       (member: any) => {
 
         if (typeof(member) !== 'undefined' && member.success) {
-
-          swal('Added members', 'Successfully added team member(s) to the team.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Successfully added team member(s) to the team.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          
           this.memberService.httpGetAllMembers({team_id: this._selectedTeam.id});
           this.memberService.httpGetAllMembersNotInTeam({team_id: this._selectedTeam.id});
 
@@ -122,8 +128,14 @@ export class MemberComponent implements OnInit, OnDestroy {
     this.memberDeleteSusbscription = this.memberService.memberDelete.subscribe(
       (member: any) => {
         if (typeof(member) !== 'undefined' && member.success) {
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Team member deleted.',
+            showConfirmButton: false,
+            timer: 1500
+          });
 
-          swal('Deleted team member', 'Successfully deleted team member.', 'success');
           this.memberService.httpGetAllMembersNotInTeam({team_id: this._selectedTeam.id});
 
           // delete row from datatable

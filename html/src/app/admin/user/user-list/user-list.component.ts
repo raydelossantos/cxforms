@@ -181,7 +181,15 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userDeleteSubscription = this.userService.userDelete.subscribe(
       (user: any) => {
         if (typeof(user) !== 'undefined' && user.success) {
-          swal('Disabled record', 'User record has been disabled successfully.', 'success');
+          // swal('Disabled record', 'User record has been disabled successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'User account disabled.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           $("#btnCloseDelete").click();
 
           // delete row from datatable

@@ -4,7 +4,7 @@
       <h5 class="mb-0">
           <span class="fa fa-fw fa-archive"></span> Archived Forms <small> - Hidden Form Collections</small>
 
-          <button class="btn btn-blue-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
+          <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
             <span class="fa fa-refresh"></span> Refresh List
           </button>
       </h5>
@@ -45,7 +45,7 @@
                 <td class="text-center" title="{{ _form.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _form.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                 <td class="text-center" title="{{ _form.deleted_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _form.deleted_at | utcLocal | date :  "y/MM/dd" }}</td>
                 <td class="text-center">
-                  <button class="btn btn-sm btn-warning" (click)="onRestoreRecord( _form.id )">
+                  <button class="btn btn-xs btn-outline-red" (click)="onRestoreRecord( _form.id )">
                     <span class="fa fa-fw fa-undo"></span> Restore
                   </button>
                 </td>
