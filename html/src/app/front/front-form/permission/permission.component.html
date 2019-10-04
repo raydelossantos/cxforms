@@ -16,15 +16,15 @@
               </div>
 
               <div style="float: right;">
-                <button class="btn btn-success btn-sm" (click)="addTeamPermission.show(); onAddNewTeam()">
+                <button class="btn btn-outline-green btn-xs" (click)="addTeamPermission.show(); onAddNewTeam()">
                   <span class="fa fa-plus"></span> Add User Permission
                 </button>
 
-                <button class="btn btn-primary btn-sm" data-toggle="modal" (click)="onSaveTeamPermissionBatch()" data-target="#addClientAdmin" [disabled]="team_permissions.length === 0">
+                <button class="btn btn-outline-primary btn-xs" data-toggle="modal" (click)="onSaveTeamPermissionBatch()" data-target="#addClientAdmin" [disabled]="team_permissions.length === 0">
                   <span class="fa fa-fw fa-save"></span> Save Changes
                 </button>
 
-                <button class="btn btn-blue-grey btn-sm" (click)="onRefreshTeamList()" [disabled]="team_permissions.length === 0">
+                <button class="btn btn-outline-grey btn-xs" (click)="onRefreshTeamList()" [disabled]="team_permissions.length === 0">
                   <span class="fa fa-fw fa-refresh"></span> Refresh List
                 </button>
               </div>
@@ -44,7 +44,7 @@
                   <th>Edit Own</th>
                   <th>View All</th>
                   <th>Edit All</th>
-                  <th>Form Settings</th>
+                  <th>Settings</th>
                   <th>Access Control</th>
                   <th>Export Data</th>
                 </thead>
@@ -56,8 +56,8 @@
                             <a (click)="onRemoveTeamPermission(_team.id)">
                               <span class="fa fa-fw fa-times" style="color: red;"></span>
                             </a> |
-                            <span [ngClass]="_team.team.deleted_at !== null ? 'deleted' : ''">
-                              <span class="fa fa-fw fa-cubes" [ngClass]="_team.team.deleted_at !== null ? 'deleted' : 'available-team'"></span>
+                            <span [ngClass]="_team.team.deleted_at !== null ? 'deleted' : ''" [title]="_team.team.deleted_at !== null ? 'Team has been disabled.' : ''">
+                              <span class="fa fa-fw fa-users" [ngClass]="_team.team.deleted_at !== null ? 'deleted' : 'available-team'"></span>
                               {{ _team.team.team_name }}
                             </span>
                           </p>
@@ -65,49 +65,49 @@
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkAddRecord" type="checkbox" [checked]="_team.add_record">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkViewOwn" type="checkbox" [checked]="_team.view_own">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkEditOwn" type="checkbox"  [checked]="_team.edit_own">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkViewAll" type="checkbox"  [checked]="_team.view_all">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkEditAll" type="checkbox"  [checked]="_team.edit_all">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkConfigureList" type="checkbox"  [checked]="_team.configure_list">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkAccessControl" type="checkbox"  [checked]="_team.access_control">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkExportData" type="checkbox"  [checked]="_team.export_data">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                       </tr>
@@ -126,15 +126,15 @@
                 </div>
 
                 <div style="float: right;">
-                  <button class="btn btn-success btn-sm" (click)="addUserPermission.show(); onAddNewUser()">
+                  <button class="btn btn-outline-green btn-xs" (click)="addUserPermission.show(); onAddNewUser()">
                     <span class="fa fa-plus"></span> Add User Permission
                   </button>
 
-                  <button class="btn btn-primary btn-sm" data-toggle="modal" (click)="onSaveUserPermissionBatch()" data-target="#addClientAdmin" [disabled]="user_permissions.length === 0">
+                  <button class="btn btn-outline-primary btn-xs" data-toggle="modal" (click)="onSaveUserPermissionBatch()" data-target="#addClientAdmin" [disabled]="user_permissions.length === 0">
                     <span class="fa fa-fw fa-save"></span> Save Changes
                   </button>
 
-                  <button class="btn btn-blue-grey btn-sm" (click)="onRefreshUserList()" [disabled]="user_permissions.length === 0">
+                  <button class="btn btn-outline-grey btn-xs" (click)="onRefreshUserList()" [disabled]="user_permissions.length === 0">
                     <span class="fa fa-fw fa-refresh"></span> Refresh List
                   </button>
                 </div>
@@ -154,7 +154,7 @@
                   <th>Edit Own</th>
                   <th>View All</th>
                   <th>Edit All</th>
-                  <th>Form Settings</th>
+                  <th>Settings</th>
                   <th>Access Control</th>
                   <th>Export Data</th>
                 </thead>
@@ -166,8 +166,8 @@
                             <a (click)="onRemoveUserPermission(_user.id)">
                               <span class="fa fa-fw fa-times" style="color: red;"></span>
                             </a> | 
-                            <span [ngClass]="_user.user.deleted_at !== null ? 'deleted' : ''">
-                              <span class="fa fa-fw fa-cube" [ngClass]="_user.user.deleted_at !== null ? 'deleted' : 'available-user'"></span>
+                            <span [ngClass]="_user.user.deleted_at !== null ? 'deleted' : ''" [title]="_user.user.deleted_at !== null ? 'User has been disabled.' : ''">
+                              <span class="fa fa-fw fa-user" [ngClass]="_user.user.deleted_at !== null ? 'deleted' : 'available-user'"></span>
                               {{ _user.user_info.first_name }} {{ _user.user_info.last_name }}
                             </span>
                           </p>
@@ -175,49 +175,49 @@
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkAddRecord" type="checkbox"  [checked]="_user.add_record">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkViewOwn" type="checkbox"  [checked]="_user.view_own">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkEditOwn" type="checkbox"  [checked]="_user.edit_own">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkViewAll" type="checkbox"  [checked]="_user.view_all">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkEditAll" type="checkbox"  [checked]="_user.edit_all">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkConfigureList" type="checkbox"  [checked]="_user.configure_list">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkAccessControl" type="checkbox"  [checked]="_user.access_control">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                         <td style="min-width: 50px; max-width: 50px;">
                           <label class="switch">
                               <input class="chkExportData" type="checkbox"  [checked]="_user.export_data">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                           </label>
                         </td>
                       </tr>
@@ -341,7 +341,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Form Settings</td>
+                    <td>Settings</td>
                     <td>
                       <div class="form-check form-check-inline">
                         <label class="switch">
@@ -384,7 +384,7 @@
             <i class="fa fa-save ml-1"></i>
             Save Record
           </button>
-          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addUserPermission.hide(); resetPermissionForms()" mdbWavesEffect>
+          <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addUserPermission.hide(); resetPermissionForms()" mdbWavesEffect>
             <i class="fa fa-times ml-1"></i>
             Close
           </button>
@@ -496,7 +496,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Form Settings</td>
+                    <td>Settings</td>
                     <td>
                       <div class="form-check form-check-inline">
                         <label class="switch">
@@ -539,7 +539,7 @@
             <i class="fa fa-save ml-1"></i>
             Save Record
           </button>
-          <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="addTeamPermission.hide(); resetPermissionForms()" mdbWavesEffect>
+          <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addTeamPermission.hide(); resetPermissionForms()" mdbWavesEffect>
             <i class="fa fa-times ml-1"></i>
             Close
           </button>

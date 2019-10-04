@@ -33,6 +33,7 @@ import { LogComponent } from './log/log.component';
 import { MailComponent } from './log/mail/mail.component';
 import { UserLogComponent } from './log/user-log/user-log.component';
 import { AllPipesModule } from '../pipes/all.pipe';
+import { ImportComponent } from './user/import/import.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,8 @@ import { AllPipesModule } from '../pipes/all.pipe';
         ManageComponent,
         LogComponent,
         MailComponent,
-        UserLogComponent
+        UserLogComponent,
+        ImportComponent
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
     imports: [

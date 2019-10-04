@@ -543,18 +543,17 @@ export class ViewlistComponent implements OnInit, OnDestroy {
 
     swal({
       title: 'Are you sure?',
-      text: "It will permanently be deleted!",
+      text: "Record will permanently be deleted!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, delete record!'
     }).then(function(result) {
       if (result.value) {
         that.defaultTableService.httpDeleteRecord(parseInt(that._form_id), that._del_rec._id);
       }
     });
-
   }
 
   onDeleteRecord(id: any) {
@@ -567,19 +566,18 @@ export class ViewlistComponent implements OnInit, OnDestroy {
 
     swal({
       title: 'Are you sure?',
-      text: "It will permanently be deleted!",
+      text: "Attachment will permanently be deleted!",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, delete attachment!'
     }).then(function(result) {
       if (result.value) {
         that._attachment_id = a_id;
         that.defaultTableService.httpDeleteAttachment(parseInt(that._form_id), rec_id, a_id);
       }
     });
-
   }
 
   onRefreshList() {
@@ -595,12 +593,12 @@ export class ViewlistComponent implements OnInit, OnDestroy {
 
     swal({
       title: 'Are you sure?',
-      text: "It will permanently be deleted! User will no longer see this in notification panel and will not be able to open this record for edit.",
+      text: "Tag will permanently be deleted! User will no longer see this in notification panel and will not be able to open this record for edit.",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Yes, delete tag!'
     }).then(function(result) {
       if (result.value) {
         that.loading_tags = true;
@@ -608,8 +606,6 @@ export class ViewlistComponent implements OnInit, OnDestroy {
         that.defaultTableService.httpDeleteTag(that._form_id, record_id, tag_id);
       }
     });
-
-    
   }
 
   onEditRecord(id: any) {
@@ -681,9 +677,7 @@ export class ViewlistComponent implements OnInit, OnDestroy {
       }
 
       postValues.append('last_modified_by_userid', this.authService.auth.user.user.id);
-
       this.defaultTableService.httpPutRecord(form_id, record_id, postValues);
-
       this.selectedFile = null;
 
     } else {
@@ -692,11 +686,9 @@ export class ViewlistComponent implements OnInit, OnDestroy {
       this.loading2 = false;
 
     }
-
   }
 
   onFileSelected(event) {
-
     if (event.target.files.length == 0) {
       return;
     }
@@ -707,7 +699,6 @@ export class ViewlistComponent implements OnInit, OnDestroy {
       swal('Invalid file type', 'You have selected a non-supported file type. Please choose JPEG, GIF or PNG.', 'error');
       event.target.value = null;
     }
-
   }
 
   onLoadEmployeeLookup(team_id: any, form_field_name: any) {

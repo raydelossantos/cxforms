@@ -10,7 +10,7 @@ export class SidebarComponent implements OnInit {
   _menu = [
     {
       id: 0,
-      section: 'Connext Forms Admin',
+      section: 'Admin Panel',
       icon: 'fa-cogs',
       subsections: [
         { name: 'Dashboard', link: '/admin', icon: 'fa-tachometer' }
@@ -23,6 +23,7 @@ export class SidebarComponent implements OnInit {
       subsections: [
         { name: 'User Accounts', link: 'user/list', icon: 'fa-user' },
         { name: 'Sync Employees from API', link: 'user/sync', icon: 'fa-refresh' },
+        { name: 'Import Users', link: 'user/import', icon: 'fa-upload' },
         { name: 'Blocked/Invalid Logins', link: 'user/blocked', icon: 'fa-lock' },
         { name: 'Disabled Accounts', link: 'user/disabled', icon: 'fa-ban' },
         { name: 'System Administrators', link: 'sysadmin/list', icon: 'fa-user-md' }

@@ -142,8 +142,8 @@ export class BlockedUsersComponent implements OnInit, OnDestroy {
     const that = this;
 
     swal({
-      title: 'Restore archived line of business?',
-      text: "It will be listed back to active LOB's.",
+      title: 'Restore disabled user?',
+      text: "User can access the site again after this process.",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

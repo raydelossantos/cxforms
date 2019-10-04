@@ -6,6 +6,52 @@
     font-size: 20px;
 }
 
+// custom info box
+.info-box {
+    display: block;
+    min-height: 60px;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 2px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.info-box-icon {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    display: block;
+    float: left;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    font-size: 25px;
+    line-height: 60px;
+    color: white;
+    background: rgba(0,0,0,0.2);
+    border-radius: 5px 0 0 5px;
+}
+
+.info-box-content {
+    padding: 5px 10px;
+    margin-left: 60px;
+}
+
+.info-box-text {
+    text-transform: uppercase;
+}
+
+.info-box-number {
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+// --
+
 .card-small {
     padding: 10px;
 }

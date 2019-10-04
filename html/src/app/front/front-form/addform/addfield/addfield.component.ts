@@ -115,7 +115,15 @@ export class AddfieldComponent implements OnInit, OnDestroy {
     this.fieldPostSubscription = this.fieldService.fieldPost.subscribe(
       (fields: any) => {
         if (typeof(fields) !== 'undefined' && fields.success) {
-          swal('Created', 'Field was saved successfully.', 'success');
+          // swal('Created', 'Field was saved successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Field was saved successfully.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.initFieldForm();
           this.fields = fields;
           this.fieldService.httpGetAllField({'form_id': this.form_id}, this.form_id);
@@ -131,7 +139,15 @@ export class AddfieldComponent implements OnInit, OnDestroy {
     this.fieldPutSubscription = this.fieldService.fieldPut.subscribe(
       (field: any) => {
         if (typeof (field) !== 'undefined' && field.success) {
-          swal('Updated', 'Field was updated successfully.', 'success');
+          // swal('Updated', 'Field was updated successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Field was updated successfully.',
+            showConfirmButton: false,
+            timer: 1500
+          });
+
           this.fields = field;
           this.loading = false;
         } else if (typeof (field) !== 'undefined' && field.success === false) {
@@ -173,7 +189,14 @@ export class AddfieldComponent implements OnInit, OnDestroy {
     this.fieldDeleteSubscription = this.fieldService.fieldDelete.subscribe(
       (fields: any) => {
         if (typeof(fields) !== 'undefined' && fields.success) {
-          swal('Deleted', 'Field was deleted successfully.', 'success');
+          // swal('Deleted', 'Field was deleted successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Field archived.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           $('#btnCloseDelete').click();
           // this.initFieldForm();
           this.fieldService.httpGetAllField({'form_id': this.form_id}, this.form_id);
@@ -432,7 +455,24 @@ export class AddfieldComponent implements OnInit, OnDestroy {
   }
 
   onDelRecord() {
-    $("#btnDeleteRecord").click();
+    const that = this;
+
+    swal({
+      title: 'Archive this field?',
+      text: "It will be hidden from the view on form input and record list. This can be restored.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, archive it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.fieldService.httpDeleteField(that.field_id, that.form_id);
+      }
+    });
+
+    // $("#btnDeleteRecord").click();
   }
 
   onDeleteRecord(id: any) {

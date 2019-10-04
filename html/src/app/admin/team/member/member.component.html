@@ -53,7 +53,7 @@
                       <button class="btn btn-xs btn-outline-pink" disabled>
                           <span class="fa fa-forward fa-fw"></span> Location: {{ _selectedTeam.location }}
                       </button>
-                      <button class="btn btn-xs btn-outline-orange" disabled>
+                      <button class="btn btn-xs btn-outline-orange" disabled>md
                           <span class="fa fa-forward fa-fw"></span> Description: {{ _selectedTeam.description }}
                       </button>
                   </span>
@@ -154,8 +154,8 @@
             >
 
               <ng-template ng-header-tmp>
-                  <button (click)="selectAll()" class="btn btn-sm btn-outline-grey">Select all</button>
-                  <button (click)="unselectAll()" class="btn btn-sm btn-outline-grey">Unselect all</button>
+                  <button (click)="selectAll()" class="btn btn-xs btn-outline-grey">Select all</button>
+                  <button (click)="unselectAll()" class="btn btn-xs btn-outline-grey">Unselect all</button>
               </ng-template>
 
               <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
@@ -175,11 +175,11 @@
         </div>
 
         <div class="modal-footer d-flex justify-content-center">
-          <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+          <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
             <i class="fa fa-save ml-1"></i>
             Save
           </button>
-          <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+          <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
             <i class="fa fa-times ml-1"></i>
             Close
           </button>
@@ -212,11 +212,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._id); deleteRecord.hide()">
           <i class="fa fa-trash ml-1"></i>
           Delete
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>

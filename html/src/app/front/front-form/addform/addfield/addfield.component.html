@@ -124,7 +124,7 @@
           <div class="field-input">
             <label class="switch">
               <input formControlName="timer_auto_start" type="checkbox" id="timer_auto_start">
-              <span class="slider"></span>
+              <span class="slider round"></span>
             </label>
             <div class="field-description">When timers are reset, they start out 'stopped'. Checking this will cause the timer to start ticking again automatically once reset.</div>
           </div>
@@ -155,8 +155,8 @@
               >
 
               <ng-template ng-header-tmp>
-                  <button (click)="selectAll()" class="btn btn-sm btn-secondary">Select all</button>
-                  <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+                  <button (click)="selectAll()" class="btn btn-sm btn-outline-primary">Select all</button>
+                  <button (click)="unselectAll()" class="btn btn-sm btn-outline-primary">Unselect all</button>
               </ng-template>
 
               <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
@@ -178,7 +178,7 @@
           <div class="field-input">
             <label class="switch">
               <input formControlName="required" type="checkbox" id="required">
-              <span class="slider"></span>
+              <span class="slider round"></span>
             </label>
 
             <div class="field-description">Whether the field must have a value. If the field is not visible according to the Visibility field below, this has no effect.</div>
@@ -190,7 +190,7 @@
           <div class="field-input">
             <label class="switch">
               <input formControlName="readonly" type="checkbox" id="readonly">
-              <span class="slider"></span>
+              <span class="slider round"></span>
             </label>
 
             <div class="field-description">Whether or not the field can be edited by the user.</div>
@@ -250,7 +250,7 @@
           <div class="field-input">
               <label class="switch">
                 <input formControlName="show_this_field_on_default_table_view" type="checkbox" id="show_this_field_on_default_table_view">
-                <span class="slider"></span>
+                <span class="slider round"></span>
               </label>
 
               <div class="field-description">Should this field show on the default list of records for this form.</div>
@@ -266,7 +266,7 @@
         </div>
         <hr>
         <button class="btn btn-md btn-primary waves-effect" mdbRippleRadius (click)="onSaveField()" [disabled]="!fieldForm.valid"><span class="fa fa-fw fa-save"></span>Save</button>
-        <button *ngIf="field_id !== 'new'" class="btn btn-md btn-danger waves-effect" id="btn_delete" mdbRippleRadius (click)="onDelRecord()"><span class="fa fa-fw fa-trash"></span>Delete this field</button>
+        <button *ngIf="field_id !== 'new'" class="btn btn-md btn-outline-red waves-effect" id="btn_delete" mdbRippleRadius (click)="onDelRecord()"><span class="fa fa-fw fa-archive"></span>Archive this field</button>
       </form>
       <hr>
       <p class="footer">* Marked with asterisk are required fields. <br />
@@ -282,7 +282,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Delete this field?</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Archive this field?</h4>
         <button type="button" id="btnCloseDelete" class="close" data-dismiss="modal" (click)="deleteRecord.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

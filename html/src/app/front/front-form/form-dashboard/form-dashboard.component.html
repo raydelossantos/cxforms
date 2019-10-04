@@ -24,7 +24,7 @@
     </span> 
     <span class="menu-item" *ngIf="!newForm && formPermissions['DefaultView']">
         <a routerLinkActive="menu_active" routerLink="view_list" class="cool-link">
-            <span class="fa fa-fw fa-list"></span> View List
+            <span class="fa fa-fw fa-list"></span> Record List
         </a>
     </span>
     <span class="menu-item" *ngIf="!newForm && formPermissions['ExportAdd']">
@@ -44,11 +44,11 @@
     </span> -->
     <span class="menu-item" *ngIf="newForm || formPermissions['FormEdit']">
         <a *ngIf="!newForm" routerLinkActive="menu_active" routerLink="settings/details" class="cool-link">
-            <span class="fa fa-fw fa-cogs"></span> Form Settings
+            <span class="fa fa-fw fa-cogs"></span> Settings
         </a>
         
         <a *ngIf="newForm" routerLinkActive="menu_active" class="cool-link">
-            <span class="fa fa-fw fa-cogs"></span> Form Settings
+            <span class="fa fa-fw fa-cogs"></span> Settings
         </a>
     </span>
     <span class="menu-item" *ngIf="!newForm && formPermissions['PermissionAdd']">
@@ -68,7 +68,7 @@
             <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
         </div>
         <a [hidden]="loading" (click)="onRefreshForm()" class="cool-link">
-        <span class="fa fa-fw fa-refresh"></span>
+            <span class="fa fa-fw fa-refresh"></span>
         </a>
     </span>
     

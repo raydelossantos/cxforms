@@ -605,7 +605,7 @@ class UserController {
         }
 
         // Check if request has required fields
-        if (!CommonController::validate(null, $request_data, ['username', 'first_name', 'last_name','middle_name', 'email'])) {
+        if (!CommonController::validate(null, $request_data, ['username', 'password', 'first_name', 'last_name','middle_name', 'email'])) {
             $result['message'] = self::ERROR_REQUIRED_FIELDS;
             return $response->withStatus(403)->withJson($result);
         }
@@ -658,6 +658,7 @@ class UserController {
 
                 $user_info_data = [
                     'username'          => $request_data['username'],
+                    'password'          => password_hash($request-date['password'], PASSWORD_BCRYPT),
                     'user_origin'       => 0,
                     'user_id'           => $new_user->id,
                     'employee_id'       => 0,
@@ -755,7 +756,7 @@ class UserController {
 
                 foreach ($api_records['data'] as $record) {
 
-                    // validation for CS-Employee ID check if exists
+                    // validation for Employee ID check if exists
                     $search_criteria = 'employee_id';
                     $search = UserInfo::where($search_criteria, '=', $record[$search_criteria])->first();
                     if ($search) {
@@ -1096,6 +1097,55 @@ class UserController {
 
         $result['message'] = self::ERROR_UPDATE_NOT_EXIST;
         return $response->withStatus(403)->withJson($result);
+    }
+
+    /**
+     * Password validation
+     * @param string $password
+     * 
+     * @return array $result
+     */
+    private function password_validation1($password) {
+        $result = [];
+        $result['success'] = false;
+        $result['message'] = [];
+
+        // minimum password characters 10
+        if (strlen(trim($password)) <= 9) {
+            $result['message'][] = 'at least 10 characters.';
+        }
+
+        // contains at least 1 capital letter
+        $uppercase = preg_match('@[A-Z]@', $password);
+        if (!$uppercase) {
+            $result['message'][] = 'an upper case letter.';
+        }
+
+        // contains at least 1 special character
+        $special = preg_match('/[\'\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\\]/', $password);
+
+        if (!$special) {
+            $result['message'][] = 'a special character.';
+        }
+
+        // contains at least 1 small cap letter
+        $lowercase = preg_match('@[a-z]@', $password);
+        if (!$lowercase) {
+            $result['message'][] = 'a lower case letter.';        
+        }
+
+        // contains at least 1 numeric character
+        $number = preg_match('@[0-9]@', $password);
+        if (!$number) {
+            $result['message'][] = 'a numeric character.';        
+        }
+
+        if (count($result['message']) > 0) {
+            return $result;
+        }
+
+        $result['success'] = true;
+        return $result;
     }
 
 }

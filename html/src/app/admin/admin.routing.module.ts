@@ -25,6 +25,7 @@ import { ManageComponent } from './client/manage/manage.component';
 import { LogComponent } from './log/log.component';
 import { UserLogComponent } from './log/user-log/user-log.component';
 import { MailComponent } from './log/mail/mail.component';
+import { ImportComponent } from './user/import/import.component';
 
 const adminRoutes: Routes = [
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], children:
@@ -34,8 +35,9 @@ const adminRoutes: Routes = [
                 [
                     { path: 'list', component: UserListComponent },
                     { path: 'sync', component: SyncComponent},
+                    { path: 'import', component: ImportComponent },
                     { path: 'disabled', component: DisabledUsersComponent},
-                    { path: 'blocked', component: BlockedUsersComponent}
+                    { path: 'blocked', component: BlockedUsersComponent},
                 ]
             },
             { path: 'sysadmin', component: SysadminComponent, children:

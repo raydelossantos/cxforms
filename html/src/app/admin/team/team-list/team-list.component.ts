@@ -115,7 +115,13 @@ export class TeamListComponent implements OnInit, OnDestroy {
     this.teamPostSubscription = this.teamService.teamPost.subscribe(
       (team: any) => {
         if (typeof(team) !== 'undefined' && team.success) {
-          swal('Created new team', 'New team was created successfully', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Created new team successfully.',
+            showConfirmButton: false,
+            timer: 1500
+          });
           this.teamService.httpGetAllTeams();
           $('#btnCloseAdd').click();
           this.selectedClient = null;
@@ -137,12 +143,10 @@ export class TeamListComponent implements OnInit, OnDestroy {
             timer: 1500
           });
 
-          $('#btnCloseDelete').click();
-
           // delete row from datatable
           const table = $('#viewlist-table').DataTable();
           table.row($('#' + this._del_rec._team_id)).remove().draw();
-
+          this.loading = false;
         } else if(typeof(team) !== 'undefined') {
           swal('Delete failed', 'Unable to delete team.  <br><br>' + team.message, 'error');
         }
@@ -242,20 +246,29 @@ export class TeamListComponent implements OnInit, OnDestroy {
     this.teamService.httpPutTeam(id, data);
   }
 
-  onDelRecord(id, name, code, location) {
+  onDelRecord(id: any, name: any, code: any, location: any) {
+    const that = this;
 
-    this._del_rec = {
-      _team_id: id ,
-      _team_name: name,
-      _team_location: location,
-      _team_code: code
-    };
-    
-    $("#btnDeleteRecord").click();
-  }
-
-  onDeleteRecord(id) {
-    this.teamService.httpDeleteTeam(id);
+    swal({
+      title: 'Archive this team?',
+      text: "This will hide this team and access will be revoked.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, restore it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that._del_rec = {
+          _team_id: id ,
+          _team_name: name,
+          _team_location: location,
+          _team_code: code
+        };
+        that.teamService.httpDeleteTeam(id);
+      }
+    });
   }
 
   resetFields(method: any) {

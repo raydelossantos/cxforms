@@ -190,7 +190,7 @@ class FormUserController {
                             'label'         => $label,
                             'form_id'       => $form->id,
                             'type'          => 'permission',
-                            'icon'          => 'unlock-alt'
+                            'icon'          => 'file-text'
                         ]
                     );
 

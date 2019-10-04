@@ -85,15 +85,15 @@
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #DE7431;
 }
 
 input:disabled + .slider {
-  background-color: rgb(236, 128, 128);
+  background-color: rgb(73, 70, 70);
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #DE7431;
 }
 
 input:checked + .slider:before {

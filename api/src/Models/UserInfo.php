@@ -22,6 +22,7 @@ class  UserInfo extends Model {
     protected $fillable = [
         'username',
         'email',
+        'photo',
         'user_origin',
         'user_id',
         'employee_id',

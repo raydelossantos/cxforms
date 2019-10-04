@@ -1,51 +1,99 @@
 <!-- <section id="main"> -->
 <div [@enterAnimation]>
     <div class="heading">
-        <span class="fa fa-fw fa-tachometer mr-1"></span> Home    
+        <span class="fa fa-fw fa-tachometer mr-1"></span> Dashboard <small>Version 1.0.0 | Build #0001</small>
     </div>
 
-    <!-- QUICK LINKS & QUICK -->
+    <!-- OVERVIEW -->
+    <div class="row">
+        <div *ngFor="let overview of _quick_overview" class="col-xs-12 col-sm-6 col-xl-3 pb-2">
+            <div class="info-box">
+                <span class="info-box-icon bg-{{ overview.color }}"><i class="fa {{ overview.icon }}"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">{{ overview.name }}</span>
+                    <span class="info-box-number">{{ overview.count }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- USER STATS OVERVIEW -->
     <div class="row">
         <div class="col">
-            <div class="card card-success">
+            <div class="card card-primary">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <span class="fa fa-bar-chart fa-fw"></span> Statitics <small>Overview</small>
+                        <span class="fa fa-users fa-fw"></span> Users
                     </h5>
                 </div>
-                
                 <div class="card-body" style="min-height: 150px;;">
-                    <div class="row">
-                        <div *ngFor="let overview of _quick_overviews" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
-                            <div class="dashboard-links f{{ overview.color }}">
-                                <div class="dash-box">
-                                    <div style="font-size: 18px;">{{ overview.name }}</div>
-                                    <div><span class="stat-count"><span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.count }}</span><br></div>
-                                    <span class="stat-details">
-                                            <!-- <a [routerLink]="overview.link" class="dashboard-links">
-                                                {{ overview.description }}
-                                            </a> -->
-                                            <a [routerLink]="overview.link" class="btn btn-xs btn-outline-{{ overview.color }}">
-                                                   <span class="fa fa-arrow-circle-right fa-fw"></span> {{ overview.description }}
-                                            </a>
-                                    </span>
-                                </div>
-                            </div>  
-                            <span *ngFor="let item of overview.others">
-                                <span class="">
-                                    <a routerLink="{{ item.link }}">
-                                        <span class="fa fa-fw {{ item.icon }}"></span> 
-                                        {{ item.title }}: {{ item.count }} <br />
-                                    </a>
-                                </span> 
-                            </span>
+                    <div *ngFor="let overview of _user_overview">
+                        <div class="">
+                            <div style="font-size: 14px;">
+                                <span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.name }}: 
+                                <a [routerLink]="overview.link" class="btn btn-xs btn-outline-{{ overview.color }}">
+                                    <span class="fa fa-arrow-circle-right fa-fw"></span> {{ overview.count }} 
+                                </a>
+                            </div>
                         </div>
-                    </div>  <!-- row -->
+                    </div>
+                    
                     <ngx-loading [show]="loading"></ngx-loading>
                     <span [hidden]="!loading" class="ngx-text">Fetching statistics . . .</span>
                 </div> <!-- card-body -->
             </div> <!-- card -->
         </div>
+
+        <div class="col">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <span class="fa fa-newspaper-o fa-fw"></span> Clients
+                    </h5>
+                </div>
+                <div class="card-body" style="min-height: 150px;;">
+                    <div *ngFor="let overview of _client_overview">
+                        <div class="">
+                            <div style="font-size: 14px;">
+                                <span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.name }}: 
+                                <a [routerLink]="overview.link" class="btn btn-xs btn-outline-{{ overview.color }}">
+                                    <span class="fa fa-arrow-circle-right fa-fw"></span> {{ overview.count }} 
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <span [hidden]="!loading" class="ngx-text">Fetching statistics . . .</span>
+                </div> <!-- card-body -->
+            </div> <!-- card -->
+        </div>
+
+        <div class="col">
+            <div class="card card-success">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <span class="fa fa-pie-chart fa-fw"></span> Teams
+                    </h5>
+                </div>
+                <div class="card-body" style="min-height: 150px;;">
+                    <div *ngFor="let overview of _team_overview">
+                        <div class="">
+                            <div style="font-size: 14px;">
+                                <span class="fa {{ overview.icon }} fa-fw"></span> {{ overview.name }}: 
+                                <a [routerLink]="overview.link" class="btn btn-xs btn-outline-{{ overview.color }}">
+                                    <span class="fa fa-arrow-circle-right fa-fw"></span> {{ overview.count }} 
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ngx-loading [show]="loading"></ngx-loading>
+                    <span [hidden]="!loading" class="ngx-text">Fetching statistics . . .</span>
+                </div> <!-- card-body -->
+            </div> <!-- card -->
+        </div>
+
     </div>
 
     <br>
@@ -54,7 +102,7 @@
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
-                    <i class="fa fa-newspaper-o"></i> Clients
+                    <i class="fa fa-newspaper-o"></i> Recently Added Clients
                 </h5>
             </div>
         
@@ -69,7 +117,7 @@
                     <br>
                     <div class="row" *ngIf="clients != 0">
                         <div *ngFor="let _client of clients | filter: searchText" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
-                            <a (click)="onClientChange(_client)">
+                            <a routerLink="client/list/{{ _client.id }}">
                                 <div class="card card-outline-info card-small form_link" id="{{ _client.id }}Panel" style="padding: 0;">
                                     <div class="card-block" style="padding: 10px;">
                                         <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" style="height: 45px; width: 45px; float: left; margin-right: 5px;">

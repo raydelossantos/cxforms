@@ -28,12 +28,12 @@ export class ForminfoComponent implements OnInit, OnDestroy {
   formPutSubscription: Subscription;
   formGetSubscription: Subscription;
   formDeleteSubscription: Subscription;
+  lobGetSubscription: Subscription;
 
   config: any;
 
   formForm: FormGroup;
   form: any = [];
-  lobGetSubscription: Subscription;
   lob: any;
   isExistingForm: boolean = false;
   _form_id: any = null;
@@ -160,7 +160,14 @@ export class ForminfoComponent implements OnInit, OnDestroy {
     this.formPostSubscription = this.formService.formPost.subscribe(
       (form: any) => {
         if (typeof(form) !== 'undefined' && form.success) {
-          swal('Created', 'Form has been created successfully.', 'success');
+          // swal('Created', 'Form has been created successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Form has been created successfully',
+            showConfirmButton: false,
+            timer: 1500
+          });
           // redirect to the newly created form
           const form_url = '/form/' + form.form_id + '/settings/details';
           this.router.navigate([form_url]);
@@ -170,6 +177,7 @@ export class ForminfoComponent implements OnInit, OnDestroy {
           }
         } else if (typeof(form) !== 'undefined' && form.success === false) {
           swal('Create failed', 'Unable to create form. <br><br>' + form.message, 'error');
+          this.loading = false;
         }
       }
     );
@@ -177,7 +185,14 @@ export class ForminfoComponent implements OnInit, OnDestroy {
     this.formDeleteSubscription = this.formService.formDelete.subscribe(
       (form: any) => {
         if (typeof(form) !== 'undefined' && form.success) {
-          swal('Archived', 'Form has been archived successfully.', 'success');
+          // swal('Archived', 'Form has been archived successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Form archived!',
+            showConfirmButton: false,
+            timer: 1500
+          });
           // redirect to home dashboard after archiving
           this.router.navigate(['/home']);
 
@@ -193,7 +208,14 @@ export class ForminfoComponent implements OnInit, OnDestroy {
     this.formPutSubscription = this.formService.formPut.subscribe(
       (form: any) => {
         if (typeof(form) !== 'undefined' && form.success) {
-          swal('Form Updated', 'Form was updated successfully.', 'success');
+          // swal('Form Updated', 'Form was updated successfully.', 'success');
+          swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Form updated!',
+            showConfirmButton: false,
+            timer: 1500
+          });
 
           this.formService.httpGetFormById(this._form_id);
 
@@ -226,7 +248,7 @@ export class ForminfoComponent implements OnInit, OnDestroy {
     const attachments = false;
     const max_records_in_list_view = 20;
     const wp_link = '';
-    const form_type = '';
+    const form_type = 'Connext Forms Default';
 
     this.formForm = new FormGroup({
       'form_name': new FormControl(form_name, Validators.required),
@@ -241,7 +263,7 @@ export class ForminfoComponent implements OnInit, OnDestroy {
       'attachments': new FormControl(attachments),
       'max_records_in_list_view': new FormControl(max_records_in_list_view),
       'wp_link': new FormControl({value: wp_link, disabled : true}),
-      'form_type': new FormControl({value: form_type})
+      'form_type': new FormControl(form_type, Validators.required)
     });
 
     $('#form_name').focus();
@@ -290,7 +312,25 @@ export class ForminfoComponent implements OnInit, OnDestroy {
   }
 
   onArchiveForm(id: any) {
-    this.formService.httpDeleteForm(id);
+    // this.formService.httpDeleteForm(id);
+
+    const that = this;
+    swal({
+      title: 'Achive form?',
+      text: "This form will no longer be accessible. It can only be restored via Admin Panel.",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, archive it!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.formService.httpDeleteForm(id);
+        // that._restore = id;
+      }
+    });
+
     // swal('Archived form', 'Form ID:  ' + id, 'success')
   }
 
@@ -337,7 +377,10 @@ export class ForminfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.formPostSubscription) this.formPostSubscription.unsubscribe();
+    if (this.formPutSubscription) this.formPutSubscription.unsubscribe();
     if (this.formGetSubscription) this.formGetSubscription.unsubscribe();
+    if (this.formDeleteSubscription) this.formDeleteSubscription.unsubscribe();
+    if (this.lobGetSubscription) this.lobGetSubscription.unsubscribe();
   }
 
 }

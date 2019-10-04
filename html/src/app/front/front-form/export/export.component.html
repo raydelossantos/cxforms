@@ -23,7 +23,7 @@
                                 Export
                                 <!-- <label class="switch">
                                     <input type="checkbox" name="chk_all" id="chk_all" title="Select all fields">
-                                    <span class="slider"></span>
+                                    <span class="slider round"></span>
                                 </label> -->
                             </th>
                         </tr>
@@ -36,7 +36,7 @@
                             <td class="text-center">
                             <label class="switch">
                                 <input class="chk_export" type="checkbox" [name]="_fld.form_field_name" [id]="_fld.form_field_name" [title]="_fld.label" [checked]="true">
-                                <span class="slider"></span>
+                                <span class="slider round"></span>
                             </label>
                             </td>
                         </tr>
@@ -98,16 +98,16 @@
                             <div class="form-info">
                                 <form>
                                     <div class="field-label">Date Ranges: </div>
-                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Today')">
+                                    <button class="btn btn-outline-grey btn-sm" (click)="onDateRangeClick('Today')">
                                         <span class="fa fa-fw fa-clock-o"></span> Today
                                     </button>
-                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Yesterday')">
+                                    <button class="btn btn-outline-grey btn-sm" (click)="onDateRangeClick('Yesterday')">
                                         <span class="fa fa-fw fa-clock-o"></span> Yesterday
                                     </button>
-                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('This Week')">
+                                    <button class="btn btn-outline-grey btn-sm" (click)="onDateRangeClick('This Week')">
                                         <span class="fa fa-fw fa-clock-o"></span> This Week
                                     </button>
-                                    <button class="btn btn-blue-grey btn-sm" (click)="onDateRangeClick('Last Week')">
+                                    <button class="btn btn-outline-grey btn-sm" (click)="onDateRangeClick('Last Week')">
                                         <span class="fa fa-fw fa-clock-o"></span> Last Week
                                     </button>
                                 </form>
@@ -131,13 +131,13 @@
                                             <option *ngFor="let filter of _filter_operators" [value]="filter.value">{{ filter.label }}</option>
                                         </select>
                                         <input type="text" class="filter_text">
-                                        <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)"><span class="fa fa-fw fa-trash"></span></button>
+                                        <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)"><span class="fa fa-fw fa-times"></span></button>
                                         <div class="clear">&nbsp;</div>
                                     </li>
                                 </ul>
                                 <br />
                                 <form>
-                                    <button class="btn btn-warning btn-sm" (click)="onAddFilter()">
+                                    <button class="btn btn-outline-orange btn-sm" (click)="onAddFilter()">
                                         <span class="fa fa-fw fa-plus"></span> Add Filter
                                     </button>
                                 </form>
@@ -149,7 +149,7 @@
                                 <form style="display: -webkit-inline-box;">
                                     <label class="switch" style="margin-bottom: 0;">
                                         <input type="checkbox" name="creator" id="creator" title="Include creator info" [(ngModel)]="_include_creator">
-                                        <span class="slider"></span>
+                                        <span class="slider round"></span>
                                     </label>
                                     <label style="margin-left: 10px; padding-right: 20px; display: inline;" for="creator"> Include Creator/Submitter's information (CS Employee ID, full name & email) </label>
                                 </form>
@@ -159,7 +159,7 @@
                                 <form style="display: -webkit-inline-box;">
                                     <label class="switch" style="margin-bottom: 0;">
                                         <input type="checkbox" name="modifier" id="modifier" title="Include modifier info" [(ngModel)]="_include_modifier">
-                                        <span class="slider"></span>
+                                        <span class="slider round"></span>
                                     </label>
                                     <label style="margin-left: 10px; padding-right: 20px;  display: inline;" for="modifier"> Include Last Modifier's information (CS Employee ID, full name & email) </label>
                                 </form>
@@ -178,7 +178,7 @@
                                     <span class="fa fa-fw fa-spinner"></span>
                                     Request Export Data
                                 </button>
-                                <button type="button" id="btnExportResults" class="btn btn-md btn-primary waves-light" data-toggle="modal" data-target="#basicExample" (click)="fluid.show()"
+                                <button type="button" id="btnExportResults" class="btn btn-md btn-outline-primary waves-light" data-toggle="modal" data-target="#basicExample" (click)="fluid.show()"
                                     mdbWavesEffect>
                                     <span class="fa fa-fw fa-download"></span>
                                     Download Results
@@ -230,7 +230,7 @@
 
             </div>
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-md btn-blue-grey waves-light" data-dismiss="modal" (click)="fluid.hide()" mdbWavesEffect>
+                <button type="button" class="btn btn-md btn-outline-grey waves-light" data-dismiss="modal" (click)="fluid.hide()" mdbWavesEffect>
                     <span class="fa fa-fw fa-times"></span> Close
                 </button>
             </div>

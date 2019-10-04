@@ -189,7 +189,16 @@ export class PermissionComponent implements OnInit, OnDestroy, AfterViewInit {
       this.userPermissionPost = this.permissionService.userPermissionPost.subscribe(
         (user: any) => {
           if (typeof(user) !== 'undefined' && user.success) {            
-            swal('Permission added', 'Successfully added new user permission.', 'success');
+            // swal('Permission added', 'Successfully added new user permission.', 'success');
+
+            swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'User permission added!',
+              showConfirmButton: false,
+              timer: 1000
+            });
+
             this.resetPermissionForms(); // reset add forms
             $('#btnCloseAddUser').click()
             this.loading = false;
@@ -204,7 +213,16 @@ export class PermissionComponent implements OnInit, OnDestroy, AfterViewInit {
       this.teamPermissionPost = this.permissionService.teamPermissionPost.subscribe(
         (team: any) => {
           if (typeof(team) !== 'undefined' && team.success) {            
-            swal('Permission added', 'Successfully added new team permission.', 'success');
+            // swal('Permission added', 'Successfully added new team permission.', 'success');
+
+            swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'Team permission added!',
+              showConfirmButton: false,
+              timer: 1000
+            });
+            
             this.resetPermissionForms(); // reset add forms
             $('#btnCloseAddTeam').click()
             this.loading = false;
@@ -252,6 +270,14 @@ export class PermissionComponent implements OnInit, OnDestroy, AfterViewInit {
         (team: any) => {
           if (typeof(team) !== 'undefined' && team.success) {  
             // swal('Updated permission', 'Successfully updated team permissions.', 'success');
+            swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'Team permissions updated!',
+              showConfirmButton: false,
+              timer: 1000
+            });
+
             this.loading_team = false;
           } else if (typeof(team) !== 'undefined' && team.success === false) {
             swal('Failed to update permission', 'Unable to update team permission.<br> <br>' + team.message, 'error' );
@@ -264,6 +290,14 @@ export class PermissionComponent implements OnInit, OnDestroy, AfterViewInit {
         (user: any) => {
           if (typeof(user) !== 'undefined' && user.success) {  
             // swal('Updated permission', 'Successfully updated user permissions.', 'success');
+            swal({
+              position: 'top-end',
+              type: 'success',
+              title: 'User permissions updated!',
+              showConfirmButton: false,
+              timer: 1000
+            });
+
             this.loading_user = false;
           } else if (typeof(user) !== 'undefined' && user.success === false) {
             swal('Failed to update permission', 'Unable to update user permission.<br> <br>' + user.message, 'error' );

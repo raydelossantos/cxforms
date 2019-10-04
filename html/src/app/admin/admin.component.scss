@@ -42,18 +42,23 @@ hr {
     // border-bottom: 1px solid rgba(154, 153, 153, 0.178);
     -webkit-transition: .4s;
     transition: .4s;
+    border-bottom: rgba(44, 44, 44, 0.061) 1px solid;
 }
 
-.notif:hover, {
+.notif:hover {
     background-color: #DE7431;
     color: white;
+}
+
+.modal-header a:hover {
+    color: #DE7431;
 }
 
 .notif:hover .notif_btn {
     color: white;
 }
 .unread {
-    background-color: #bee9f65d;
+    background-color: rgba(222, 115, 49, 0.281);
 }
 
 .notif .notif_icon {

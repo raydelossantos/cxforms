@@ -110,8 +110,8 @@ export class DeletedTeamComponent implements OnInit, OnDestroy {
     const that = this;
 
     swal({
-      title: 'Restore archived line of business?',
-      text: "It will be listed back to active LOB's.",
+      title: 'Restore Team?',
+      text: "It will be listed back to active Teams. All previous access grants will also be restored.",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

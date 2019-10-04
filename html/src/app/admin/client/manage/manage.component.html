@@ -44,7 +44,7 @@
             <li class="nav-item">
               <a class="nav-link" id="lob-tab"  (click)="toggleTab(2)" data-toggle="tab" role="tab" aria-controls="lob" aria-selected="false">
                 <span class="fa fa-fw fa-building"></span>
-                Lines of Business
+                Lines of Business Admins
               </a>
             </li>
 
@@ -66,18 +66,13 @@
               <div class="card" style="-webkit-box-shadow: none; box-shadow: none;">
 
                 <div class="table-responsive">
-                  <div style="float: left;">
-
+                  <div style="float: right;">      
                     <button class="btn btn-outline-green btn-xs" data-toggle="modal" (click)="addClientAdmin.show(); onAddClientAdmin();" data-target="#addClientAdmin">
                       <span class="fa fa-fw fa-plus"></span> Add Client Admin
                     </button>
-
                     <button class="btn btn-outline-grey btn-xs" data-toggle="modal" (click)="onSaveClientAdminBatch()" data-target="#addClientAdmin" [disabled]="_client_admins.length === 0">
                       <span class="fa fa-fw fa-save"></span> Save Changes
                     </button>
-                  </div>
-
-                  <div style="float: right;">      
                     <button class="btn btn-outline-grey btn-xs" (click)="onRefreshClientAdmin()">
                       <span class="fa fa-fw fa-refresh"></span> Refresh List
                     </button>
@@ -111,19 +106,19 @@
                         <td class="text-center">
                           <label class="switch">
                             <input class="chkManageInfo" type="checkbox" [checked]="_client_admin.manage_info">
-                            <span class="slider"></span>
+                            <span class="slider round"></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label class="switch">
                             <input class="chkManageLOB" type="checkbox" [checked]="_client_admin.manage_lob">
-                            <span class="slider"></span>
+                            <span class="slider round"></span>
                           </label>
                         </td>
                         <td class="text-center">
                           <label class="switch">
                             <input class="chkManageForms" type="checkbox" [checked]="_client_admin.manage_forms">
-                            <span class="slider"></span>
+                            <span class="slider round"></span>
                           </label>
                         </td>
                         <td>{{ _client_admin.creator ? _client_admin.creator.first_name + ' ' + _client_admin.creator.last_name : '-' }}</td>
@@ -172,8 +167,8 @@
                       </span>
 
                       <span style="float: right;">
-                          <button type="btn" class="btn btn-xs btn-outline-grey" (click)="onAddLobUserPermission(lob); addLobUser.show();">
-                              <i class="fa fa-fw fa-plus"></i> Add User Permission
+                          <button type="btn" class="btn btn-xs btn-outline-green" (click)="onAddLobUserPermission(lob); addLobUser.show();">
+                              <i class="fa fa-fw fa-plus"></i> Add LOB Admin
                           </button>
                           <button type="btn" class="btn btn-xs btn-outline-grey" (click)="onSaveLobUserBatchPermission(lob)" [disabled]="lob_users[lob.id].user.length === 0">
                               <i class="fa fa-fw fa-save"></i> Save Changes
@@ -202,20 +197,20 @@
                         <tr *ngFor="let user of lob_users[lob.id].user" id="tr_lob_user_{{ user.id }}">
                           <td [hidden]="true" class="lobUserId">{{ user.id }}</td>
                           <td> 
-                            <span class="fa fa-fw fa-user" style="color: green"></span>
+                            <span class="fa fa-fw fa-user" style="color: #DE7431"></span>
                             {{ user.user.first_name + ' ' + user.user.last_name }}
                           </td>
                           <td>{{ user.user.username }}</td>
                           <td class="text-center">
                             <label class="switch">
                               <input class="chkLobManageForms" type="checkbox" [checked]="user.manage_forms">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                             </label>
                           </td>
                           <td class="text-center">
                             <label class="switch">
                               <input class="chkLobAddNewForm" type="checkbox" [checked]="user.add_form">
-                              <span class="slider"></span>
+                              <span class="slider round"></span>
                             </label>
                           </td>
                           <td>{{ user.creator ? user.creator.first_name : '' }} {{ user.creator ? user.creator.last_name : '-' }}</td>

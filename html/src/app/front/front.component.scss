@@ -37,9 +37,7 @@ hr {
 
 .notif {
     // margin-bottom: 2px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    padding: 5px;
     height: 45px; 
     display: block;
     cursor: pointer;
@@ -48,7 +46,7 @@ hr {
     transition: .4s;
 }
 
-.notif:hover, {
+.notif:hover {
     background-color: #DE7431;
     color: white;
 }
@@ -57,7 +55,7 @@ hr {
     color: white;
 }
 .unread {
-    background-color: #bee9f65d;
+    background-color: rgba(222, 115, 49, 0.281);
 }
 
 .notif .notif_icon {

@@ -198,6 +198,131 @@ class AuthenticationController {
     }
 
     /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param array                                    $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function pw_login(Request $request, Response $response, $args)
+    {
+        $result             = [];
+        $result['status']   = 'success';
+        $result['success']  = false;
+
+        $request_data = $request->getParsedBody();
+
+        /**
+         * Validate input
+         */
+        if (empty($request_data['username']) || empty($request_data['password'])) {
+            $result['status'] = 'Invalid username/password';
+            $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+            return $response->withStatus(404)->withJson($result);
+        }
+
+        /**
+         * Verify if user exists in users table before authenticating
+         */
+        $_user_check = User::where('username', $request_data['username'])->first();
+        if ($_user_check) {
+            if($_user_check->login_attempt == 5) {
+                $result['status'] = 'Account Locked';
+                $result['message'] = 'Your user account was locked due to multiple invalid login attempts. Kindly check your email to unlock or contact Administrator.';
+                return $response->withStatus(401)->withJson($result);
+            }
+
+            $username = $request_data['username'];
+            $password = $request_data['password'];
+            
+            if(true){
+                $user['username'] = $username;
+                $user['image_link'] = $this->ldap_image . $username;
+
+                // get user details
+                $user_details = User::select(['id', 'username', 'is_admin'])->where('username', $username)->first();
+
+                // get user_info
+                $user_info = UserInfo::select(['id', 'username', 'user_id', 'last_name', 'first_name', 'middle_name', 'email', 'employee_id'])->where('username', $username)->first();
+
+                if (empty($user_details) || empty($user_info)) {
+                    $result['status'] = 'Invalid username/password';
+                    $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+
+                    return $response->withStatus(404)
+                                    ->withHeader("Content-Type", "application/json")
+                                    ->withJson($result);
+                }
+
+                $user['info'] = [
+                    'user' => $user_details,
+                    'user_info' => $user_info
+                ];
+
+                $result = $this->_token($request, $user['info'], $this->settings['jwt_expiration']['ldap']);
+                $result['status'] = "success";
+                $result['success']  = true;
+
+                // reset user invalid login details
+                $user_details->login_attempt = 0;
+                $user_details->update();
+
+                // Log user login activity to db
+                UserLog::create(
+                    [
+                        'user_id'       => $user_details['id'], 
+                        'user_agent'    => $this->getBrowserName(json_encode($request->getHeader('User-Agent'))),
+                        'ip_address'    => $this->getRealIpAddress(),
+                        'activity'      => 'Logged in via LDAP.', 
+                    ]
+                );
+
+                return $response->withStatus(200)
+                                ->withHeader("Content-Type", "application/json")
+                                ->write(json_encode($result, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+            }
+            
+            $user = User::where('username', $username)->with('user_info')->first();
+
+            if(!empty($user)) {
+
+                if (($user->login_attempt + 1) === 5) {
+                    $hash = hash('sha256', sha1(uniqid().time()) );
+                    $user->reset_hash = $hash;
+                    $user->login_attempt = $user->login_attempt + 1;
+                    $user->update();
+
+                    // send email notificaitons when user has been locked
+                    $receiver = [
+                        $user->user_info->last_name . ', ' . $user->user_info->first_name . ' ' . $user->user_info->middle_name,
+                        $user->user_info->email
+                    ];
+
+                    $notif = new CommonController($this->logger, $this->db, $this->settings);
+
+                    $notif->send_notification(
+                        'user_locked',
+                        $hash,
+                        $receiver
+                    );
+
+                    $result['status'] = 'Account Locked';
+                    $result['message'] = 'Your user account was locked due to multiple invalid login attempts. Kindly contact Administrator.';
+                    return $response->withStatus(401)->withJson($result);
+                }
+
+                $user->login_attempt = $user->login_attempt + 1;
+                $user->update();
+            }
+
+        }
+
+        $result['status'] = 'Invalid username/password';
+        $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+        return $response->withStatus(404)->withJson($result);
+    }
+
+    /**
      * This function covers the login using GOOGLE ACCOUNT
      * It connects to google api, get access_token, user_profiel_info
      * then redirects to angular URL to catch JWT TOKEN generated here

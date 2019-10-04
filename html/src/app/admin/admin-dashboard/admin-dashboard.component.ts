@@ -37,9 +37,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
 
   no_record_message: string = 'No records found.';
 
-  _quick_overviews = [];
+  _quick_overview = [];
+
+  _user_overview = [];
+  _client_overview = [];
+  _team_overview = [];
+
 
   _api_endpoint: any;
+  _teams_overview: { name: string; link: string; count: any; description: string; icon: string; color: string; others: any[]; }[];
 
   constructor(private clientService: ClientService,
               @Inject(APP_CONFIG) private appConfig,
@@ -77,7 +83,39 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
     this.commonGetAllStatsSubscription = this.commonService.statsGetAll.subscribe(
       (stats: any) => {
         if (typeof(stats) !== 'undefined' && stats.success) {
-          this._quick_overviews = [
+          this._quick_overview = [
+            { 
+              name: 'Users', 
+              link: 'user/list', 
+              count: stats.data.user_active, 
+              description: 'User accounts', 
+              icon: 'fa-users',
+              color: 'green'
+            },{ 
+              name: 'System Admins', 
+              link: 'sysadmin/list', 
+              count: stats.data.user_admin, 
+              description: 'Privileged Users', 
+              icon: 'fa-user-secret',
+              color: 'red'
+            },{ 
+              name: 'Clients', 
+              link: 'client/list', 
+              count: stats.data.client_active, 
+              description: 'Active clients', 
+              icon: 'fa-newspaper-o',
+              color: 'blue'
+            },{ 
+              name: 'Teams', 
+              link: 'team/list', 
+              count: stats.data.team_active, 
+              description: 'Roles & Members', 
+              icon: 'fa-pie-chart',
+              color: 'purple'
+            }
+          ];
+
+          this._user_overview = [
             { 
               name: 'Users', 
               link: 'user/list', 
@@ -85,7 +123,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
               description: 'User accounts', 
               icon: 'fa-users',
               color: 'green',
-              others: []
+              others: [
+                { title: 'Sync Accounts', count: 0, icon: 'fa-refresh', link: 'user/sync' }
+              ]
             },{ 
               name: 'System Admins', 
               link: 'sysadmin/list', 
@@ -112,11 +152,15 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
               color: 'grey',
               others: [
               ]
-            },{ 
+            }
+          ];
+
+          this._client_overview = [
+            { 
               name: 'Clients', 
               link: 'client/list', 
               count: stats.data.client_active, 
-              description: 'Monitored Clients', 
+              description: 'Existing customers', 
               icon: 'fa-newspaper-o',
               color: 'teal',
               others: []
@@ -124,11 +168,31 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
               name: 'Archived Clients', 
               link: 'client/archived', 
               count: stats.data.client_inactive, 
-              description: 'Cancelled Clients', 
-              icon: 'fa-archive',
+              description: 'Inactive customers', 
+              icon: 'fa-newspaper-o',
               color: 'grey',
               others: []
             },{ 
+              name: 'Lines of Businesses', 
+              link: 'client/business', 
+              count: stats.data.team_active, 
+              description: 'Clients\' subject focus', 
+              icon: 'fa-building',
+              color: 'green',
+              others: []
+            },{ 
+              name: 'Archived LOB\'s', 
+              link: 'client/archivedlob', 
+              count: stats.data.team_inactive, 
+              description: 'Inactive LOB\'s', 
+              icon: 'fa-building',
+              color: 'grey',
+              others: []
+            },           
+          ];
+
+          this._team_overview = [
+            { 
               name: 'Teams', 
               link: 'team/list', 
               count: stats.data.team_active, 
@@ -144,7 +208,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
               icon: 'fa-archive',
               color: 'grey',
               others: []
-            },
+            },            
           ];
 
           this.loading = false;

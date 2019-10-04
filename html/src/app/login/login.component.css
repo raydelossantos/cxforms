@@ -272,12 +272,15 @@ a:hover {
   align-items: center;
   padding: 15px;
   background: #f2f2f2;  
+  background-image: url('../../login_bg.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .wrap-login {
   width: 390px;
   background: #fff;
-  border-radius: 0px;
+  border-radius: 30px;
   overflow: hidden;
   padding: 40px;
   box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
@@ -461,6 +464,7 @@ a:hover {
   border-radius: 0px;
   overflow: hidden;
   margin: 0 auto;
+  border-radius: 30px;
 }
 
 .login-form-bgbtn {
@@ -469,10 +473,10 @@ a:hover {
   width: 300%;
   height: 100%;
   background: #a64bf4;
-  background: -webkit-linear-gradient(to left, #ecc65d, #d18c0b, #ecc65d, #d18c0b);
-  background: -o-linear-gradient(to left, #ecc65d, #d18c0b, #ecc65d, #d18c0b);
-  background: -moz-linear-gradient(to left, #ecc65d, #d18c0b, #ecc65d, #d18c0b);
-  background: linear-gradient(to left, #ecc65d, #d18c0b, #ecc65d, #d18c0b);
+  background: -webkit-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
+  background: -o-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
+  background: -moz-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
+  background: linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
   top: 0;
   left: -100%;
 
@@ -525,6 +529,8 @@ a:hover {
   font-size: 15px;
   color: #fff;
   line-height: 1.2;
+
+  border-radius: 5px;
 
   display: -webkit-box;
   display: -webkit-flex;

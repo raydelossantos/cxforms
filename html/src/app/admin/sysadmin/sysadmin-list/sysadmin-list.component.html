@@ -53,7 +53,7 @@
                   <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_forms | adminAccessType }}"></span></td>
 
                   <td style="text-align: center;">
-                    <button class="btn btn-xs btn-outline-green" (click)="onEditRecord( _admin_user.id )">
+                    <button class="btn btn-xs btn-outline-grey" (click)="onEditRecord( _admin_user.id )">
                       <span class="fa fa-fw fa-edit"></span> Edit
                     </button>
                     <button class="btn btn-xs btn-outline-red" (click)="onDelRecord( _admin_user.username, _admin_user.id, _admin_user.user_info.first_name + ' ' + _admin_user.user_info.last_name )">
@@ -303,11 +303,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
           <i class="fa fa-save ml-1"></i>
           Save Record
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -337,11 +337,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._user_id)">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._user_id)">
           <i class="fa fa-save ml-1"></i>
           Delete
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -561,11 +561,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_admin_user.id)">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_admin_user.id)">
           <i class="fa fa-save ml-1"></i>
           Save Record
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>

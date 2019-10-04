@@ -43,6 +43,7 @@ class User extends Model {
 
     protected $fillable = [
         'username',
+        'password',
         'is_admin',
         'created_by'
     ];

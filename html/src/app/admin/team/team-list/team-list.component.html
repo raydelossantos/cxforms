@@ -6,11 +6,11 @@
         
         <div style="float: right;">
 
-          <button class="btn btn-outline-green btn-sm" data-toggle="modal" (click)="addRecord.show()" data-target="#addRecord">
+          <button class="btn btn-outline-green btn-md" data-toggle="modal" (click)="addRecord.show()" data-target="#addRecord">
             <span class="fa fa-fw fa-plus"></span> Add Team
           </button>
 
-          <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()">
+          <button class="btn btn-outline-grey btn-md" (click)="onRefreshRecords()">
             <span class="fa fa-fw fa-refresh"></span> Refresh List
           </button>
 
@@ -132,11 +132,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
           <i class="fa fa-fw fa-save ml-1"></i>
           Save
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide(); resetFields('add');" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="addRecord.hide(); resetFields('add');" mdbWavesEffect>
           <i class="fa fa-fw fa-times ml-1"></i>
           Close
         </button>
@@ -201,11 +201,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_team.id)">
+        <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onUpdateRecord(_team.id)">
           <i class="fa fa-fw fa-save ml-1"></i>
           Update
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide(); resetFields('edit');" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide(); resetFields('edit');" mdbWavesEffect>
           <i class="fa fa-fw fa-times ml-1"></i>
           Close
         </button>
@@ -236,11 +236,11 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-sm btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._team_id)">
+        <button type="button" class="btn btn-md btn-danger relative waves-light" mdbWavesEffect (click)="onDeleteRecord(_del_rec._team_id)">
           <i class="fa fa-fw fa-archive"></i>
           Archive
         </button>
-        <button type="button" class="btn btn-sm btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="deleteRecord.hide()" mdbWavesEffect>
           <i class="fa fa-fw fa-times ml-1"></i>
           Close
         </button>

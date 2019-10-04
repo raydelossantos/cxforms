@@ -59,9 +59,9 @@
             <div class="field-input">
               <select formControlName="form_type" class="form-control" name="form_type" id="form_type" style="font-size: 14px;">
                 <option value="0" selected>Connext Forms Default</option>
-                <option value="1" selected>Public Form</option>
+                <option value="1">Public Form</option>
               </select>
-              <div class="field-description">Form type is set to default form.</div>
+              <div class="field-description">Form type is set to Connext Forms Default if non is selected.</div>
             </div>
           </div>
 
@@ -86,7 +86,7 @@
             <div class="field-input">
               <label class="switch">
                 <input formControlName="stay_after_submit" type="checkbox" id="stay_after_submit">
-                <span class="slider"></span>
+                <span class="slider round"></span>
               </label>
               <div class="field-description">Check this to clear the form after saving a record. If unchecked, will retain it's contents and can be cleared manually by clicking 'Clear Form'.</div>
             </div>
@@ -97,7 +97,7 @@
             <div class="field-input">
               <label class="switch">
                 <input formControlName="show_submitters_info" type="checkbox" id="show_submitters_info">
-                <span class="slider"></span>
+                <span class="slider round"></span>
               </label>
               <div class="field-description">Show the original submitter's team, supervisor, etc, at the top of the form.</div>
               </div>
@@ -108,7 +108,7 @@
             <div class="field-input">
               <label class="switch">
                 <input formControlName="hide_values_in_emails" type="checkbox" id="hide_values_in_emails">
-                <span class="slider"></span>
+                <span class="slider round"></span>
               </label>
 
               <div class="field-description">Check this to prevent record data goin out in notification emails. Only a web link back to the record will be in the email.</div>
@@ -120,7 +120,7 @@
             <div class="field-input">
               <label class="switch">
                 <input formControlName="attachments" type="checkbox" id="attachments">
-                <span class="slider"></span>
+                <span class="slider round"></span>
               </label>
 
               <div class="field-description">Allow attachments on this list</div>
@@ -152,8 +152,8 @@
           </div>
 
           <hr>
-          <button class="btn btn-md btn-outline-primary waves-effect" mdbRippleRadius (click)="onSaveForm()" [disabled]="!formForm.valid"><span class="fa fa-fw fa-save"></span> Save Changes</button>
-          <button *ngIf="isExistingForm" class="btn btn-md btn-outline-red waves-effect" mdbRippleRadius (click)="deleteRecord.show()"><span class="fa fa-fw fa-archive"></span> Archive this form</button>
+          <button class="btn btn-md btn-success waves-effect" mdbRippleRadius (click)="onSaveForm()" [disabled]="!formForm.valid"><span class="fa fa-fw fa-save"></span> Save Changes</button>
+          <button *ngIf="isExistingForm" class="btn btn-md btn-outline-red waves-effect" mdbRippleRadius (click)="onArchiveForm(form.id)"><span class="fa fa-fw fa-archive"></span> Archive this form</button>
         </form>
         <hr>
         <p>* Marked with asterisk are required fields. <br />

@@ -76,6 +76,7 @@ class CommonController {
                 'client_inactive' =>  Client::onlyTrashed()->count(),
                 
                 'lob_active' =>       LineOfBusiness::count(),
+                'lob_inactive' =>     LineOfBusiness::onlyTrashed()->count(),
     
                 'team_active' =>      Team::count(),
                 'team_inactive' =>    Team::onlyTrashed()->count(),
@@ -663,7 +664,7 @@ class CommonController {
                         'form_id'       => $form['id'],
                         'record_id'     => $record_id,
                         'type'          => $type,
-                        'icon'          => 'paperclip'
+                        'icon'          => 'tag'
                     ]
                 );
     

@@ -55,13 +55,13 @@
                   <td class="text-center">
                     <label class="switch">
                       <input type="checkbox" [checked]="_mail.is_sent" disabled>
-                      <span class="slider"></span>
+                      <span class="slider round"></span>
                     </label>
                   </td>
                   <td class="text-center">
                     <label class="switch">
                       <input type="checkbox" [checked]="_mail.is_opened" disabled>
-                      <span class="slider"></span>
+                      <span class="slider round"></span>
                     </label>
                   </td>
                   <td class="text-center" title="{{ _mail.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _mail.created_at | utcLocal | date :  "y/MM/dd" }}</td>

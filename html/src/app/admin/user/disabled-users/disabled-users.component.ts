@@ -110,13 +110,13 @@ export class DisabledUsersComponent implements OnInit, OnDestroy {
   onRestoreRecord(id: any) {
     const that = this;
     swal({
-      title: 'Restore archived line of business?',
-      text: "It will be listed back to active LOB's.",
+      title: 'Unblock user?',
+      text: "User can log back in again.",
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, restore it!'
+      confirmButtonText: 'Yes, unblock user!'
     }).then(function(result) {
       if (result.value) {
         that.loading = true;

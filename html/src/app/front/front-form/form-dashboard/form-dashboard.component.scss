@@ -19,7 +19,7 @@
     margin: 0;
     font-size: 12px;
     display: block;
-    background-color: rgb(8, 108, 151);
+    background-color: #DE7431;
     border-radius: 5px 0 0 5px;
     color: white;
 }
@@ -57,7 +57,7 @@
 }
 
 .col-9 {
-    border-left: solid rgb(8, 108, 151) 1px;
+    border-left: solid #DE7431 1px;
     padding-left: 3px;
 }
 
@@ -76,7 +76,7 @@ table {
 .heading-text {
     font-weight: bold;
     font-size: 16px;
-    background-color: rgb(8, 108, 151);
+    background-color: #DE7431;
     color: white;
     margin-bottom: 10px;
     padding: 3px 8px 3px 8px;
@@ -85,7 +85,7 @@ table {
 
 .cool-link:hover {
     cursor: pointer;
-    color: rgb(8, 108, 151);
+    color: #DE7431;
 }
 
 .cool-link a {
@@ -108,7 +108,7 @@ table {
     display: block;
     width: 0;
     height: 2px;
-    background: rgb(8, 108, 151);
+    background: #DE7431;
     transition: width .3s;
 }
 

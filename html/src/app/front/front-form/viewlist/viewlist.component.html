@@ -4,10 +4,10 @@
       <h5 class="mb-0">
           View List
           <div style="float: right;">
-            <button class="btn btn-warning btn-sm" (click)="filterRecord.show()" title="Filters and show records that aren't present in the current list">
+            <button class="btn btn-outline-orange btn-sm" (click)="filterRecord.show()" title="Filters and show records that aren't present in the current list">
               <span class="fa fa-filter"></span> Filter List
             </button>
-            <button class="btn btn-blue-grey btn-sm" (click)="onRefreshList()" title="Refreshes list and resets filter if applied">
+            <button class="btn btn-outline-grey btn-sm" (click)="onRefreshList()" title="Refreshes list and resets filter if applied">
               <span class="fa fa-refresh"></span> Refresh List
             </button>
           </div>
@@ -44,16 +44,14 @@
                       </div>
                     </td>
                     <td class="text-center">
-                      <button  [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-primary btn-sm"  (click)="onEditRecord( _record.id )" >
+                      <button  [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-outline-grey btn-xs"  (click)="onEditRecord( _record.id )" >
                         <span class="fa fa-edit"></span> Edit
                       </button>
-
-                      <button [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-danger btn-sm" (click)="onDelRecord( _record.id )">
-                        <span class="fa fa-trash"></span> Delete
-                      </button>
-
-                      <button *ngIf="_user_tag_present" [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-warning btn-sm" (click)="onRecordTagListOpen( _record.id )">
+                      <button *ngIf="_user_tag_present" [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-outline-orange btn-xs" (click)="onRecordTagListOpen( _record.id )">
                         <span class="fa fa-paperclip"></span> Tags
+                      </button>
+                      <button [disabled]="((_record.created_by_userid === _user_id) && formPermissions.DefaultEditOwn) ? false : ((!formPermissions.DefaultEditOwn && formPermissions.DefaultEdit) ? false : true)" class="btn btn-outline-red btn-xs" (click)="onDelRecord( _record.id )">
+                        <span class="fa fa-trash"></span> Delete
                       </button>
                     </td>
                   </tr>
@@ -269,7 +267,7 @@
           <i class="fa fa-save ml-1"></i>
           Update record
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="editRecord.hide()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -358,7 +356,7 @@
           <i class="fa fa-check ml-1"></i>
           Choose
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="employeeLookUp.hide(); onLookUpClose()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="employeeLookUp.hide(); onLookUpClose()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -407,7 +405,7 @@
           <i class="fa fa-check ml-1"></i>
           Choose
         </button>
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="userTag.hide(); onLookUpClose()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="userTag.hide(); onLookUpClose()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -468,7 +466,7 @@
       </div>
 
       <div class="modal-footer d-flex justify-content-center">
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="recordTag.hide(); onLookUpClose()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="recordTag.hide(); onLookUpClose()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>
@@ -516,13 +514,13 @@
                   </select>
                   <input type="text" class="filter_text" style="width: 265px;">
                   <button class="close" style="color: red;" (click)="onRemoveFilter(filter.id)">
-                    <span class="fa fa-fw fa-trash"></span>
+                    <span class="fa fa-fw fa-times"></span>
                   </button>
                   <div class="clear" style="height: 1px;">&nbsp;</div>
                 </li>
               </ul>
 
-              <button class="btn btn-warning btn-sm" (click)="onAddFilter()">
+              <button class="btn btn-outline-orange btn-sm" (click)="onAddFilter()">
                   <span class="fa fa-fw fa-plus"></span> Add Filter
               </button>
             </div>
@@ -540,7 +538,7 @@
           Apply
         </button>
 
-        <button type="button" class="btn btn-md btn-secondary waves-light" aria-label="Close" (click)="filterRecord.hide(); onLookUpClose()" mdbWavesEffect>
+        <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="filterRecord.hide(); onLookUpClose()" mdbWavesEffect>
           <i class="fa fa-times ml-1"></i>
           Close
         </button>

@@ -70,7 +70,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.employee_id = this.authService.auth.user.user_info.employee_id;
     this.email = this.authService.auth.user.user_info.email;
 
-    this.avatar = this.appConfig.ASSET_ENDPOINT + this.username;
+    this.avatar = this.appConfig.ASSET_ENDPOINT + this.username + '-PHOTO.jpg';
 
     this.teamService.httpGetAllTeamsByUserId(parseInt(this.user_id));
 
@@ -178,8 +178,22 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   onClearAllNotifs() {
-    this.loading2 = true;
-    this.notificationService.httpDeleteAllNotification(parseInt(this.user_id));
+    const that = this;
+
+    swal({
+      title: 'Clear notifications?',
+      text: "Removes all notifications. This proccess cannot be undone.",
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, clear all!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading2 = true;
+        that.notificationService.httpDeleteAllNotification(parseInt(this.user_id));
+      }
+    });
   }
 
   onMarkAsRead(id: any) {
@@ -193,17 +207,27 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
+    const that = this;
 
-    this.loading = true; 
+    swal({
+      title: 'Logout?',
+      text: "All current session will be deleted. Login will be required afterwards.",
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, log me out!'
+    }).then(function(result) {
+      if (result.value) {
+        that.loading = true;
+        that.authService.deleteAuthCookie();
 
-    let $this = this;
-    this.authService.deleteAuthCookie();
-
-    setTimeout(function () {
-      $this.router.navigate(['/login']);
-      $this.loading = false; 
-    }, 1000);
-
+        setTimeout(function () {
+          that.router.navigate(['/login']);
+          that.loading = false; 
+        }, 1000);
+      }
+    });
   }
 
 

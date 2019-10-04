@@ -36,7 +36,7 @@ You can navigate to the domain specified on the browser to confirm that server h
 
 Go to folder
 
-	cd cxforms/api
+	cd qagold/api
 
 ### Linux-Apache-Mysql/MariaDB-PHP (LAMP)
 * LAMP simplifies all your development environment setup and is easy to use. Kindly look for your platform (OS) requirements to install LAMP.

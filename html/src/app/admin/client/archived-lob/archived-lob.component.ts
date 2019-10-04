@@ -113,7 +113,7 @@ export class ArchivedLobComponent implements OnInit {
     const that = this;
 
     swal({
-      title: 'Restore archived line of business?',
+      title: 'Restore Line of Business?',
       text: "It will be listed back to active LOB's.",
       type: 'warning',
       showCancelButton: true,

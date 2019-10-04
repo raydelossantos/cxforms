@@ -2,25 +2,35 @@
     <div class="card">
         <div class="card-header" id="headingOne">
             <h5 class="mb-0">
-                <span class="fa fa-fw fa-refresh"></span> Sync Users <small> - Fetch all users from Connext HRIS</small>
+                <span class="fa fa-fw fa-upload"></span> Import Users <small> - Upload file containing proper format (CSV file only)</small>
             </h5>
         </div>
 
         <div class="card">
             <div class="card-body">
-                <button class="btn btn-sm btn-outline-green" (click)="onSyncUsers()"><span class="fa fa-refresh"></span> Start Sync</button>
+
+                <div>
+                  <label for="attachments" class="btn btn-xs btn-outline-default">
+                      <span class="fa fa-fw fa-upload"></span> <span>Choose a file&hellip;</span>
+                  </label>
+                  <input type="file" id="attachments" (change)="onFileSelected($event)" />
+                  <div class="footer">Allowed attachment file types: image (CSV)</div>
+                </div>
+                
+                <button class="btn btn-sm btn-outline-primary" (click)="sample()"><span class="fa fa-file-open"></span> Select CSV file</button>
+                <button class="btn btn-sm btn-outline-green" (click)="sample()"><span class="fa fa-upload"></span> Start Sync</button>
             
-                <ul class="list-group list-group-flush">
+                <!-- <ul class="list-group list-group-flush">
                     <li class="list-group-item">By clicking the <b>Start Sync</b> button, the system will: </li>
                     <li class="list-group-item"><span class="fa fa-caret-right fa-fw"></span>Automatically detect all existing and new entires</li>
                     <li class="list-group-item"><span class="fa fa-caret-right fa-fw"></span>If error occured, data might not be completed, please re-run the sync</li>
                     <li class="list-group-item"><span class="fa fa-caret-right fa-fw"></span>You can verify the list by searching the User lists <a routerLink="/admin/user/list" class="cool-link">here</a></li>
                     <li class="list-group-item"><span class="fa fa-caret-right fa-fw"></span>Running sync can be done every once in a while.</li>
                     <li class="list-group-item"><span class="fa fa-caret-right fa-fw"></span>Run sync to pull data when new employee is recently added.</li>
-                </ul>
+                </ul> -->
 
                 <ngx-loading [show]="loading"></ngx-loading>
-                <span [hidden]="!loading" class="ngx-text">Syncing users. Please wait...</span>
+                <span [hidden]="!loading" class="ngx-text">Importing users. Please wait...</span>
             </div>
         </div>
     </div>

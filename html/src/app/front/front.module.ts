@@ -27,7 +27,7 @@ import { LoadingModule } from 'ngx-loading';
 import { NgSelectModule, NG_SELECT_DEFAULT_CONFIG } from '@ng-select/ng-select';
 import { CKEditorModule } from 'ngx-ckeditor';
 import { ArrangeComponent } from './front-form/addform/arrange/arrange.component';
-import { SortablejsModule } from 'angular-sortablejs/dist';
+import { SortablejsModule } from 'angular-sortablejs';
 import { ViewRecordComponent } from './front-form/view-record/view-record.component';
 import { FormsComponent } from './dashboard/forms/forms.component';
 import { ClientsComponent } from './dashboard/clients/clients.component';
