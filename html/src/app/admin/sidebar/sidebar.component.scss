@@ -27,7 +27,39 @@
   // border-radius: 5px 0 0 5px;
   color: white;
 }
-  
+
+.f-green {
+	color: rgb(25, 116, 25);
+}
+
+.f-red {
+	color: rgb(158, 9, 9);
+}
+
+.f-yellow {
+	color: orangered;
+}
+
+.f-blue {
+	color: #3583b4;
+}
+
+.f-purple {
+	color: rgb(124, 19, 124);
+}
+
+.f-orange {
+	color: orange;
+}
+
+.f-gray {
+	color: gray;
+}
+
+.f-black {
+	color: black;
+}
+
 .drop-down .active:hover {
   // padding: 3px 0 3px 5px;
   margin: 0;
@@ -67,8 +99,8 @@
 }
 
 .drop-down {
-  // max-height: 0;
-  overflow: hidden;
+	// max-height: 0;	
+	overflow: hidden;
 }
 
 .drop-down a {
@@ -137,11 +169,13 @@ details {
 
 summary {
 	outline: none;
-	font-size: 13px;
-  padding: 4px;
-  margin-bottom: 3px;
-  color: black;
-  border-bottom: solid rgba(128, 128, 128, 0.242) 1px;
+	font-size: 15px;
+	font-weight: 600;
+	padding: 4px;
+	margin-bottom: 3px;
+	margin-left: 8px;
+	color: rgb(167, 69, 8);
+	// border-bottom: solid rgba(128, 128, 128, 0.242) 1px;
   
 	&:selection {
 		background: transparent;
@@ -149,8 +183,8 @@ summary {
 
 	&:after {
 		margin-top: 2px;
-    content: "➕";
-    // content: "🗖";
+		// content: "➕";
+		content: "►";
 		float: right;
 		margin-right: 0;
 		text-align: center;
@@ -158,8 +192,8 @@ summary {
 
 		[open] & {
 			// padding: 0 0 12px 0;
-      content: "➖";
-      // content: "🗕";
+			// content: "➖";
+      		content: "▼";
 		}
 	}
 }

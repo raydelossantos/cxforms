@@ -6,10 +6,26 @@
     font-size: 20px;
 }
 
+.bg-light-red {
+    background-color: #dc354698;
+}
+
+.bg-light-purple {
+    background-color: #8d24aa6c !important;
+}
+
+.bg-light-blue {
+    background-color: #3583b4a9 !important
+}
+
+.bg-light-green {
+    background-color: rgba(0, 128, 0, 0.568) !important
+}
+
 // custom info box
 .info-box {
     display: block;
-    min-height: 60px;
+    // min-height: 60px;
     background: #fff;
     width: 100%;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
@@ -25,11 +41,11 @@
     border-bottom-left-radius: 2px;
     display: block;
     float: left;
-    height: 60px;
+    // height: 60px;
     width: 60px;
     text-align: center;
     font-size: 25px;
-    line-height: 60px;
+    line-height: 56px;
     color: white;
     background: rgba(0,0,0,0.2);
     border-radius: 5px 0 0 5px;
@@ -38,16 +54,21 @@
 .info-box-content {
     padding: 5px 10px;
     margin-left: 60px;
+    border-radius: 0 5px 5px 0;
 }
 
 .info-box-text {
     text-transform: uppercase;
+    color: white;
+    // font-size: 14px;
+    // font-weight: bold;
 }
 
 .info-box-number {
     display: block;
     font-weight: bold;
     font-size: 18px;
+    color: white;
 }
 
 // --

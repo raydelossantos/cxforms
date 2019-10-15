@@ -3,7 +3,9 @@
         <details *ngFor="let menu of _menu" class="default square drop-down" open>
             <summary><i class="fa {{ menu.icon }} mr-1"></i> {{ menu.section }}</summary>
             <a *ngFor="let subsection of menu.subsections" routerLinkActive="active" routerLink="{{ subsection.link }}"  [routerLinkActiveOptions]="{ exact: true }" class="waves-effect" mdbRippleRadius>
-                <i class="fa fa-fw {{ subsection.icon }} mr-1"></i>
+                <span class="f-{{ subsection.color }}">
+                    <i class="fa fa-fw {{ subsection.icon }} mr-1"></i>
+                </span>
                 {{ subsection.name }}
             </a>
         </details>

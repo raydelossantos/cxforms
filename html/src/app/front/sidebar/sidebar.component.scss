@@ -336,29 +336,27 @@ details {
 
 summary {
 	outline: none;
-	font-size: 13px;
-  padding: 4px;
-  margin-bottom: 3px;
-  color: black;
-  border-bottom: solid rgba(128, 128, 128, 0.242) 1px;
-  
+	font-size: 15px;
+	font-weight: 600;
+	padding: 8px 4px 0 8px;
+	margin-bottom: 3px;
+	color: rgb(167, 69, 8);
+	// border-bottom: solid rgba(128, 128, 128, 0.242) 1px;
+
 	&:selection {
 		background: transparent;
 	}
 
 	&:after {
 		margin-top: 2px;
-    content: "➕";
-    // content: "🗖";
+		content: "►";
 		float: right;
 		margin-right: 0;
 		text-align: center;
 		font-size: 11px;  
 
 		[open] & {
-			// padding: 0 0 12px 0;
-      content: "➖";
-      // content: "🗕";
+      		content: "▼";
 		}
 	}
 }

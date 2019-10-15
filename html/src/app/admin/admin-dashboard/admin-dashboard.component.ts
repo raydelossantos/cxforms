@@ -28,6 +28,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public loading = false;
+  public loading3 = false;
   public loading_clients = false;
 
   clients: any = [];
@@ -72,8 +73,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
             }
           );
           this.loading_clients = false;
+          this.loading3 = false;
         } else if ( typeof(clients) !== 'undefined' && clients.success === false) {
           this.loading_clients = false;
+          this.loading3 = false;
           this.no_record_message = 'No records found. ' + clients.message;
         }
       }
@@ -228,6 +231,13 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
   ngOnDestroy() {
     if (this.clientGetAllSubscription) this.clientGetAllSubscription.unsubscribe();
     if (this.commonGetAllStatsSubscription) this.commonGetAllStatsSubscription.unsubscribe();
+  }
+
+  onRefresh() {
+    this.clientService.httpGetAllClient();
+    this.commonService.httpGetAllStats();
+    this.loading3 = true;
+
   }
 
   ngAfterViewInit() {

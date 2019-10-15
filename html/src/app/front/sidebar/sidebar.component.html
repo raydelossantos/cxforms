@@ -15,12 +15,12 @@
                 </summary>
 
                 <a *ngFor="let form of lob.forms" routerLinkActive="active" routerLink="/form/{{ form.id }}" class="waves-effect" mdbRippleRadius [attr.data-lobid]="lob.id" title="{{ form.form_name }}">
-                    <i class="fa fa-bars mr-1" [attr.data-lobid]="lob.id"></i>
+                    <i class="fa fa-file-text-o mr-1" [attr.data-lobid]="lob.id"></i>
                     {{ (form.form_name.length > 35) ? (form.form_name | slice:0:30) + '...' : (form.form_name) }}
                 </a>
 
                 <a routerLink="/form/new/settings/{{ lob.id }}" routerLinkActive="active" (click)="onFormSelected($event.target)" mdbWavesEffect mdbRippleRadius [attr.data-lobid]="lob.id" style="/*color: rgb(83, 3, 3);*/">
-                    <i class="fa fa-plus mr-1" [attr.data-lobid]="lob.id"></i>
+                    <i class="fa fa-pencil-square-o mr-1"  [attr.data-lobid]="lob.id"></i>
                     <i [attr.data-lobid]="lob.id">Add new form...</i>
                 </a>
 
