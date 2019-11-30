@@ -398,7 +398,55 @@ table .btn.btn-sm {
   padding: 0;
 }
 
+/** **/
+
+.imgLogo {
+	border-radius: 50%;
+}
+
+.card {
+    border-radius: 20px;
+    // border: none;
+}
+
+.card-gradient {
+    background: #DE7431;
+    /* Old browsers */
+    background: -webkit-linear-gradient(to left, #ffffff, #faede5, #ffffff);
+    background: -o-linear-gradient(to left, #ffffff, #faede5, #ffffff);
+    background: -moz-linear-gradient(to left, #ffffff, #faede5, #ffffff);
+    background: linear-gradient(to left, #ffffff, #faede5, #ffffff);
+
+    background-size: 200% 100%;
+    background-position:left bottom;
+    margin-left:10px;
+    transition:all 0.2s ease;
+}
+
+.card-gradient:hover {
+  background-position:right bottom;
+}
 /** DATATABLES */
+
+button.dt-button, .dataTables_paginate .paginate_button, .dataTables_paginate  {
+  border-radius: 15px;
+}
+
+.dataTables_length select {
+  border-radius: 15px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+ border-radius: 15px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border-radius: 15px;
+}
+// .dataTables_wrapper:hover .dataTables_paginate:hover .paginate_button:hover {
+//   background-color: #DE7431 !important;
+// }
+
 // button.dt-button, .paginate_button {
 //     font-size: 0.8rem;
 //     // padding: 0.85rem 2.13rem;

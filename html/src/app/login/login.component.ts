@@ -148,5 +148,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  lostAccess() {
+    swal(
+      "Lost Access",
+      "Please send an email to <a href='mailto:john.l@connext.solutions'>john.l@connext.solutions</a> <br> or chat via Skype <a href='skype:johnmichaeltlagman?chat'>@johnnmichaeltlagman</a>.",
+      "info");
+  }
 
 }

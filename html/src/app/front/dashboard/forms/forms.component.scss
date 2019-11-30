@@ -6,26 +6,20 @@
     font-size: 20px;
 }
 
-.card {
-    background: transparent;
-    border-radius: 20px;
-    // border: none;
-}
+// .form_link:hover {
+//     background-color: #efb4887d;
+//     color: white;
+//     transition: 0.5s;
+// }
 
-.form_link:hover {
-    background-color: #efb4887d;
-    color: white;
-    transition: 0.5s;
-}
-
-.form_link:hover a, 
-.form_link:hover .file-name,
-.form_link:hover .lob-name,
-.form_link:hover .author-name,
-.form_link:hover .client-name {
-    color: white;
-    transition: 0.5s;
-}
+// .form_link:hover a, 
+// .form_link:hover .file-name,
+// .form_link:hover .lob-name,
+// .form_link:hover .author-name,
+// .form_link:hover .client-name {
+//     color: white;
+//     transition: 0.5s;
+// }
 
 .form_link:hover img {
     -webkit-filter: opacity(100%); /* Safari 6.0 - 9.0 */

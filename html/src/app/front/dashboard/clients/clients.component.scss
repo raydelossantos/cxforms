@@ -6,26 +6,26 @@
     font-size: 20px;
 }
 
-.card {
-    background: transparent;
-    border-radius: 20px;
-    // border: none;
-}
+// .card {
+//     background: transparent;
+//     border-radius: 20px;
+//     // border: none;
+// }
 
-.form_link:hover {
-    background-color: #efb4887d;
-    color: white;
-    transition: 0.5s;
-}
+// .form_link:hover {
+//     background-color: #efb4887d;
+//     color: white;
+//     transition: 0.5s;
+// }
 
-.form_link:hover a, 
-.form_link:hover .file-name,
-.form_link:hover .lob-name,
-.form_link:hover .author-name,
-.form_link:hover .client-name {
-    color: white;
-    transition: 0.5s;
-}
+// .form_link:hover a, 
+// .form_link:hover .file-name,
+// .form_link:hover .lob-name,
+// .form_link:hover .author-name,
+// .form_link:hover .client-name {
+//     color: white;
+//     transition: 0.5s;
+// }
 
 .active_client {
     background-color: #2196F3;
@@ -106,6 +106,7 @@
     width: 45px; 
     float: left; 
     margin-right: 5px;
+    border-radius: 50%;
 }
 
 .client-name-title {
@@ -135,10 +136,10 @@
     transition: 0.5s;
 }
 
-.client_link:hover .client-description,
-.client_link:hover .client-name-title {
-    color: white;
-}
+// .client_link:hover .client-description,
+// .client_link:hover .client-name-title {
+//     color: white;
+// }
 
 .col {
     padding-left: 5px;

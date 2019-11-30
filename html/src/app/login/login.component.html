@@ -46,14 +46,23 @@
       </form>
 
       <div class="text-center">
-        <span class="txt1">
-          Forgot password?
-        </span>
-        <a class="txt2" href="#">
-          <i class="fa fa-key"></i> Reset here.
-        </a>
+        <div class="container-login-form-btn">
+          <div class="wrap-login-form-btn">
+            <div class="login-form-bgbtn-fb"></div>
+            <button (click)="lostAccess()" class="login-form-btn btn-social">
+              Lost access?
+            </button>
+          </div>
+        </div>
       </div>
 
+
+      <br>
+      <div class="footer text-center">
+        <span class="fa fa-fw fa-bolt"></span> by Connext Global Solutions
+        <br>
+        &copy; All rights reserved.
+      </div>
       <!-- <div class="container-login-form-btn">
         <div class="wrap-login-form-btn">
           <div class="login-form-bgbtn-google"></div>

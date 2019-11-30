@@ -13,7 +13,7 @@
                     <img src="../../../../assets/spinner.gif" alt="loading..." height="30px" width="30px">
                 </div>
                 <a [hidden]="loading3" (click)="onRefreshClients()" class="cool-link">
-                <span class="fa fa-fw fa-refresh"></span>
+                    <span class="fa fa-fw fa-refresh"></span>
                 </a>
             </span>
 
@@ -22,8 +22,9 @@
 
         <div class="row" *ngIf="clients">
             <div *ngFor="let _client of clients | filter: searchText;" class="col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 pb-2">
+                
                 <a (click)="onClientChange(_client)" class="active_client" routerLink="{{ _client.id }}">
-                    <div class="card card-outline-info card-small client_link" id="{{ _client.id }}Panel" style="padding: 10px;">
+                    <div class="card card-outline-info card-small client_link card-gradient" id="{{ _client.id }}Panel" style="padding: 10px;">
                         <div class="card-block">
                             <div class="card-title">
                                 <button *ngIf="client && client.id === _client.id" type="button" class="close" style="font-size: 10px; border: 1px solid rgba(128, 128, 128, 0.272); padding: 5px; background-color: rgba(171, 247, 171, 0.462);">
@@ -31,7 +32,7 @@
                                 </button>
                             </div>
 
-                            <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" class="client-logo">
+                            <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" class="client-logo imgLogo">
                             <p class="client-name-title">{{ _client.client_name }} </p>
                             <p class="client-description">{{ _client.description }}</p>
                         </div>

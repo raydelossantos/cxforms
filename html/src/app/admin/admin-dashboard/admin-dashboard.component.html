@@ -129,7 +129,7 @@
                             <div class="row" *ngIf="clients != 0">
                                 <div *ngFor="let _client of clients | filter: searchText" class="col-xs-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 pb-2">
                                     <a routerLink="client/list/{{ _client.id }}">
-                                        <div class="card card-outline-info card-small form_link" id="{{ _client.id }}Panel" style="padding: 0;">
+                                        <div class="card card-outline-info card-small form_link card-gradient" id="{{ _client.id }}Panel" style="padding: 0;">
                                             <div class="card-block" style="padding: 10px;">
                                                 <img src="{{ _client.logo ? _api_endpoint + _client.logo : '../../../assets/no_img.png'  }}" style="height: 45px; width: 45px; float: left; margin-right: 5px;">
                                                 <p style="font-size: 14px; font-weight: 400; color: rgb(0, 0, 0); margin: 0; margin-top: 5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ _client.client_name }} </p>

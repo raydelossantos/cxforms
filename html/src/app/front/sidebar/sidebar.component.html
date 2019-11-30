@@ -1,6 +1,6 @@
 <div>
         <div *ngIf="selectedClient" class="text-center">
-            <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="60px" width="60px" class="mr-1">
+            <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="60px" width="60px" class="mr-1 imgLogo">
             <i *ngIf="selectedClient.logo === ''" class="fa fa-file-image-o mr-1" style="font-size: 65px;"></i>         
             <h6 style="margin-top: 5px; margin-bottom: 15px;"><b>{{ selectedClient.client_name }}</b></h6>
         </div>
@@ -8,7 +8,7 @@
         <div class="menu" style="font-size: 12px;">
             <details *ngFor="let lob of lobs" class="default square drop-down" open>
                 <summary title="{{ lob.lob_name }}">
-                    <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="15px" width="15px" class="mr-1">
+                    <img *ngIf="selectedClient.logo" src="{{ _api_endpoint }}{{ selectedClient.logo }}" height="15px" width="15px" class="mr-1 imgLogo">
                     <i *ngIf="selectedClient.logo === ''" class="fa fa-folder mr-1"></i> 
                     {{ (lob.lob_name.length > 35) ? (lob.lob_name | slice:0:30) + '...' : (lob.lob_name) }}
 

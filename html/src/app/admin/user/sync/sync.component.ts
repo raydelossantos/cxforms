@@ -53,7 +53,7 @@ export class SyncComponent implements OnInit, OnDestroy {
   onSyncUsers() {
     const $this = this;
     this.loading = true;
-    $this.userService.httpPostSyncUser();
+    // $this.userService.httpPostSyncUser();
     
     // swal({
     //   text: 'Synching users from CS API....',

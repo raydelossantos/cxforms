@@ -473,7 +473,7 @@ a:hover {
   width: 300%;
   height: 100%;
   background: #a64bf4;
-  background: -webkit-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
+  background: -webkit-linear-gradient(to left, #775e50, #d1540b, #ec915d, #d1540b);
   background: -o-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
   background: -moz-linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);
   background: linear-gradient(to left, #ec915d, #d1540b, #ec915d, #d1540b);

@@ -11,7 +11,7 @@
         <!-- show client when selected -->
         <span *ngIf="clientShow && client">
             <span class="fa fa-fw fa-caret-right"></span>
-            <img *ngIf="client.logo" src="{{ _api_endpoint + client.logo }}" height="20px" width="20px">
+            <img *ngIf="client.logo" src="{{ _api_endpoint + client.logo }}" height="20px" width="20px" class="imgLogo">
             <a routerLinkActive="menu_active" routerLink="{{ client.id }}" class="cool-link">
                 {{ client.client_name }}
             </a>

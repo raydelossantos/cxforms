@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit {
       icon: 'fa-users',
       subsections: [
         { name: 'User Accounts', link: 'user/list', icon: 'fa-user', color: 'green' },
-        { name: 'Sync Employees from API', link: 'user/sync', icon: 'fa-refresh', color: 'red' },
+        // { name: 'Sync Employees from API', link: 'user/sync', icon: 'fa-refresh', color: 'red' },
         { name: 'Import Users', link: 'user/import', icon: 'fa-upload', color: 'blue' },
         { name: 'Blocked/Invalid Logins', link: 'user/blocked', icon: 'fa-lock', color: 'orange' },
         { name: 'Disabled Accounts', link: 'user/disabled', icon: 'fa-ban', color: 'gray' },
