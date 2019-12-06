@@ -74,7 +74,7 @@ export const MY_CUSTOM_FORMATS = {
     BrowserAnimationsModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.chasingDots,
-      backdropBackgroundColour: 'rgba(255,255,255,0.8)',
+      backdropBackgroundColour: '#f9f7f7',
       primaryColour: '#000',
       secondaryColour: '#000',
       tertiaryColour: '#000'
