@@ -71,6 +71,7 @@ $app->group('/user', function () {
     $this->post('/restore',                                                 UserController::class.':restore');          // restores deleted user
     $this->post('/unblock',                                                 UserController::class.':unblock');          // unblocks login (login_attempt = 0)
     $this->get('/invalid',                                                  UserController::class.':invalid');          // get all invalid logins greater than 0
+    $this->post('/import',                                                  UserController::class.':import_csv');
 
     /** GET USERS FOR DROPDOWN */
     $this->get('/form/{id:[0-9]+}',                                         UserController::class.':get_all_user_not_in_form'); // get all user accounts not in form ID to add to permission

@@ -5,6 +5,7 @@ api/src/settings.php
 api/composer.phar
 api/public/uploaded_images
 api/public/uploaded_files
+api/public/csv_uploads
 api/logs
 html/nodesource_setup.sh
 package-lock.json

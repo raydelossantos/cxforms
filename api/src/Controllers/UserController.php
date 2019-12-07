@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Illuminate\Database\Capsule\Manager as DB;
+use Slim\Http\UploadedFile as UploadedFile;
 
 use App\Models\User;
 use App\Models\AdminPrivilege;
@@ -554,7 +555,7 @@ class UserController {
         // contains at least 1 capital letter
         $uppercase = preg_match('@[A-Z]@', $password);
         if (!$uppercase) {
-            $result['message'][] = 'a upper case letter.';
+            $result['message'][] = 'an upper case letter.';
         }
 
         // contains at least 1 special character
@@ -1100,6 +1101,103 @@ class UserController {
     }
 
     /**
+     * IMPORTING A CSV FILE 
+     *
+     * @param $request (consist of a CSV FILE)
+     * @param $response
+     * @param $params
+     *
+     * @return Array $result
+     */
+    public function import_csv(Request $request, Response $response, $params)
+    {
+        $result = [];
+        $result['success'] = self::ERROR;
+        $result['message'] = 'Forbidden. You may not have access to this resource.';
+
+        $csv_uploads_dir = __DIR__ . '/../../public/csv_uploads';
+
+        $request_data = $request->getParsedBody();
+        $uploadedFiles = $request->getUploadedFiles();
+
+        if ($uploadedFiles) {
+            $uploadedFile = $uploadedFiles['file'];
+            // Upload the file and move to new location
+            if ($uploadedFile && $uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = $csv_uploads_dir . '/' . $this->moveUploadedFile($csv_uploads_dir, $uploadedFile);
+
+                /** Parse CSV and save to DB */
+                // $res = $this->save_to_db($filename);
+
+                // try{
+                //     unlink($filename);
+                // } catch (Exception $e) {
+                //     // do nothing
+                // }
+
+                $result['success'] = true;
+                $result['message'] = 'Success. CSV import has been successfully processed.';
+                $result['filename'] =  $filename;
+                return  $response->withStatus(200)->withJson($result);
+            }
+        }
+
+        $result['message'] = 'Error. Something went wrong while uploading image. Please try again.';
+        return $response->withStatus(200)->withJson($result);
+    }
+
+    /**
+     * SAVE ROWS TO DB
+     * Validate each record before attempting to import/save to respective tables
+     * @param $file - uploaded file
+     * @return Array $result - returns an array of report statistics
+     */
+    private function save_to_db($file) {
+        $this->logger->info($file);
+
+        $_ctr = 0;
+        $_invalid = [];
+        $_saved = 0;
+        $_isHeader = true;
+
+        // open the file for reading
+        $_file = fopen($file, "r");
+
+        // loop within the CSV file
+        while (($_row = fgetcsv($_file, 10000, ",")) !== FALSE) {
+            if ($_isHeader) {
+                $_isHeader = false;
+                continue;
+            }
+
+            $_ctr += 1;
+            $this->logger->info($_ctr . ' - ' . implode(' -- ', $_row));
+
+        //     /**
+        //      * Verify if row[0], row[1], row[2] are not null
+        //      *
+        //      * COLUMNS ARE:
+        //      * 0 - keyword
+        //      * 1 - question
+        //      * 2 - response
+        //      */
+        //     if (!empty($_row[0]) && !empty($_row[1]) && !empty($_row[2])) {
+        //         $db = $this->container['Database'];
+
+        //         try {
+        //             $db->pdo->beginTransaction();
+
+
+        $result['total'] = $_ctr;
+        $result['saved'] = $_saved;
+        $result['invalid'] = $_invalid;
+
+        return $result;
+        }
+    }
+
+
+    /**
      * Password validation
      * @param string $password
      * 
@@ -1146,6 +1244,28 @@ class UserController {
 
         $result['success'] = true;
         return $result;
+    }
+
+    /**
+     * Moves the uploaded file to the upload directory and assigns it a unique name
+     * to avoid overwriting an existing uploaded file.
+     *
+     * @param string $directory directory to which the file is moved
+     * @param UploadedFile $uploaded file uploaded file to move
+     * 
+     * @return string filename of moved file
+     */
+    private function moveUploadedFile($directory, UploadedFile $uploadedFile)
+    {
+        $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
+
+        $basename = bin2hex(random_bytes(8)) . '_' . date("Y_m_d_H_i_s"); // see http://php.net/manual/en/function.random-bytes.php
+
+        $filename = sprintf('%s.%0.8s', $basename, $extension);
+
+        $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+        return $filename;
     }
 
 }
