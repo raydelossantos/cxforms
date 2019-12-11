@@ -225,7 +225,7 @@ export class FrontComponent implements OnInit, AfterViewInit, OnDestroy {
 
     swal({
       title: 'Logout?',
-      text: "All current session will be deleted. Login will be required afterwards.",
+      text: "All current sessions will be deleted. Login will be required afterwards.",
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

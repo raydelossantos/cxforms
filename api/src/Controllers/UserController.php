@@ -1127,22 +1127,23 @@ class UserController {
                 $filename = $csv_uploads_dir . '/' . $this->moveUploadedFile($csv_uploads_dir, $uploadedFile);
 
                 /** Parse CSV and save to DB */
-                // $res = $this->save_to_db($filename);
+                $res = $this->save_to_db($filename);
 
-                // try{
-                //     unlink($filename);
-                // } catch (Exception $e) {
-                //     // do nothing
-                // }
+                try{
+                    unlink($filename);
+                } catch (Exception $e) {
+                    // do nothing
+                }
 
                 $result['success'] = true;
                 $result['message'] = 'Success. CSV import has been successfully processed.';
-                $result['filename'] =  $filename;
+                $result['stats'] = $res;
+                // $result['filename'] =  $filename;
                 return  $response->withStatus(200)->withJson($result);
             }
         }
 
-        $result['message'] = 'Error. Something went wrong while uploading image. Please try again.';
+        $result['message'] = 'Error. Something went wrong while importing users. Please try again.';
         return $response->withStatus(200)->withJson($result);
     }
 
@@ -1158,6 +1159,7 @@ class UserController {
         $_ctr = 0;
         $_invalid = [];
         $_saved = 0;
+        $_skipped = [];
         $_isHeader = true;
 
         // open the file for reading
@@ -1165,6 +1167,7 @@ class UserController {
 
         // loop within the CSV file
         while (($_row = fgetcsv($_file, 10000, ",")) !== FALSE) {
+
             if ($_isHeader) {
                 $_isHeader = false;
                 continue;
@@ -1173,29 +1176,102 @@ class UserController {
             $_ctr += 1;
             $this->logger->info($_ctr . ' - ' . implode(' -- ', $_row));
 
-        //     /**
-        //      * Verify if row[0], row[1], row[2] are not null
-        //      *
-        //      * COLUMNS ARE:
-        //      * 0 - keyword
-        //      * 1 - question
-        //      * 2 - response
-        //      */
-        //     if (!empty($_row[0]) && !empty($_row[1]) && !empty($_row[2])) {
-        //         $db = $this->container['Database'];
+            /* CSV Mapping
+                0 - Employee ID
+                1 - Full Name
+                2 - Last Name
+                3 - First Name
+                4 - Middle Name
+                5 - Assignment/Client
+                6 - Email Address
+            */
 
-        //         try {
-        //             $db->pdo->beginTransaction();
+            // begin database transaction here
+            DB::beginTransaction();
 
+            try {
+
+                $search = UserInfo::where('username', $_row[6])
+                                    ->orWhere('employee_id', $_row[0])
+                                    ->first();
+
+                if ($search) {
+                    continue;
+                    $_skipped[] = $_ctr + 1;
+                }
+                
+                $pw = $this->generate_default_password($_row[6], $_row[2], $_row[0]);
+
+                $user_data = [
+                    'username'          => $_row[6],
+                    // 'password'          => password_hash('sample', PASSWORD_BCRYPT), 
+                    'password'          => $pw['encrypted'],
+                    // 'reset_hash'        => $pw['plain']
+                ];
+    
+                $new_user = User::create(array_map('trim', $user_data));
+    
+                if ($new_user) {
+    
+                    $user_info_data = [
+                        'username'          => $_row[6],
+                        // 'password'          => password_hash($request_data['password'], PASSWORD_BCRYPT),
+                        'user_origin'       => 0,
+                        'user_id'           => $new_user->id,
+                        'employee_id'       => $_row[0],
+                        'first_name'        => $_row[3],
+                        'last_name'         => $_row[2],
+                        'middle_name'       => (isset($_row[4])) ? $_row[4] : '',
+                        'email'             => $_row[6],
+                        'photo'             => substr($email, 0, strpos($email, "@"))
+                    ];
+        
+                    $new_user_info = UserInfo::create(array_map('trim', $user_info_data));
+                                            
+                    if (!$new_user || !$new_user_info) {
+                        DB::rollBack();
+                        $_invalid[] = $_ctr + 1;
+                    }
+
+                    $_saved += 1;
+
+                }
+
+                DB::commit();  
+
+            } catch (Exception $e) {
+                DB::rollBack();
+                
+                $result['success'] = false;
+                $result['message'] = 'Failed. CSV import has encountered error.';
+                $result['filename'] =  $filename;
+                return  $response->withStatus(403)->withJson($result);
+            }
+        }
 
         $result['total'] = $_ctr;
         $result['saved'] = $_saved;
-        $result['invalid'] = $_invalid;
+        $result['skipped'] = $_skipped;
+        $result['invalid_line_numbers'] = $_invalid;
+        // return $response->withStatus(200)->withJson($result);
 
         return $result;
-        }
     }
 
+    private function generate_default_password($email, $lastname, $employee_id) {
+
+        $pw1    = substr($lastname, 0, 4);          // get first four (4) letters of lastname
+        $pw2    = sprintf('%05d', $employee_id);    // format employee number to 5 digit with leading zeroes (0)
+        $pw3    = substr($email, 0, strpos($email, "@"));  // get username from email without domain
+
+        $encrypted_password = password_hash($pw1 . $pw2 . $pw3, PASSWORD_BCRYPT);
+        $plain_password     = $pw1 . $pw2 . $pw3;
+
+        return [
+            'encrypted' => $encrypted_password,
+            'plain'     => $plain_password
+        ];
+    }
 
     /**
      * Password validation
@@ -1258,11 +1334,8 @@ class UserController {
     private function moveUploadedFile($directory, UploadedFile $uploadedFile)
     {
         $extension = pathinfo($uploadedFile->getClientFilename(), PATHINFO_EXTENSION);
-
         $basename = bin2hex(random_bytes(8)) . '_' . date("Y_m_d_H_i_s"); // see http://php.net/manual/en/function.random-bytes.php
-
         $filename = sprintf('%s.%0.8s', $basename, $extension);
-
         $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
         return $filename;

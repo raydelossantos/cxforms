@@ -12,12 +12,11 @@
                 <label for="attachments" class="btn btn-xs btn-outline-default">
                     <span class="fa fa-fw fa-upload"></span> <span>Choose a file&hellip;</span>
                 </label>
-                <input type="file" id="attachments" (change)="onFileSelected($event)" />
+                <input type="file" id="attachments" (change)="onFileSelected($event)" accept=".csv"/>
                 <div class="footer">Allowed attachment file types: image (CSV)</div>
             </div>
             
-            <button class="btn btn-sm btn-outline-primary" (click)="sample()"><span class="fa fa-file-open"></span> Select CSV file</button>
-            <button class="btn btn-sm btn-outline-green" (click)="sample()"><span class="fa fa-upload"></span> Start Sync</button>
+            <button class="btn btn-sm btn-outline-green" (click)="startImport()"><span class="fa fa-upload"></span> Start Sync</button>
         
             <!-- <ul class="list-group list-group-flush">
                 <li class="list-group-item">By clicking the <b>Start Sync</b> button, the system will: </li>

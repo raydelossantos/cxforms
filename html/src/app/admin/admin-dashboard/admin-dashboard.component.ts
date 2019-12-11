@@ -178,7 +178,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
             },{ 
               name: 'Lines of Businesses', 
               link: 'client/business', 
-              count: stats.data.team_active, 
+              count: stats.data.lob_active, 
               description: 'Clients\' subject focus', 
               icon: 'fa-building',
               color: 'green',
@@ -186,7 +186,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy, AfterViewInit
             },{ 
               name: 'Archived LOB\'s', 
               link: 'client/archivedlob', 
-              count: stats.data.team_inactive, 
+              count: stats.data.lob_inactive, 
               description: 'Inactive LOB\'s', 
               icon: 'fa-building',
               color: 'grey',

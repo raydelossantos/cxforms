@@ -38,7 +38,7 @@ export class SyncComponent implements OnInit, OnDestroy {
       (sync: any) => {
         if (typeof(sync) !== 'undefined' && sync.success) {
           this.loading = false;
-          swal('User Sync Done', 'Successfully synced user records from CS API to QA Gold.', 'success');
+          swal('User Sync Done', 'Successfully synced user records from API.', 'success');
         } else if (typeof(sync) !== 'undefined' && sync.success === false) {
           this.loading = false;
           swal(

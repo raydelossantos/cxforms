@@ -15,6 +15,7 @@ export class UserService {
     userGetAll              = new Subject<any>();
     userDelete              = new Subject<any>();
     userGetAllDeleted       = new Subject<any>();
+    userPostImport          = new Subject<any>();
     
     adminGetAll             = new Subject<any>();
     adminPost               = new Subject<any>();
@@ -237,6 +238,34 @@ export class UserService {
                 this.userPostSync.next(response.error);
             }
         );
+    }
+
+    httpPostImport(data: any) {
+        const req = new HttpRequest(
+            'POST',
+            this.appConfig.API_ENDPOINT + '/user/import',
+            data
+        );
+
+        return this.httpClient.request<any>(req)
+        .map(
+            (response: any) => {
+                if (typeof(response) !== 'undefined' && response.body !== null) {
+                return response.body;
+                }
+
+                return [];
+            }
+        )
+        .subscribe(
+            (response: any) => {
+                this.userPostImport.next(response);
+            },
+            (response: any) => {
+                this.userPostImport.next(response.error);
+            }
+        );
+        
     }
 
     /**
