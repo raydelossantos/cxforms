@@ -22,7 +22,7 @@ class AuthenticationController {
     private $settings;
 
     private $ldap_server;
-    private $ldap_image;
+    private $asset_link;
 
     /**
      *  Google Authentication settings
@@ -45,7 +45,7 @@ class AuthenticationController {
         $this->client_redirect_url  = $settings['client_redirect_url'];
         $this->client_secret        = $settings['client_secret'];
         $this->ldap_server          = $settings['ldap_server'];
-        $this->ldap_image           = $settings['ldap_image'];
+        $this->asset_link           = $settings['asset_link'];
     }
 
     /**
@@ -68,7 +68,7 @@ class AuthenticationController {
          */
         if (empty($request_data['username']) || empty($request_data['password'])) {
             $result['status'] = 'Invalid username/password';
-            $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+            $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
             return $response->withStatus(404)->withJson($result);
         }
 
@@ -112,7 +112,7 @@ class AuthenticationController {
             
             if(true){
                 $user['username'] = $username;
-                $user['image_link'] = $this->ldap_image . $username;
+                $user['image_link'] = $this->asset_link . $username;
 
                 // get user details
                 $user_details = User::select(['id', 'username', 'is_admin'])->where('username', $username)->first();
@@ -122,7 +122,7 @@ class AuthenticationController {
 
                 if (empty($user_details) || empty($user_info)) {
                     $result['status'] = 'Invalid username/password';
-                    $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+                    $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
 
                     return $response->withStatus(404)
                                     ->withHeader("Content-Type", "application/json")
@@ -193,7 +193,7 @@ class AuthenticationController {
         }
 
         $result['status'] = 'Invalid username/password';
-        $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+        $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
         return $response->withStatus(404)->withJson($result);
     }
 
@@ -217,7 +217,7 @@ class AuthenticationController {
          */
         if (empty($request_data['username']) || empty($request_data['password'])) {
             $result['status'] = 'Invalid username/password';
-            $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+            $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
             return $response->withStatus(404)->withJson($result);
         }
 
@@ -235,9 +235,9 @@ class AuthenticationController {
             $username = $request_data['username'];
             $password = $request_data['password'];
             
-            if(true){
+            if(password_verify($password, $_user_check->password)) {
                 $user['username'] = $username;
-                $user['image_link'] = $this->ldap_image . $username;
+                $user['image_link'] = $this->asset_link . $username;
 
                 // get user details
                 $user_details = User::select(['id', 'username', 'is_admin'])->where('username', $username)->first();
@@ -247,7 +247,7 @@ class AuthenticationController {
 
                 if (empty($user_details) || empty($user_info)) {
                     $result['status'] = 'Invalid username/password';
-                    $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+                    $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
 
                     return $response->withStatus(404)
                                     ->withHeader("Content-Type", "application/json")
@@ -318,7 +318,7 @@ class AuthenticationController {
         }
 
         $result['status'] = 'Invalid username/password';
-        $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+        $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
         return $response->withStatus(404)->withJson($result);
     }
 
@@ -423,7 +423,7 @@ class AuthenticationController {
         }
 
 		// $result['success'] = false;
-        // $result['message'] = 'User was not found. Kindly inform QA Administrator.';
+        // $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
         // return $response->withStatus(403)->withJson($result);
 
         header('Location: ' . $this->settings['redirect_url_invalid_login'] . '?success=invalid');

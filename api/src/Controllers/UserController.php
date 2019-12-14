@@ -1223,7 +1223,7 @@ class UserController {
                         'last_name'         => $_row[2],
                         'middle_name'       => (isset($_row[4])) ? $_row[4] : '',
                         'email'             => $_row[6],
-                        'photo'             => substr($email, 0, strpos($email, "@"))
+                        'photo'             => substr($_row[6], 0, strpos($_row[6], "@"))
                     ];
         
                     $new_user_info = UserInfo::create(array_map('trim', $user_info_data));
@@ -1264,8 +1264,8 @@ class UserController {
         $pw2    = sprintf('%05d', $employee_id);    // format employee number to 5 digit with leading zeroes (0)
         $pw3    = substr($email, 0, strpos($email, "@"));  // get username from email without domain
 
-        $encrypted_password = password_hash($pw1 . $pw2 . $pw3, PASSWORD_BCRYPT);
-        $plain_password     = $pw1 . $pw2 . $pw3;
+        $plain_password     = strtoupper($pw1 . $pw2 . $pw3);
+        $encrypted_password = password_hash($plain_password, PASSWORD_BCRYPT);
 
         return [
             'encrypted' => $encrypted_password,
