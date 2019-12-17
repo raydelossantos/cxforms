@@ -26,6 +26,7 @@ class UserInfoSeeder extends AbstractSeed
                 'first_name'          => 'John Michael',
                 'last_name'           => 'Lagman',
                 'middle_name'         => 'Ticio',
+                'photo'               => 'john.l.jpg',
             ],[
                 'id'                  => 2,
                 'username'            => 'raymund@connext.solutions',
@@ -36,6 +37,7 @@ class UserInfoSeeder extends AbstractSeed
                 'first_name'          => 'Raymund Francis',
                 'last_name'           => 'Delos Santos',
                 'middle_name'         => 'Beltran',
+                'photo'               => 'raymund.jpg',
             ]
         ];
 
