@@ -20,12 +20,14 @@ class UserSeeder extends AbstractSeed
                 // user_id => 1
                 'username'            => 'john.l@connext.solutions',
                 'is_admin'            => 1,
-                'created_by'          => 0
+                'created_by'          => 0,
+                'password'            => '$2y$10$h/OnR3KTuOwR4lnNGiUs5u22qYpbhj4K5eF31xKALhSwfTt3kG4ny' // Jackkk
             ],[
                 // user_id => 2
                 'username'            => 'raymund@connext.solutions',
                 'is_admin'            => 1,
-                'created_by'          => 0
+                'created_by'          => 0,
+                'password'            => '$2y$10$1yU.0mEfqYk6ed2R4wZzDegVL/yVZnlzSjMlrX.d6ILXajC4EhhNK' // Raymund
             ]
         ];
 
