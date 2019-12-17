@@ -4,7 +4,6 @@ import swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../services/user.service';
-import { type } from 'os';
 
 @Component({
   selector: 'app-import',
