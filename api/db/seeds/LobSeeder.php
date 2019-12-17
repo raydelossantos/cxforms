@@ -17,35 +17,10 @@ class LobSeeder extends AbstractSeed
     {
         $data = [
             [
-                'lob_name'               => 'CS Core and API Team',
+                'lob_name'               => 'ShareShop Dev Team',
                 'description'            => 'Internal Development Services',
                 'created_by'             => 1,
                 'client_id'              => 1
-            ],[
-                'lob_name'               => 'CS QA Team',
-                'description'            => 'Internal Quality Assurance Services',
-                'created_by'             => 1,
-                'client_id'              => 1
-            ],[
-                'lob_name'               => 'CS Human Resource',
-                'description'            => 'Human Resources Department',
-                'created_by'             => 1,
-                'client_id'              => 1
-            ],[
-                'lob_name'               => 'CS Mobile Development',
-                'description'            => 'Internal Mobile Development Services',
-                'created_by'             => 1,
-                'client_id'              => 1
-            ],[
-                'lob_name'               => 'CS Training & Professional',
-                'description'            => 'Training and Professional Services',
-                'created_by'             => 1,
-                'client_id'              => 1
-            ],[
-                'lob_name'               => 'PH Development',
-                'description'            => 'Philippine Development Team',
-                'created_by'             => 1,
-                'client_id'              => 2
             ]
         ];
 

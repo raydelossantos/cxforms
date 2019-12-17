@@ -18,40 +18,15 @@ class UserSeeder extends AbstractSeed
         $data = [
             [
                 // user_id => 1
-                'username'            => 'michaell',
+                'username'            => 'john.l@connext.solutions',
                 'is_admin'            => 1,
                 'created_by'          => 0
             ],[
                 // user_id => 2
-                'username'            => 'glennq',
+                'username'            => 'raymund@connext.solutions',
                 'is_admin'            => 1,
                 'created_by'          => 0
-            ],[
-                // user_id => 3
-                'username'            => 'juluisa',
-                'is_admin'            => 1,
-                'created_by'          => 0
-            ],[
-                // user_id => 4
-                'username'            => 'reynaldob',
-                'is_admin'            => 1,
-                'created_by'          => 0
-            ],[
-                // user_id => 5
-                'username'            => 'aaronc',
-                'is_admin'            => 0,
-                'created_by'          => 0
-            ],[
-                // user_id => 6
-                'username'            => 'jeromed',
-                'is_admin'            => 0,
-                'created_by'          => 0
-            ],[
-                // user_id => 7
-                'username'            => 'rheinfalzm',
-                'is_admin'            => 0,
-                'created_by'          => 0
-            ],
+            ]
         ];
 
         $tableName = 'users';

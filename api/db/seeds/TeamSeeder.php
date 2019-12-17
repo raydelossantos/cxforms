@@ -17,7 +17,7 @@ class TeamSeeder extends AbstractSeed
     {
         $data = [
             [
-                'team_name'              => 'Development Team',
+                'team_name'              => 'ShareShop Dev Team',
                 'team_code'              => 'DEVS',
                 'description'            => 'developers',
                 'location'               => 'CRK',

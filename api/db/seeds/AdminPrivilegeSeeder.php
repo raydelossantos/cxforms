@@ -20,7 +20,7 @@ class AdminPrivilegeSeeder extends AbstractSeed
                 // SUPER ADMIN
                 'user_id'           => 1,
                 'username'          => 'michaell',
-                'display_name'      => 'Super Admin (Lead Developer)',
+                'display_name'      => 'Super Admin',
                 'manage_admins'     => 2,
                 'manage_clients'    => 2,
                 'manage_teams'      => 2,
@@ -30,30 +30,8 @@ class AdminPrivilegeSeeder extends AbstractSeed
             ],[
                 // SUPER ADMIN
                 'user_id'           => 2,
-                'username'          => 'glennq',
-                'display_name'      => 'Super Admin (Team Lead)',
-                'manage_admins'     => 2,
-                'manage_clients'    => 2,
-                'manage_teams'      => 2,
-                'manage_users'      => 2,
-                'manage_lob'        => 2,
-                'manage_forms'      => 2
-            ],[
-                // SUPER ADMIN
-                'user_id'           => 3,
-                'username'          => 'juluisa',
-                'display_name'      => 'Super Admin (Developer)',
-                'manage_admins'     => 2,
-                'manage_clients'    => 2,
-                'manage_teams'      => 2,
-                'manage_users'      => 2,
-                'manage_lob'        => 2,
-                'manage_forms'      => 2
-            ],[
-                // SUPER ADMIN
-                'user_id'           => 4,
-                'username'          => 'reynaldob',
-                'display_name'      => 'Super Admin (Developer)',
+                'username'          => 'raymund@connext.solutions',
+                'display_name'      => 'Super Admin',
                 'manage_admins'     => 2,
                 'manage_clients'    => 2,
                 'manage_teams'      => 2,

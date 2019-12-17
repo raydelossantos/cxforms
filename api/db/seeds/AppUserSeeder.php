@@ -20,10 +20,6 @@ class AppUserSeeder extends AbstractSeed
         //         'username'  => 'michaell',
         //         'password'  => password_hash('michaell_x0hjKasL0!2', PASSWORD_DEFAULT),
         //         'status'    => '1'
-        //     ],[
-        //         'username'  => 'frederickd',
-        //         'password'  => password_hash('frederickd_z5THlak@$#', PASSWORD_DEFAULT),
-        //         'status'    => '1'
         //     ]
         // ];
 
