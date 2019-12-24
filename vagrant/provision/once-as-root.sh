@@ -114,3 +114,6 @@ php vendor/bin/phinx seed:run
 
 info "-- Remove strict conf from MySQL --"
 echo "sql_mode = 'ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'" >> /etc/mysql/mysql.conf.d/mysqld.cnf
+
+info "-- Force restart MySQL service --"
+service mysql start
