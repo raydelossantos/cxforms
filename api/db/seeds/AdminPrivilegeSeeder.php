@@ -19,7 +19,7 @@ class AdminPrivilegeSeeder extends AbstractSeed
             [
                 // SUPER ADMIN
                 'user_id'           => 1,
-                'username'          => 'michaell',
+                'username'          => 'john.l@connext.solutions',
                 'display_name'      => 'Super Admin',
                 'manage_admins'     => 2,
                 'manage_clients'    => 2,
