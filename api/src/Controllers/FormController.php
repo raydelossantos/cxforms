@@ -16,6 +16,7 @@ class FormController {
     private $db;
     private $logger;
     private $settings;
+    private $token;
 
     /**
      * Lists of messages/constant strings for this $class
@@ -39,11 +40,12 @@ class FormController {
      * @param \Psr\Log\LoggerInterface $logger
      * @param string $db connection
      */
-    public function __construct(LoggerInterface $logger, $db, $settings)
+    public function __construct(LoggerInterface $logger, $db, $settings, $token)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->settings = $settings;
+        $this->token = $token;
     }
 
     /**
@@ -270,6 +272,10 @@ class FormController {
             $result['message'] = 'Invalid form type. Kindly select the proper form type.';
             return $response->withStatus(403)->withJson($result);
         }
+
+        // set created_by id to token holder
+        $request_data['created_by'] = $this->token->sub->user->user->id;
+
 
         // Begin database transaction hrere
         DB::beginTransaction();

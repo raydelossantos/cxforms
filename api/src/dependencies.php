@@ -105,13 +105,12 @@ $container['App\Controllers\AccessLevelController'] = function ($c) {
     return new AccessLevelController($c->get('logger'), $c->get('db'), $c->get('settings'));
 };
 
-
 $container['App\Controllers\ClientController'] = function ($c) {
     return new ClientController($c->get('logger'), $c->get('db'), $c->get('settings'));
 };
 
 $container['App\Controllers\FormController'] = function ($c) {
-    return new FormController($c->get('logger'), $c->get('db'), $c->get('settings'));
+    return new FormController($c->get('logger'), $c->get('db'), $c->get('settings'), $c->get('token'));
 };
 
 $container['App\Controllers\LineOfBusinessController'] = function ($c) {
