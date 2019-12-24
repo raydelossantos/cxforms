@@ -109,9 +109,9 @@ To setup Phinx, open `phinx.yml` and update your development variables for MySQL
 		development:
 		adapter: mysql
 		host: 127.0.0.1
-		name: qa_gold
+		name: cx_forms
 		user: root
-		pass: ''
+		pass: 'root'
 		port: 3306
 		charset: utf8
 

@@ -67,7 +67,7 @@ class DatabaseBackuper {
         $_MYSQL_PASS = $this->settings['db']['password'];
         $_MYSQL_DB   = $this->settings['db']['database'];
 
-        $_filename = $this->settings['db_backup_path'] . 'qa_gold_backup_' . date("Y_m_d_h_i_s") . '.sql';
+        $_filename = $this->settings['db_backup_path'] . 'cx_forms_backup_' . date("Y_m_d_h_i_s") . '.sql';
 
         # start backup script here:
         $sh = 'mysqldump --host ' . $_MYSQL_HOST . ' --port  ' . $_MYSQL_PORT . ' -u ' . $_MYSQL_USER . ' --password="' . $_MYSQL_PASS . '" ' . $_MYSQL_DB . '> ' . $_filename;

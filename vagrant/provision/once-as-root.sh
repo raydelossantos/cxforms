@@ -105,7 +105,7 @@ composer install
 
 info "-- Setup databases --"
 mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION; FLUSH PRIVILEGES;"
-mysql -uroot -proot -e "CREATE DATABASE qa_gold";
+mysql -uroot -proot -e "CREATE DATABASE cx_forms";
 
 info "-- Execute database migration --"
 cd /var/www/html

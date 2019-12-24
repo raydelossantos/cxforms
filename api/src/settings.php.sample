@@ -35,7 +35,7 @@ return [
         'db' => [
             'driver'   => 'mysql',
             'host'     => '127.0.0.1',
-            'database' => 'qa_gold',
+            'database' => 'cx_forms',
             'username' => 'root',
             'password' => 'root',                                                                                       // SET DB PASSWORD HERE!
             'port'     => '3306',
