@@ -131,9 +131,7 @@ return [
         'allowed_addresses' => [
             '127.0.0.1',                        // local dev environemnt
             'localhost',                        // localhost
-            'qagold.local',                     // api vhost
-            'listtrackerapi.local',
-            'qagold.com',                       // api virtualbox domain name
+            'cxforms.com',                       // api virtualbox domain name
         ],
 
         /********************************************************************************************************************************************************
