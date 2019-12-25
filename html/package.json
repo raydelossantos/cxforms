@@ -51,7 +51,7 @@
     "pdfmake": "^0.1.37",
     "rxjs": "5.5.6",
     "rxjs-compat": "6.2.2",
-    "sortablejs": "^1.10.0",
+    "sortablejs": "1.9.0",
     "sweetalert2": "^7.22.0",
     "zone.js": "^0.8.19"
   },
