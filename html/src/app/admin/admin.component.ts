@@ -70,7 +70,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.employee_id = this.authService.auth.user.user_info.employee_id;
     this.email = this.authService.auth.user.user_info.email;
 
-    this.avatar = this.appConfig.ASSET_ENDPOINT + this.username + '-PHOTO.jpg';
+    this.avatar = this.appConfig.ASSET_ENDPOINT + this.username + '.jpg';
 
     this.teamService.httpGetAllTeamsByUserId(parseInt(this.user_id));
 

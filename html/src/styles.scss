@@ -113,8 +113,26 @@ small {
   margin-bottom: 50px;
 }
 
-.card img {
-  border-radius: 2px 2px 2px 2px;
+.card {
+  border-radius: 5px 5px 5px 5px; 
+  // border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.tab-content {
+  border-right: 1px solid rgba(0, 0, 0, 0.125);
+  border-left: 1px solid rgba(0, 0, 0, 0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 10px;
+}
+
+h5, .h5 {
+  font-size: 1.55rem;
+}
+
+.card:not([class*="card-outline-"]) {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .card-title {
@@ -185,8 +203,10 @@ small {
   max-width: 270px;
   height: 100vh;
   z-index: 2050;
-  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.16), 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.16), 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+  // -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  // box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
   background-color: #fff;
   padding-top: 65px;
   position:fixed;
@@ -402,11 +422,6 @@ table .btn.btn-sm {
 
 .imgLogo {
 	border-radius: 50%;
-}
-
-.card {
-    border-radius: 20px;
-    // border: none;
 }
 
 .card-gradient {
