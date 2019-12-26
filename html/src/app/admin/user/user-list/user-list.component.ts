@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { GlobalService } from '../../../services/global.service';
 import swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { APP_CONFIG } from '../../../app.config';
 
 declare var $: any;
 
@@ -52,7 +53,8 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   userForm: FormGroup;
 
-  constructor(private userService: UserService,
+  constructor(@Inject (APP_CONFIG) private appConfig,
+              private userService: UserService,
               private titleService: Title,
               private globalService: GlobalService) { }
 
@@ -145,6 +147,7 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
           $('#edit_first_name').val(user.data.user_info.first_name);
           $('#edit_last_name').val(user.data.user_info.last_name);
           $('#edit_middle_name').val(user.data.user_info.middle_name);
+          $('#edit_img').prop('src', this.appConfig.ASSET_ENDPOINT + user.data.username + '.jpg');
 
           $('#edit_email').val(user.data.user_info.email);
           $('#edit_email').prop('disabled', user.data.user_info.user_origin);

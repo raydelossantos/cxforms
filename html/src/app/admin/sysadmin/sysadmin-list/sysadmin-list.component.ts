@@ -172,7 +172,7 @@ export class SysadminListComponent implements OnInit {
           $('#lbl_full_name').text(admin.data.user_info.first_name + ' ' + admin.data.user_info.last_name);
           $('#lbl_username').text(admin.data.user_info.username);
           $('#lbl_userid').text(admin.data.user_info.id);
-          $('#img_admin').prop('src', this.appConfig.ASSET_ENDPOINT + admin.data.username);
+          $('#img_admin').prop('src', this.appConfig.ASSET_ENDPOINT + admin.data.username + '.jpg');
           $('#edit_display_name').val(admin.data.privilege.display_name);
           $('input[name=edit_opt_admins][value='+admin.data.privilege.manage_admins+']').prop('checked', true);
           $('input[name=edit_opt_clients][value='+admin.data.privilege.manage_clients+']').prop('checked', true);
