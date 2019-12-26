@@ -39,7 +39,7 @@
                       <td class="text-center" title="{{ _disabled_user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>    
                       <td class="text-center">
                         <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _disabled_user.id )">
-                          <span class="fa fa-undo"></span> Unblock
+                          <span class="fa fa-undo"></span> Enable
                         </button>
                       </td>
                     </tr>
