@@ -23,10 +23,10 @@ class UserInfoSeeder extends AbstractSeed
                 'user_id'             => 1,
                 'user_origin'         => 1,
                 'employee_id'         => '261',
-                'first_name'          => 'John Michael',
-                'last_name'           => 'Lagman',
-                'middle_name'         => 'Ticio',
-                'photo'               => 'john.l.jpg',
+                'first_name'          => 'JOHN MICHAEL',
+                'last_name'           => 'LAGMAN',
+                'middle_name'         => 'TICIO',
+                'photo'               => '261.jpg',
             ],[
                 'id'                  => 2,
                 'username'            => 'raymund@connext.solutions',
@@ -34,9 +34,9 @@ class UserInfoSeeder extends AbstractSeed
                 'user_id'             => 2,
                 'user_origin'         => 1,
                 'employee_id'         => '292',
-                'first_name'          => 'Raymund Francis',
-                'last_name'           => 'Delos Santos',
-                'middle_name'         => 'Beltran',
+                'first_name'          => 'RAYMUND FRANCIS',
+                'last_name'           => 'DELOS SANTOS',
+                'middle_name'         => 'BELTRAN',
                 'photo'               => 'raymund.jpg',
             ]
         ];
