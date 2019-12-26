@@ -47,9 +47,9 @@
                   <td class="text-center">{{ _user.user_info.user_origin === 1 ? 'Auto' : 'Manual' }}</td>
                   <td class="text-center" title="{{ _user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                   <td class="text-center" title="{{ _user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>
-                  <td class="text-center"><button class="btn btn-outline-grey btn-xs" (click)="onEditRecord( _user.id )"><span class="fa fa-fw fa-edit"></span> Edit</button>
-                    <button class="btn btn-outline-red btn-xs" (click)="onDelRecord( _user.username, _user.id, _user.user_info.first_name, _user.user_info.last_name, _user.id )">
-                      <span class="fa fa-fw fa-ban"></span> Disable
+                  <td class="text-center"><button class="btn btn-outline-grey btn-xs" (click)="onEditRecord( _user.id )" title="View/Update"><span class="fa fa-fw fa-edit"></span></button>
+                    <button class="btn btn-outline-red btn-xs" (click)="onDelRecord( _user.username, _user.id, _user.user_info.first_name, _user.user_info.last_name, _user.id )" title="Disable user">
+                      <span class="fa fa-fw fa-ban"></span>
                     </button>
                 </td>
                 </tr>

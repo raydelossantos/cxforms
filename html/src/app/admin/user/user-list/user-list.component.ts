@@ -359,13 +359,23 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
       _name: first_name + ' ' + last_name,
       _row_id: row_id
     };
-    // show modal form for delete
-    $("#btnDeleteRecord").click();
-    // console.log(this._del_rec.row_id)
-  }
 
-  onDeleteRecord() {
-    this.userService.httpDeleteUser(this._del_rec._user_id);
+    const that = this;
+
+    swal({
+      title: 'Disable this user?',
+      text: "User can no longer log back in to the system.",
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, disable user!'
+    }).then(function(result) {
+      if (result.value) {
+        that.userService.httpDeleteUser(that._del_rec._user_id);
+      }
+    });
+
   }
 
   ngOnDestroy() {
