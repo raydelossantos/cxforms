@@ -1223,7 +1223,7 @@ class UserController {
                         'last_name'         => $_row[2],
                         'middle_name'       => (isset($_row[4])) ? $_row[4] : '',
                         'email'             => $_row[6],
-                        'photo'             => substr($_row[6], 0, strpos($_row[6], "@"))
+                        'photo'             => $_row[0] . '.jpg'
                     ];
         
                     $new_user_info = UserInfo::create(array_map('trim', $user_info_data));
