@@ -53,11 +53,11 @@
                   <td style="text-align: center;"><span class="fa fa-{{ _admin_user.privilege.manage_forms | adminAccessType }}"></span></td>
 
                   <td style="text-align: center;">
-                    <button class="btn btn-xs btn-outline-grey" (click)="onEditRecord( _admin_user.id )">
-                      <span class="fa fa-fw fa-edit"></span> Edit
+                    <button class="btn btn-xs btn-outline-grey" (click)="onEditRecord( _admin_user.id )" title="View/Update">
+                      <span class="fa fa-fw fa-edit"></span> 
                     </button>
-                    <button class="btn btn-xs btn-outline-red" (click)="onDelRecord( _admin_user.username, _admin_user.id, _admin_user.user_info.first_name + ' ' + _admin_user.user_info.last_name )">
-                    <span class="fa fa-fw fa-trash"></span> Delete
+                    <button class="btn btn-xs btn-outline-red" (click)="onDelRecord( _admin_user.username, _admin_user.id, _admin_user.user_info.first_name + ' ' + _admin_user.user_info.last_name, _admin_user.user_info.photo, _admin_user.privilege.display_name )" title="Delete admin">
+                    <span class="fa fa-fw fa-trash"></span>
                   </button>
                   </td>
 

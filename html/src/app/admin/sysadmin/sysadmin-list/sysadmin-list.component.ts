@@ -172,7 +172,7 @@ export class SysadminListComponent implements OnInit {
           $('#lbl_full_name').text(admin.data.user_info.first_name + ' ' + admin.data.user_info.last_name);
           $('#lbl_username').text(admin.data.user_info.username);
           $('#lbl_userid').text(admin.data.user_info.id);
-          $('#img_admin').prop('src', this.appConfig.ASSET_ENDPOINT + admin.data.username + '.jpg');
+          $('#img_admin').prop('src', this.appConfig.ASSET_ENDPOINT + admin.data.user_info.photo);
           $('#edit_display_name').val(admin.data.privilege.display_name);
           $('input[name=edit_opt_admins][value='+admin.data.privilege.manage_admins+']').prop('checked', true);
           $('input[name=edit_opt_clients][value='+admin.data.privilege.manage_clients+']').prop('checked', true);
@@ -267,16 +267,34 @@ export class SysadminListComponent implements OnInit {
     this.userService.httpDeleteAdmin(id);
   }
 
-  onDelRecord(username, id, full_name) {
+  onDelRecord(username, id, full_name, photo, display_name) {
     this._del_rec = {
       _username: username,
       _user_id: id,
       _full_name: full_name,
-      _row_id: id
+      _row_id: id,
+      _photo: this.appConfig.ASSET_ENDPOINT + photo
     };
     
-    // show modal form for delete
-    $("#btnDeleteRecord").click();
+    const that = this;
+
+    swal({
+      title: 'Delete this admin?',
+      text: "This admin will be reverted to regular user access.",
+      html: `User can no longer log back in to the system. 
+            <br/><br/>
+            <img style='float: left: height: 75px; width: 75px; margin-left: 5px;' src='` + this._del_rec._photo + `'> 
+            <div style="">` + full_name + `<br/>` + `[` + display_name + `] ` + username + `</div>`,
+      type: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete admin!'
+    }).then(function(result) {
+      if (result.value) {
+        that.userService.httpDeleteAdmin(that._del_rec._user_id);
+      }
+    });
   }
 
   onEditRecord(id: any) {

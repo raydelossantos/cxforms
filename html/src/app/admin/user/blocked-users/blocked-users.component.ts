@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { APP_CONFIG } from '../../../app.config';
 
 declare var $: any;
 
@@ -39,7 +40,8 @@ export class BlockedUsersComponent implements OnInit, OnDestroy {
 
   _restore: any = '';
 
-  constructor(private userService: UserService,
+  constructor(@Inject (APP_CONFIG) private appConfig,
+              private userService: UserService,
               private titleService: Title) { }
 
   ngOnInit() {
@@ -138,12 +140,16 @@ export class BlockedUsersComponent implements OnInit, OnDestroy {
     this.userService.httpGetAllInvalidLogins();
   }
 
-  onRestoreRecord(id: any) {
+  onRestoreRecord(id: any, full_name: string, employee_id: string, username: string, photo: string) {
     const that = this;
 
     swal({
       title: 'Restore disabled user?',
       text: "User can access the site again after this process.",
+      html: `User can access the site again after this process.. 
+      <br/><br/>
+      <img style='float: left: height: 75px; width: 75px; margin-left: 5px;' src='` + this.appConfig.ASSET_ENDPOINT + photo + `'> 
+      <div style="">` + full_name +  `<br/>` + `[` + employee_id + `] ` + username + `</div>`,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

@@ -41,7 +41,7 @@
                   <td>{{ _blocked_user.user_info['first_name'] }} {{ _blocked_user.user_info['last_name'] }}</td>
                   <td class="text-center">{{ _blocked_user.login_attempt }}</td>
                   <td class="text-center">
-                    <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _blocked_user.id )">
+                    <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _blocked_user.id, _blocked_user.user_info.first_name + ' ' + _blocked_user.user_info.last_name, _blocked_user.user_info.employee_id, _blocked_user.username, _blocked_user.user_info.photo )">
                       <span class="fa fa-unlock-alt"></span> Unblock
                     </button>
                   </td>

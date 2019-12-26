@@ -2,7 +2,7 @@
     <div class="card">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
-            <span class="fa fa-fw fa-ban"></span> Disabled Accounts <small> - User access unauthorized</small>
+            <span class="fa fa-fw fa-ban"></span> Disabled Accounts <small> - Unauthorized users</small>
               <button class="btn btn-outline-grey btn-sm" (click)="onRefreshRecords()" style="float: right;">
                 <span class="fa fa-refresh"></span> Refresh List
               </button>
@@ -38,7 +38,7 @@
                       <td class="text-center" title="{{ _disabled_user.user_info.created_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.created_at | utcLocal | date :  "y/MM/dd" }}</td>
                       <td class="text-center" title="{{ _disabled_user.user_info.updated_at | utcLocal | date: 'EEE MMMM dd, y  hh:mm:ss a' }}">{{ _disabled_user.user_info.updated_at | utcLocal | date :  "y/MM/dd" }}</td>    
                       <td class="text-center">
-                        <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _disabled_user.id )">
+                        <button class="btn btn-outline-red btn-xs" (click)="onRestoreRecord( _disabled_user.id, _disabled_user.user_info.first_name + ' ' + _disabled_user.user_info.last_name, _disabled_user.user_info.employee_id, _disabled_user.username, _disabled_user.user_info.photo )">
                           <span class="fa fa-undo"></span> Enable
                         </button>
                       </td>

@@ -38,7 +38,8 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     _username: '',
     _user_id: '',
     _name: '',
-    _row_id: null
+    _row_id: null,
+    _photo: ''
   };
 
   isAddedManually: boolean = false;
@@ -147,7 +148,7 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
           $('#edit_first_name').val(user.data.user_info.first_name);
           $('#edit_last_name').val(user.data.user_info.last_name);
           $('#edit_middle_name').val(user.data.user_info.middle_name);
-          $('#edit_img').prop('src', this.appConfig.ASSET_ENDPOINT + user.data.username + '.jpg');
+          $('#edit_img').prop('src', this.appConfig.ASSET_ENDPOINT + user.data.user_info.photo);
 
           $('#edit_email').val(user.data.user_info.email);
           $('#edit_email').prop('disabled', user.data.user_info.user_origin);
@@ -229,7 +230,7 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
     let formValues = this.userForm.value;
     formValues['created_by'] = this.globalService.authService.auth.user.user.id;
 
-    if (!this.validateUsername(formValues['username'])) {
+    if (!this.validateEmail(formValues['username'])) {
       swal('Invalid username', 'Username is incorrect. Accepts letters, cannot be blank.', 'error');
       return;
     }
@@ -292,7 +293,7 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
       'middle_name': $('#edit_middle_name').val().trim()
     }
 
-    if (!this.validateUsername(fd['username'])) {
+    if (!this.validateEmail(fd['username'])) {
       swal('Invalid username', 'Username is incorrect. Only letters accepted and cannot be blank.', 'error');
       return;
     }
@@ -352,19 +353,23 @@ export class UserListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
 
-  onDelRecord(username, id, first_name, last_name, row_id) {
+  onDelRecord(username, id, first_name, last_name, row_id, photo, employee_id) {
     this._del_rec = {
       _username: username,
       _user_id: id,
       _name: first_name + ' ' + last_name,
-      _row_id: row_id
+      _row_id: row_id,
+      _photo: this.appConfig.ASSET_ENDPOINT + photo
     };
 
     const that = this;
 
     swal({
       title: 'Disable this user?',
-      text: "User can no longer log back in to the system.",
+      html: `User can no longer log back in to the system. 
+            <br/><br/>
+            <img style='float: left: height: 75px; width: 75px; margin-left: 5px;' src='` + this._del_rec._photo + `'> 
+            <div style="">` + first_name + ' ' + last_name +  `<br/>` + `[` + employee_id + `] ` + username + `</div>`,
       type: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
