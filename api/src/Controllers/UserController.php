@@ -1216,7 +1216,7 @@ class UserController {
                     $user_info_data = [
                         'username'          => $_row[6],
                         // 'password'          => password_hash($request_data['password'], PASSWORD_BCRYPT),
-                        'user_origin'       => 0,
+                        'user_origin'       => 1,
                         'user_id'           => $new_user->id,
                         'employee_id'       => $_row[0],
                         'first_name'        => $_row[3],
