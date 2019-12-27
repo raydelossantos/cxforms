@@ -18,88 +18,88 @@ import { UtilitiesService } from '../../../services/utilities.service';
   animations: [
     trigger(
       'enterAnimation', [
-        transition(':enter', [   // :enter is alias to 'void => *'
-          style({opacity:0}),
-          animate(500, style({opacity:1})) 
-        ]),
-        transition(':leave', [   // :leave is alias to '* => void'
-          animate(500, style({opacity:0})) 
-        ])
+      transition(':enter', [   // :enter is alias to 'void => *'
+        style({ opacity: 0 }),
+        animate(500, style({ opacity: 1 }))
+      ]),
+      transition(':leave', [   // :leave is alias to '* => void'
+        animate(500, style({ opacity: 0 }))
       ])
+    ])
   ],
   templateUrl: './viewform.component.html',
   styleUrls: ['./viewform.component.scss']
 })
 export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  public loading:           boolean = false;
-  public loading2:          boolean = false;
-  public loading3:          boolean = false;
+  public loading: boolean = false;
+  public loading2: boolean = false;
+  public loading3: boolean = false;
 
-  fields:                   Field[];
-  noFields:                 boolean = true;
+  fields: Field[];
+  noFields: boolean = true;
 
-  dropdown:                 any = [];
-  dropdown_display:         any = [];
+  dropdown: any = [];
+  dropdown_display: any = [];
 
-  visibility_dependency:    any = [];
+  visibility_dependency: any = [];
 
-  members:                  any = [];
+  members: any = [];
 
-  user:                     any = {
-                              username:  '',
-                              user_id:   '',
-                              full_name: '',
-                              email:     ''
-                            }
+  user: any = {
+    username: '',
+    user_id: '',
+    full_name: '',
+    email: ''
+  }
 
   /** Determine what type of input to be displayed */
-  isInputField:             any = ['String', 'Monetary Amount', 'Timer'];
-  isSelectField:            any = ['Dropdown'];
-  isTextareaField:          any = ['Multiline'];
-  isDateField:              any = ['Date'];
-  isDateTimeField:          any = ['Date and Time'];
-  isCheckboxField:          any = ['Checkbox'];
-  isEmployeeLookupField:    any = ['Employee Lookup'];
-  isLookupField:            any = ['Lookup']
-  isTimerField:             any = ['Timer'];
-  isUserTagField:           any = ['User Tag'];
-  isDescTimeStampField:     any = ['Description Time Stamp'];
+  isInputField: any = ['String', 'Monetary Amount', 'Timer'];
+  isSelectField: any = ['Dropdown'];
+  isTextareaField: any = ['Multiline'];
+  isDateField: any = ['Date'];
+  isDateTimeField: any = ['Date and Time'];
+  isCheckboxField: any = ['Checkbox'];
+  isEmployeeLookupField: any = ['Employee Lookup'];
+  isLookupField: any = ['Lookup']
+  isTimerField: any = ['Timer'];
+  isUserTagField: any = ['User Tag'];
+  isDescTimeStampField: any = ['Description Time Stamp'];
 
-  form_title:               any = '';
-  form_id:                  any;
-  form:                     any = null;
-  form_field_name:          any;
+  form_title: any = '';
+  form_id: any;
+  form: any = null;
+  form_field_name: any;
 
-  formGetSubscription:      Subscription;
-  recordPostSubscription:   Subscription;
+  formGetSubscription: Subscription;
+  recordPostSubscription: Subscription;
   memberGetAllSubscription: Subscription;
 
-  formPermissionSubscription:   Subscription;
-  formPermissions:              any;
-  
-  _selected_member:         any;
-  url:                      string;
+  formPermissionSubscription: Subscription;
+  formPermissions: any;
 
-  selectedFile:             File = null;
+  _selected_member: any;
+  url: string;
 
-  constructor(private authService:          AuthService,
-              private memberService:        MemberService,
-              private route:                ActivatedRoute,
-              private router:               Router,
-              private titleService:         Title,
-              private formService:          FormService,
-              private permissionService:    PermissionService,
-              private defaultTableService:  DefaultTableService,
-              private utilitiesService:UtilitiesService) { }
+  selectedFile: File = null;
+
+  constructor(private authService: AuthService,
+    private memberService: MemberService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private titleService: Title,
+    private formService: FormService,
+    private permissionService: PermissionService,
+    private defaultTableService: DefaultTableService,
+    private utilitiesService: UtilitiesService) { }
 
   ngOnInit() {
 
     this.user = {
-      username:   this.authService.auth.user.user.username,
-      user_id:    this.authService.auth.user.user.id,
-      full_name:  this.authService.auth.user.user_info.first_name + ' ' + this.authService.auth.user.user_info.last_name,
-      email:      this.authService.auth.user.user_info.email
+      username: this.authService.auth.user.user.username,
+      user_id: this.authService.auth.user.user.id,
+      full_name: this.authService.auth.user.user_info.first_name + ' ' + this.authService.auth.user.user_info.last_name,
+      email: this.authService.auth.user.user_info.email
     };
 
     this.route.params.subscribe(
@@ -119,10 +119,10 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     );
-    
+
     this.memberGetAllSubscription = this.memberService.memberGetAll.subscribe(
       (members: any) => {
-        if (typeof(members)!== 'undefined' && members.success) {
+        if (typeof (members) !== 'undefined' && members.success) {
           this.members = members.data;
 
           members.data.map(
@@ -134,8 +134,8 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
           this.loading = false;
           this.loading2 = false;
-          
-        } else if (typeof(members)!== 'undefined' && members.success === false) {
+
+        } else if (typeof (members) !== 'undefined' && members.success === false) {
           this.loading = false;
           this.loading2 = false;
         }
@@ -147,11 +147,11 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
         this.dropdown_display = [];
         this.dropdown = [];
 
-        if (typeof(form) !== 'undefined' && form.success) {
+        if (typeof (form) !== 'undefined' && form.success) {
 
           this.form = form.data;
           this.form_title = form.data['form_name'];
-          
+
           // set page title
           this.titleService.setTitle('Connext Forms - ' + form.data.form_name);
 
@@ -159,9 +159,9 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
           this.formPermissionSubscription = this.formService.formGetPermissions.subscribe(
             (permissions: any) => {
-              if (typeof(permissions) !== 'undefined') {
+              if (typeof (permissions) !== 'undefined') {
                 this.formPermissions = permissions;
-              } else if (typeof(permissions) !== 'undefined') {
+              } else if (typeof (permissions) !== 'undefined') {
                 swal('Error', 'Unable to fetch form permission. <br><br>', 'error');
               }
             }
@@ -202,7 +202,7 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
                       const value_dropdown: any = matches[3];
 
                       /** add to array all dropdown texts */
-                      if  (this.dropdown[parent_dropdown] !== void 0) {
+                      if (this.dropdown[parent_dropdown] !== void 0) {
                         if (this.dropdown[parent_dropdown][child_dropdown] !== void 0) {
                           this.dropdown[parent_dropdown][child_dropdown].push(value_dropdown);
                         } else {
@@ -224,7 +224,7 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
                     }
                   });
 
-                  if  (_selection_options.length > 0) {
+                  if (_selection_options.length > 0) {
                     field.selection_options = _selection_options;
                   }
                 }
@@ -260,7 +260,7 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
           this.loading = false;
 
-        } else if (typeof(form) !== 'undefined' && form.success === false) {
+        } else if (typeof (form) !== 'undefined' && form.success === false) {
           this.loading = false;
           swal('Unauthorized access', 'You are trying to access a resource that either doesn\'t exist or you dont have an access privilege. <br /><br /> You were redirected.', 'warning')
           this.router.navigate(['/home']);
@@ -270,13 +270,13 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.recordPostSubscription = this.defaultTableService.recordPost.subscribe(
       (record: any) => {
-        if (typeof(record) !== 'undefined' && record.success) {
+        if (typeof (record) !== 'undefined' && record.success) {
           swal('Record saved', 'Successfully created a new record for ' + this.form.form_name + '!', 'success');
           if (this.form.stay_after_submit) {
             $('#btnClearForm').click();
           }
           this.loading = false;
-        } else if (typeof(record) !== 'undefined' && record.success === false) {
+        } else if (typeof (record) !== 'undefined' && record.success === false) {
           swal('Record not saved', 'Unable to save record. <br><br>' + record.message, 'error');
           this.loading = false;
         }
@@ -308,10 +308,10 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
       // get inputs from Form, include in POST
       this.fields.forEach(field => {
         if ($('#' + field.form_field_name).prop('type') == 'checkbox') {
-          const val: any =  $('#' + field.form_field_name).is(':checked') ? 1 : 0;
+          const val: any = $('#' + field.form_field_name).is(':checked') ? 1 : 0;
           postValues.append(field.form_field_name, val);
         } else {
-          const val: any =  $('#' + field.form_field_name).val() === null ? '' : $('#' + field.form_field_name).val();
+          const val: any = $('#' + field.form_field_name).val() === null ? '' : $('#' + field.form_field_name).val();
           postValues.append(field.form_field_name, val)
         }
       });
@@ -322,12 +322,12 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
       postValues.append('created_by_userid', this.authService.auth.user.user.id);
       postValues.append('created_by_username', this.authService.auth.user.user.username);
-      
+
       this.defaultTableService.httpPostRecord(form_id, postValues);
 
     } else {
 
-      swal('Invalid', valid.message, 'error' );
+      swal('Invalid', valid.message, 'error');
       this.loading = false;
 
     }
@@ -396,13 +396,13 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
   onChangeDropdown(field_name, event) {
 
     if (this.dropdown[field_name] !== void 0) {
-      if (this.dropdown[field_name][event.target.value] !== void 0){
+      if (this.dropdown[field_name][event.target.value] !== void 0) {
         this.dropdown_display[field_name] = this.dropdown[field_name][event.target.value];
       } else {
         this.dropdown_display[field_name] = [];
       }
     }
-    
+
   }
 
   onLoadEmployeeLookup(team_id: any, form_field_name: any) {
@@ -413,7 +413,7 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading2 = true;
 
     // get all dropdown select list from team members
-    this.memberService.httpGetAllMembers({team_id: team_id});
+    this.memberService.httpGetAllMembers({ team_id: team_id });
 
     // form_field_name - assign the calling field to input
     this.form_field_name = form_field_name;
@@ -428,7 +428,7 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading2 = true;
 
     // get all dropdown select list from team members
-    this.memberService.httpGetAllMembers({team_id: team_id});
+    this.memberService.httpGetAllMembers({ team_id: team_id });
 
     // form_field_name - assign the calling field to input
     this.form_field_name = form_field_name;
@@ -438,13 +438,13 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
   onLookupSelect() {
 
     if (!this._selected_member) {
-      swal('No employee selected','Please select employee before proceeding or cancel.', 'error')
+      swal('No employee selected', 'Please select employee before proceeding or cancel.', 'error')
       return;
     }
 
     const name = this._selected_member.user_info.last_name + ', ' + this._selected_member.user_info.first_name + ' ' + this._selected_member.user_info.middle_name;
     $('#' + this.form_field_name).val(name);
-    $('#selected_'+ this.form_field_name).text(name);
+    $('#selected_' + this.form_field_name).text(name);
 
     this.visibility_dependency[this.form_field_name] = name;
 
@@ -452,13 +452,13 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLookUpClose() {
-    this._selected_member= null;
+    this._selected_member = null;
   }
 
   onUserTagSelect() {
 
     if (!this._selected_member) {
-      swal('No employee selected','Please select employee before proceeding or cancel.', 'error')
+      swal('No employee selected', 'Please select employee before proceeding or cancel.', 'error')
       return;
     }
 
@@ -470,13 +470,13 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
 
     $('#' + this.form_field_name).val(name_email);
 
-    $('#selected_'+ this.form_field_name).text(name);
+    $('#selected_' + this.form_field_name).text(name);
 
     this._selected_member = null;
   }
 
   onUserTagClose() {
-    this._selected_member= null;
+    this._selected_member = null;
   }
 
 
@@ -484,14 +484,14 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
   onResetForm() {
     $('.lookup-selected').text('');
 
-    $("input[type='hidden']").each(function(){
+    $("input[type='hidden']").each(function () {
       $(this).val('');
     });
   }
 
   logout() {
 
-    this.loading3 = true; 
+    this.loading3 = true;
 
     const $this = this;
     this.authService.deleteAuthCookie();
@@ -502,12 +502,12 @@ export class ViewformComponent implements OnInit, OnDestroy, AfterViewInit {
       $this.router.navigate(['/login'], {
         queryParams: {
           return: $this.url
-          }
         }
+      }
       );
 
-      $this.loading3 = false; 
-      
+      $this.loading3 = false;
+
     }, 1000);
 
   };

@@ -721,7 +721,47 @@ class CommonController {
                 ]
             );
 
-        } else {
+        } elseif ($type == 'forgot_pw') {
+
+            /** ************************************* **/
+            /**   FORGOT PASSWORD EMAIL NOTIFICATION  **/
+            /** ************************************* **/
+
+            $subject = "Forgot Password Request";
+            $user = UserInfo::where('email', $receiver[1])->first();
+
+            $full_link = $this->settings['qagold_link'] . '/login/reset/' . $user->username  . '/' . $link;
+
+            $file = __DIR__ . '/../Templates/forgot.html';
+            $body = file_get_contents($file, FILE_USE_INCLUDE_PATH);
+
+            // change the QA Gold Address for logo/icons
+            $body = str_replace("{{ qagold_link }}", $this->settings['qagold_link'], $body);
+
+            // change the body greeting
+            $body = str_replace("{{ user_name }}", $user->username . '! <p style="font-size: 10px; color: gray;">' . $user->first_name . ' ' . $user->last_name . '</p>', $body);
+
+            // change the link based on the record view link
+            $body = str_replace("{{ link_to_open }}", $full_link, $body);
+
+            /** ************************************* **/
+            /**       BEGIN EMAIL NOTIFICATION        **/
+            /** ************************************* **/
+            $email_nofif = MailLog::create(
+                [
+                    'user_id'       => $user->user_id,
+                    'receiver'      => json_encode($receiver),
+                    'sender'        => json_encode($sender),
+                    'subject'       => $subject,
+                    'custom'        => json_encode($custom),
+                    'body'          => $body,
+                    'link'          => $full_link,
+                    'hash'          => $link
+                ]
+            );
+
+        }
+        else {
 
             /** ANY OTHER EMAIL NOTIFICATION */
             $subject = "General Notification [QA Gold]";

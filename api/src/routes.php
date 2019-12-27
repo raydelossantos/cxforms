@@ -253,8 +253,11 @@ $app->post("/token",                                                        Comm
 $app->group('/auth', function () {
     $this->post('/login',                                                   AuthenticationController::class.':pw_login');
     $this->get('/google',                                                   AuthenticationController::class.':google_login');
-    $this->get('/unblock/{username:[a-zA-Z]+}/{hash:[a-zA-Z0-9]+}',         AuthenticationController::class.':unblock');
+    $this->get('/unblock/{username:[a-zA-Z.@]+}/{hash:[a-zA-Z0-9]+}',       AuthenticationController::class.':unblock');
     $this->get('/wp/{id:[a-zA-Z0-9]+}',                                     AuthenticationController::class.':wp_login');
+    $this->post('/forgot',                                                  AuthenticationController::class.':forgot_pw');
+    $this->post('/reset',                                                   AuthenticationController::class.':reset_pw');
+
 });
 
 /**

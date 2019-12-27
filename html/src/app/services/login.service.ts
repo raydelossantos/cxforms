@@ -71,5 +71,31 @@ export class LoginService {
       }
     );
   }
+
+  httpGetResetLogin(username: string, hash: string) {
+    const req = new HttpRequest(
+      'GET',
+      this.appConfig.API_ENDPOINT + '/auth/reset/' + username + '/' + hash
+    );
+
+    return this.httpClient.request<any>(req)
+    .map(
+      (response: any) => {
+        if (typeof(response) !== 'undefined' && response.body != null) {
+          return response.body;
+        }
+
+        return [];
+      }
+    )
+    .subscribe(
+      (response: any) => {
+        this.LDapAuthUnblockLogin.next(response);
+      },
+      (response: any) => {
+        this.LDapAuthUnblockLogin.next(response.error);
+      }
+    );
+  }
 }
  

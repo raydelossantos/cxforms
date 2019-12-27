@@ -6,11 +6,13 @@ import { UnblockComponent } from './unblock/unblock.component';
 import { PublicFormComponent } from './public-form/public-form.component';
 import { PublicErrorComponent } from './public-error/public-error.component';
 import { PublicLoginComponent } from './public-login/public-login.component';
+import { ResetComponent } from './reset/reset.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'login/unblock/:username/:hash', component: UnblockComponent },
+  { path: 'login/reset/:username/:hash', component: ResetComponent },
   { path: 'google/:jwt/:exp', component: GoogleComponent },
   { path: 'public/error', component: PublicErrorComponent },
   { path: 'public/login/:hash/:jwt/:exp', component: PublicLoginComponent },

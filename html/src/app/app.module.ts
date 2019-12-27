@@ -46,6 +46,7 @@ import { MomentDateTimeAdapter } from 'ng-pick-datetime-moment';
 import { PublicFormComponent } from './public-form/public-form.component';
 import { PublicErrorComponent } from './public-error/public-error.component';
 import { PublicLoginComponent } from './public-login/public-login.component';
+import { ResetComponent } from './reset/reset.component';
 
 export const MY_CUSTOM_FORMATS = {
     parseInput: 'YYYY-MM-DD HH:mm:00',
@@ -60,12 +61,13 @@ export const MY_CUSTOM_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    LoginComponent, 
     GoogleComponent,
     UnblockComponent,
     PublicFormComponent,
     PublicErrorComponent,
     PublicLoginComponent,
+    ResetComponent,
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   imports: [

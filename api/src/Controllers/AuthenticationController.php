@@ -399,6 +399,110 @@ class AuthenticationController {
         return $response->withStatus(404)->withJson($result);
     }
 
+     /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param array                                    $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function forgot_pw(Request $request, Response $response, $args)
+    {
+        $result             = [];
+        $result['success']  = false;
+
+        $request_data = $request->getParsedBody();
+
+        /**
+         * Validate input
+         */
+        if (empty($request_data['username'])) {
+            $result['status'] = 'Invalid username/password';
+            $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
+            return $response->withStatus(404)->withJson($result);
+        }
+
+        $username = $request_data['username'];
+
+        /**
+         * Verify if user exists in users table before authenticating
+         */
+        $user = User::where('username', $username)->with('user_info')->first();
+        if ($user) {
+            $hash = hash('sha256', sha1(uniqid().time()) );
+            $user->forgot_hash = $hash;
+            $user->update();
+
+            // send email notificaitons when user has been locked
+            $receiver = [
+                $user->user_info->last_name . ', ' . $user->user_info->first_name . ' ' . $user->user_info->middle_name,
+                $user->user_info->email
+            ];
+
+            $notif = new CommonController($this->logger, $this->db, $this->settings);
+
+            $notif->send_notification(
+                'forgot_pw',
+                $hash,
+                $receiver
+            );
+
+            $result['success'] = true;
+            $result['message'] = 'Please check your email to reset your password.';
+            return $response->withStatus(200)->withJson($result);
+        }
+
+        $result['message'] = 'User account was not found.';
+        return $response->withStatus(404)->withJson($result);
+    }
+
+     /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     * @param array                                    $args
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function reset_pw(Request $request, Response $response, $params) {
+        $result = [];
+        $result['success'] = false;
+
+        $request_data = $request->getParsedBody();
+
+        $username = $request_data['username'];
+        $hash = $request_data['hash'];
+        $password = $request_data['password'];
+        $vpassword = $request_data['vpassword'];
+
+        if (empty($username) || empty($hash) || empty($password) || empty($vpassword)) {
+            $result['status'] = 'Invalid username';
+            // $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
+            $result['message'] = 'Invalid input. Kindly check details to proceed with resetting your password.';
+            return $response->withStatus(404)->withJson($result);
+        }
+
+        if ($password != $vpassword) {
+            $result['status'] = 'Invalid password';
+            $result['message'] = 'Password do not match. Please try again.';
+            return $response->withStatus(404)->withJson($result);
+        }
+
+        $user = User::where('username', $username)->first();
+        if ($user) {            
+            $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->forgot_hash = null;
+            $user->update();
+
+            $result['status'] = 'Password changed!';
+            $result['message'] = 'Password successfully changed. You can now login with the new password.';
+            return $response->withStatus(404)->withJson($result);
+        }
+
+        $result['status'] = 'Invalid request';
+        $result['message'] = 'User not found.';
+        return $response->withStatus(404)->withJson($result);
+    }
+
     /** Generate JWT Token here
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param Array $user

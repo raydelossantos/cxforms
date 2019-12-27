@@ -1,0 +1,51 @@
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+<div class="limiter">
+  <div class="container-login">
+    <div class="wrap-login">
+      <form class="login-form validate-form" >
+      <!-- <form class="login-form validate-form"> -->
+        <span class="login-form-title p-b-26">  
+          <!-- QA GOLD -->
+          <img src="../../assets/logo.png" alt="Connext Forms Logo" style="margin-bottom: 20px; height: 70px; width: 80px;">
+        </span>
+
+        <!-- <div *ngIf="invalid_login === 'invalid'" class="alert alert-danger fade show mb-3 mt-2" role="alert">
+          <strong>User not found!</strong> Your google account is not authorized. Send support if this is an error.
+        </div> -->
+
+        <div *ngIf="unblocking_done">
+
+            <div>
+              <h4>Hi {{ username }}!</h4>
+            </div>
+
+            <br>
+
+            <div>
+              <span style="float: left;">
+                <img src="{{ image }}">
+              </span>
+               <span>Please Enter New Password</span> 
+            </div>
+          <br>
+        </div>
+        <input type="password" class="visible" name="new_pass" />
+        <input type="password" class="visible" name="retype_pass"/>
+        <div class="container-login-form-btn">
+          <div class="wrap-login-form-btn">
+            <div class="login-form-bgbtn"></div>
+            <button type="button" (click)="onSubmit()" class="login-form-btn btn-social" >
+              <i class="fa fa-fw fa-sign-in"></i>
+              Reset Password
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<ngx-loading [show]="loading"></ngx-loading>
+<span [hidden]="!loading" class="ngx-text">Logging you in. Please wait...</span>
