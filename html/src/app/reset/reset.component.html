@@ -30,19 +30,18 @@
             </div>
           <br>
         </div>
-        <input type="password" class="visible" name="new_pass" />
-        <input type="password" class="visible" name="retype_pass"/>
+        <input type="password" class="visible" id="password" />
+        <input type="password" class="visible" id="vpassword"/>
         <div class="container-login-form-btn">
           <div class="wrap-login-form-btn">
             <div class="login-form-bgbtn"></div>
-            <button type="button" (click)="onSubmit()" class="login-form-btn btn-social" >
+            <button type="button" (click)="onResetPass()" class="login-form-btn btn-social" >
               <i class="fa fa-fw fa-sign-in"></i>
               Reset Password
             </button>
           </div>
         </div>
       </form>
-
     </div>
   </div>
 </div>

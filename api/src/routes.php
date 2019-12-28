@@ -256,7 +256,7 @@ $app->group('/auth', function () {
     $this->get('/unblock/{username:[a-zA-Z.@]+}/{hash:[a-zA-Z0-9]+}',       AuthenticationController::class.':unblock');
     $this->get('/wp/{id:[a-zA-Z0-9]+}',                                     AuthenticationController::class.':wp_login');
     $this->post('/forgot',                                                  AuthenticationController::class.':forgot_pw');
-    $this->post('/reset',                                                   AuthenticationController::class.':reset_pw');
+    $this->post('/reset/{username:[a-zA-Z.@]+}/{hash:[a-zA-Z0-9]+}',        AuthenticationController::class.':reset_pw');
 
 });
 

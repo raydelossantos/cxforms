@@ -1,64 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+// import { FormGroup, FormControl, Validators } from '@angular/forms';
+// import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+// import { Title } from '@angular/platform-browser';
+
 import { LoginService } from '../services/login.service';
-import { Subscription } from 'rxjs';
+import swal from 'sweetalert2';
+// import { AuthService } from '../services/auth.service';
+import { APP_CONFIG } from '../app.config';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
 @Component({
   selector: 'app-reset',
   templateUrl: './reset.component.html',
   styleUrls: ['./reset.component.scss']
 })
-export class ResetComponent implements OnInit {
 
- public loading: boolean = false;
-  
-  username: any = '';
-  hash: any;
-  message: any = '';
-  image: any = '';
+export class ResetComponent implements  OnInit, OnDestroy {
 
-  unblockLoginGetSubscription: Subscription;
-  unblocking_done: boolean = false;
-  status: boolean;
+  public loading    = false;
+  // subscription      : Subscription;
 
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private loginService: LoginService) { }
+  url: string        = '';
+  hash: string       = '';
+  username: string   = '';
+
+  constructor(@Inject(APP_CONFIG) private appConfig,
+              private loginService: LoginService,
+              private router: Router,
+              private route: ActivatedRoute) {  }
 
   ngOnInit() {
-
-    this.loading = true;
-
     this.route.params.subscribe(
       (params: Params) => {
 
-        this.username   = params['username'];
-        this.hash       = params['hash'];
-        this.loading = true;
+        this.url = this.router.url;
 
-        this.loginService.httpGetUnblockLogin(this.username, this.hash);
+        this.username = params['username'];
+        this.hash = params['hash'];
       }
     );
-
-    this.unblockLoginGetSubscription = this.loginService.LDapAuthUnblockLogin.subscribe(
-      (unblock: any) => {
-        if (typeof(unblock) !== 'undefined' && unblock.success) {
-          this.unblocking_done = true;
-          this.status = true;
-          this.image = '../../assets/success.png';
-          this.message = unblock.message;
-          this.loading = false;
-        } else if (typeof(unblock) !== 'undefined' && unblock.success === false) {
-          this.unblocking_done = true;
-          this.status = false;
-          this.image = '../../assets/error.png';
-          this.message = unblock.message;
-          this.loading = false;
-        }
-      }
-    );
-
-
+    
+    /** TODO 
+     * Add resetPassword subscription here
+     * 
+    */
   }
 
+  onResetPass() {
+    const password: any = $('#password').val();
+    const vpassword: any = $('#vpassword').val();
+
+    const fd = new FormData();
+
+     fd.append('password', password);
+     fd.append('vpassword', vpassword);
+
+    this.loginService.httpPostResetPassword(fd, this.username, this.hash);
+    swal('Password Reset Done!');
+    this.loading = false;
+  }
+
+  ngOnDestroy() {
+    
+  }
 
 }

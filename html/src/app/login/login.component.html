@@ -49,15 +49,55 @@
         <div class="container-login-form-btn">
           <div class="wrap-login-form-btn">
             <div class="login-form-bgbtn-fb"></div>
-            <button (click)="lostAccess()" class="login-form-btn btn-social">
+            <button class="login-form-btn btn-social" data-toggle="modal" (click)="resetPassword.show()" data-target="#resetPassword">
               Lost access?
             </button>
           </div>
         </div>
       </div>
-
-
       <br>
+
+      <div mdbModal #resetPassword="mdb-modal" class="modal fade" id="resetPassword" tabindex="-1">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h4 class="modal-title w-100 font-weight-bold">Please Enter your email</h4>
+              <button type="button" id="btnCloseAdd" class="close" data-dismiss="modal" (click)="resetPassword.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body mx-1">
+              <form [formGroup]="resetForm" class="login-form validate-form">
+
+                <div class="md-form">
+                  <span class="grey-text">Email</span>
+                  <input formControlName="username" type="text" id="username" class="validate">
+                </div>
+
+              </form>
+              <br>
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
+                <i class="fa fa-save ml-1"></i>
+                Save record
+              </button>
+              <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="resetPassword.hide()" mdbWavesEffect>
+                <i class="fa fa-times ml-1"></i>
+                Close
+              </button>
+            </div>
+
+            <ngx-loading [show]="loading2"></ngx-loading>
+            <span [hidden]="!loading2" class="ngx-text">Fetching records . . .</span>
+
+          </div>
+        </div>
+      </div>
+
       <div class="footer text-center">
         <span class="fa fa-fw fa-bolt"></span> by Connext Global Solutions
         <br>

@@ -469,10 +469,13 @@ class AuthenticationController {
 
         $request_data = $request->getParsedBody();
 
-        $username = $request_data['username'];
-        $hash = $request_data['hash'];
-        $password = $request_data['password'];
-        $vpassword = $request_data['vpassword'];
+        // Get username and hash from URL Params
+        $username   = $params['username'];
+        $hash       = $params['hash'];
+
+        // Get password from FORM submitted
+        $password   = $request_data['password'];
+        $vpassword  = $request_data['vpassword'];
 
         if (empty($username) || empty($hash) || empty($password) || empty($vpassword)) {
             $result['status'] = 'Invalid username';
@@ -481,21 +484,30 @@ class AuthenticationController {
             return $response->withStatus(404)->withJson($result);
         }
 
-        if ($password != $vpassword) {
+        if ($password !== $vpassword) {
             $result['status'] = 'Invalid password';
             $result['message'] = 'Password do not match. Please try again.';
             return $response->withStatus(404)->withJson($result);
         }
 
         $user = User::where('username', $username)->first();
-        if ($user) {            
+        if ($user) {
+
+            $pw_verify = $this->password_validation($password);
+
+            if ($pw_verify['success'] == false) {
+                $result['status'] = 'Invalid password!';
+                $result['message'] = json_encode($pw_verify['message']);
+                return $response->withStatus(404)->withJson($result);
+            }
+
             $user->password = password_hash($password, PASSWORD_DEFAULT);
             $user->forgot_hash = null;
             $user->update();
 
             $result['status'] = 'Password changed!';
             $result['message'] = 'Password successfully changed. You can now login with the new password.';
-            return $response->withStatus(404)->withJson($result);
+            return $response->withStatus(200)->withJson($result);
         }
 
         $result['status'] = 'Invalid request';
@@ -555,6 +567,56 @@ class AuthenticationController {
         elseif (strpos($user_agent, 'MSIE') || strpos($user_agent, 'Trident/7')) return 'Internet Explorer';
         
         return 'Other';
+    }
+
+    
+    /**
+     * Password validation
+     * @param string $password
+     * 
+     * @return array $result
+     */
+    private function password_validation($password) {
+        $result = [];
+        $result['success'] = false;
+        $result['message'] = [];
+
+        // minimum password characters 10
+        if (strlen(trim($password)) <= 9) {
+            $result['message'][] = 'at least 10 characters.';
+        }
+
+        // contains at least 1 capital letter
+        $uppercase = preg_match('@[A-Z]@', $password);
+        if (!$uppercase) {
+            $result['message'][] = 'an upper case letter.';
+        }
+
+        // contains at least 1 special character
+        $special = preg_match('/[\'\/~`\!@#\$%\^&\*\(\)_\-\+=\{\}\[\]\|;:"\<\>,\.\?\\\]/', $password);
+
+        if (!$special) {
+            $result['message'][] = 'a special character.';
+        }
+
+        // contains at least 1 small cap letter
+        $lowercase = preg_match('@[a-z]@', $password);
+        if (!$lowercase) {
+            $result['message'][] = 'a lower case letter.';        
+        }
+
+        // contains at least 1 numeric character
+        $number = preg_match('@[0-9]@', $password);
+        if (!$number) {
+            $result['message'][] = 'a numeric character.';
+        }
+
+        if (count($result['message']) > 0) {
+            return $result;
+        }
+
+        $result['success'] = true;
+        return $result;
     }
 
 }

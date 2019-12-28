@@ -11,8 +11,10 @@ import { stringify } from 'querystring';
 
 @Injectable()
 export class LoginService {
-  LDapAuthLogin         = new Subject<any>();
-  LDapAuthUnblockLogin  = new Subject<any>();
+  LDapAuthLogin         =       new Subject<any>();
+  LDapAuthUnblockLogin  =       new Subject<any>();
+  ResetPassword         =       new Subject<any>();
+
 
   constructor(
     @Inject(APP_CONFIG) private appConfig,
@@ -46,6 +48,60 @@ export class LoginService {
     );
   }
 
+  httpPostResetPassword(data: any, username: string, hash: string) {
+    const req = new HttpRequest(
+      'POST',
+      this.appConfig.API_ENDPOINT + '/auth/reset/' + username + '/' + hash,
+      data
+    );
+
+    return this.httpClient.request<any>(req)
+    .map(
+      (response: any) => {
+        if (typeof(response) !== 'undefined' && response.body != null) {
+          return response.body;
+        }
+
+        return [];
+      }
+    )
+    .subscribe(
+      (response: any) => {
+        this.ResetPassword.next(response);
+      },
+      (response: any) => {
+        this.ResetPassword.next(response.error);
+      }
+    );
+  }
+
+  httpPostForgotPassword(data: any) {
+    const req = new HttpRequest(
+      'POST',
+      this.appConfig.API_ENDPOINT + '/auth/forgot',
+      data
+    );
+
+    return this.httpClient.request<any>(req)
+    .map(
+      (response: any) => {
+        if (typeof(response) !== 'undefined' && response.body != null) {
+          return response.body;
+        }
+
+        return [];
+      }
+    )
+    .subscribe(
+      (response: any) => {
+        this.ResetPassword.next(response);
+      },
+      (response: any) => {
+        this.ResetPassword.next(response.error);
+      }
+    );
+  }
+
   httpGetUnblockLogin(username: string, hash: string) {
     const req = new HttpRequest(
       'GET',
@@ -71,6 +127,7 @@ export class LoginService {
       }
     );
   }
+
 
   httpGetResetLogin(username: string, hash: string) {
     const req = new HttpRequest(
@@ -98,4 +155,3 @@ export class LoginService {
     );
   }
 }
- 

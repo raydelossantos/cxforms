@@ -136,6 +136,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSaveRecord() {
+    const username: any = $('#username').val();
+    const fd = new FormData();
+     fd.append('username', username);
+     
+    this.loginService.httpPostForgotPassword(fd);
+    swal('Password reset request sent!', 'Please check your email to reset your password');
+    this.loading = false;
+  }
+
   onShowPassword() {
     if ($('#password').prop('type') === 'password') {
       $('#password').prop('type', 'text');
