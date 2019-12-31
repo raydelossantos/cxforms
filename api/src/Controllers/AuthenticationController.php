@@ -406,7 +406,7 @@ class AuthenticationController {
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function forgot_pw(Request $request, Response $response, $args)
+    public function forgot_pw(Request $request, Response $response, $params)
     {
         $result             = [];
         $result['success']  = false;
@@ -416,13 +416,16 @@ class AuthenticationController {
         /**
          * Validate input
          */
-        if (empty($request_data['username'])) {
+        // if (empty($request_data['username'])) {
+        if (empty($params['username'])) {
             $result['status'] = 'Invalid username/password';
             $result['message'] = 'User was not found. Kindly inform Connext Form Admin.';
             return $response->withStatus(404)->withJson($result);
         }
 
-        $username = $request_data['username'];
+        // $username = $request_data['username'];
+        $username   = $params['username'];
+        // $username   = $params['username'];
 
         /**
          * Verify if user exists in users table before authenticating

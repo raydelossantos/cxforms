@@ -255,7 +255,8 @@ $app->group('/auth', function () {
     $this->get('/google',                                                   AuthenticationController::class.':google_login');
     $this->get('/unblock/{username:[a-zA-Z.@]+}/{hash:[a-zA-Z0-9]+}',       AuthenticationController::class.':unblock');
     $this->get('/wp/{id:[a-zA-Z0-9]+}',                                     AuthenticationController::class.':wp_login');
-    $this->post('/forgot',                                                  AuthenticationController::class.':forgot_pw');
+    $this->get('/forgot/{username:[a-zA-Z.@]+}',                            AuthenticationController::class.':forgot_pw');
+    // $this->get('/forgot',                                                   AuthenticationController::class.':forgot_pw');
     $this->post('/reset/{username:[a-zA-Z.@]+}/{hash:[a-zA-Z0-9]+}',        AuthenticationController::class.':reset_pw');
 
 });

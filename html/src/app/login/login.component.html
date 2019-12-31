@@ -1,32 +1,42 @@
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+    <!-- main content -->
 <div class="limiter">
   <div class="container-login">
     <div class="wrap-login">
-      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form validate-form" >
-      <!-- <form class="login-form validate-form"> -->
-        <span class="login-form-title p-b-26">  
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form validate-form">
+        <!-- <form class="login-form validate-form"> -->
+        <span class="login-form-title p-b-26">
           <!-- Connext Forms -->
           <img src="../../assets/logo_email.png" alt="Connext Forms Logo" style="margin-bottom: 20px;">
         </span>
 
         <div *ngIf="invalid_login === 'invalid'" class="alert alert-danger fade show mb-3 mt-2" role="alert">
-          <strong>Unable to login!</strong> Invalid account or unauthorized login method. Kindly contact Connext Forms administrators if you think this is wrong.
+          <strong>Unable to login!</strong> Invalid account or unauthorized login method. Kindly contact Connext Forms
+          administrators if you think this is wrong.
         </div>
 
-        <div class="form-group wrap-input " data-validate = "Valid username is: a@b.c">
-          <input formControlName="username" type="text" id="username" name="username" class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
-           <label class="form-control-placeholder" for="name" style="left: 0;">Username</label>
-           <!-- <span class="focus-input" data-placeholder="Username"></span> -->
+        <div class="form-group wrap-input " data-validate="Valid username is: a@b.c">
+          <input formControlName="username" type="text" id="username" name="username" class="form-control" required
+            style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+          <label class="form-control-placeholder" for="name" style="left: 0;">Username</label>
+          <!-- <span class="focus-input" data-placeholder="Username"></span> -->
         </div>
 
         <div class="form-group wrap-input " data-validate="Enter password">
           <span class="btn-show-pass">
             <i class="fa fa-eye fa-fw" id="showPassword" (click)="onShowPassword()"></i>
           </span>
-          <input formControlName="password" type="password" id="password" name="password" class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
-           <label class="form-control-placeholder" for="name" style="left: 0;">Password</label>
-           <!-- <span class="focus-input" data-placeholder="Password"></span> -->
+          <input formControlName="password" type="password" id="password" name="password" class="form-control" required
+            style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+          <label class="form-control-placeholder" for="name" style="left: 0;">Password</label>
+          <!-- <span class="focus-input" data-placeholder="Password"></span> -->
         </div>
 
         <div class="container-login-form-btn">
@@ -39,71 +49,43 @@
             </button>
           </div>
         </div>
-<!-- 
+        <!-- 
         <button class="btn btn-success btn-md">
           Login
         </button> -->
       </form>
 
+      <!-- <div class="text-center">
+        <div class="container-login-form-btn">
+          <div class="wrap-login-form-btn">
+            <div class="login-form-bgbtn-fb"></div>
+            <button class="login-form-btn btn-social" data-toggle="mdb-modal" (click)="resetPassword.show()" data-target="#resetPassword">
+              Lost access?
+            </button>
+          </div>
+        </div>
+      </div>
+      <br> -->
+
       <div class="text-center">
         <div class="container-login-form-btn">
           <div class="wrap-login-form-btn">
             <div class="login-form-bgbtn-fb"></div>
-            <button class="login-form-btn btn-social" data-toggle="modal" (click)="resetPassword.show()" data-target="#resetPassword">
+            <button class="login-form-btn btn-social" data-toggle="mdb-modal" (click)="lostAccessSwal()" data-target="#resetPassword">
               Lost access?
             </button>
           </div>
         </div>
       </div>
       <br>
+  
+        <div class="footer text-center">
 
-      <div mdbModal #resetPassword="mdb-modal" class="modal fade" id="resetPassword" tabindex="-1">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header text-center">
-              <h4 class="modal-title w-100 font-weight-bold">Please Enter your email</h4>
-              <button type="button" id="btnCloseAdd" class="close" data-dismiss="modal" (click)="resetPassword.hide()" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-
-            <div class="modal-body mx-1">
-              <form [formGroup]="resetForm" class="login-form validate-form">
-
-                <div class="md-form">
-                  <span class="grey-text">Email</span>
-                  <input formControlName="username" type="text" id="username" class="validate">
-                </div>
-
-              </form>
-              <br>
-
-            </div>
-
-            <div class="modal-footer d-flex justify-content-center">
-              <button type="button" class="btn btn-md btn-success relative waves-light" mdbWavesEffect (click)="onSaveRecord()">
-                <i class="fa fa-save ml-1"></i>
-                Save record
-              </button>
-              <button type="button" class="btn btn-md btn-outline-grey waves-light" aria-label="Close" (click)="resetPassword.hide()" mdbWavesEffect>
-                <i class="fa fa-times ml-1"></i>
-                Close
-              </button>
-            </div>
-
-            <ngx-loading [show]="loading2"></ngx-loading>
-            <span [hidden]="!loading2" class="ngx-text">Fetching records . . .</span>
-
-          </div>
+          <span class="fa fa-fw fa-bolt"></span> by Connext Global Solutions
+          <br>
+          &copy; All rights reserved.
         </div>
-      </div>
-
-      <div class="footer text-center">
-        <span class="fa fa-fw fa-bolt"></span> by Connext Global Solutions
-        <br>
-        &copy; All rights reserved.
-      </div>
-      <!-- <div class="container-login-form-btn">
+        <!-- <div class="container-login-form-btn">
         <div class="wrap-login-form-btn">
           <div class="login-form-bgbtn-google"></div>
           <button class="login-form-btn btn-social" (click)="onGoogleLogin()">
@@ -113,7 +95,7 @@
         </div>
       </div> -->
 
-      <!-- <div class="container-login-form-btn">
+        <!-- <div class="container-login-form-btn">
         <div class="wrap-login-form-btn">
           <div class="login-form-bgbtn-fb"></div>
           <button class="login-form-btn">
@@ -121,9 +103,67 @@
           </button>
         </div>
       </div> -->
+      </div>
     </div>
   </div>
-</div>
 
-<ngx-loading [show]="loading"></ngx-loading>
-<span [hidden]="!loading" class="ngx-text">Logging you in. Please wait...</span>
+  <!-- FORGOT PASSWORD MODAL -->
+  <div mdbModal #resetPassword="mdb-modal" class="modal fade" id="resetPassword" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Please Enter your email</h4>
+          <button type="button" id="btnCloseAdd" class="close" data-dismiss="modal" (click)="resetPassword.hide()"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body mx-1">
+          <div class="form-group wrap-input " data-validate="Valid username is: a@b.c">
+            <input type="text" id="empId" name="empId"
+              class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+            <label class="form-control-placeholder" for="name" style="left: 0;">Employee ID</label>
+          </div>
+          <br>
+          <div class="form-group wrap-input " data-validate="Valid username is: a@b.c">
+            <input type="text" id="resetUsername" name="resetUsername"
+              class="form-control" required style="padding: 0; padding-top: 5px; padding-bottom: 3px;">
+            <label class="form-control-placeholder" for="name" style="left: 0;">Username</label>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+
+          <div class="container-login-form-btn">
+            <div class="wrap-login-form-btn">
+              <div class="login-form-bgbtn"></div>
+              <button type="submit" class="login-form-btn btn-social" data-target="#resetPassword"
+                (click)="onResetPassword()" [disabled]="!loginForm.valid">
+
+                Reset Password
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div class="container-login-form-btn">
+              <div class="wrap-login-form-btn">
+                <div class="login-form-bgbtn-fb"></div>
+                <button class="login-form-btn btn-social" data-toggle="modal" (click)="resetPassword.hide()"
+                  data-target="#resetPassword">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+          <br>
+          <ngx-loading [show]="loading2"></ngx-loading>
+          <span [hidden]="!loading2" class="ngx-text">Fetching records . . .</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <ngx-loading [show]="loading"></ngx-loading>
+  <span [hidden]="!loading" class="ngx-text">Logging you in. Please wait...</span>
